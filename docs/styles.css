@@ -1196,11 +1196,12 @@ body {
    ========================================================================== */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 24px;
 }
 
 .feature-card {
+  grid-column: span 2;
   position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -1212,6 +1213,15 @@ body {
   transition: all var(--transition-smooth);
   display: flex;
   flex-direction: column;
+}
+
+/* Centralização dos dois últimos cards da grade */
+.feature-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.feature-card:nth-child(5) {
+  grid-column: 4 / span 2;
 }
 
 .feature-card::before {
@@ -1309,7 +1319,7 @@ body {
 
 /* Feature Interactive Spotlight (Diagnostic Live Simulator Card) */
 .diagnostic-spotlight-card {
-  grid-column: span 3;
+  grid-column: 1 / -1;
   background: linear-gradient(135deg, rgba(14, 18, 28, 0.9) 0%, rgba(10, 13, 20, 0.95) 100%);
   border: 1px solid rgba(0, 240, 255, 0.3);
   border-radius: var(--radius-lg);
@@ -1609,16 +1619,27 @@ body {
    Bottom Download Call-to-Action Banner
    ========================================================================== */
 .cta-banner-wrapper {
-  margin: 60px 0 20px;
+  margin: 60px auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .cta-banner {
   position: relative;
+  width: 100%;
+  max-width: 1060px;
+  margin: 0 auto;
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, rgba(16, 22, 36, 0.95) 0%, rgba(10, 13, 20, 0.98) 100%);
   border: 1px solid rgba(0, 240, 255, 0.3);
   padding: 60px 48px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 240, 255, 0.15);
 }
@@ -1643,6 +1664,8 @@ body {
   margin-bottom: 16px;
   position: relative;
   z-index: 1;
+  text-align: center;
+  max-width: 820px;
 }
 
 .cta-subtitle {
@@ -1842,6 +1865,15 @@ body {
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .feature-card {
+    grid-column: span 1;
+  }
+
+  .feature-card:nth-child(4),
+  .feature-card:nth-child(5) {
+    grid-column: span 1;
+  }
   
   .diagnostic-spotlight-card {
     grid-column: span 2;
@@ -1895,6 +1927,12 @@ body {
 
   .features-grid {
     grid-template-columns: 1fr;
+  }
+
+  .feature-card,
+  .feature-card:nth-child(4),
+  .feature-card:nth-child(5) {
+    grid-column: span 1;
   }
 
   .diagnostic-spotlight-card {
