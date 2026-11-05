@@ -1,4 +1,4 @@
-# ⚡ CLAUTRON OneClick (v1.1) — Desktop App & Local Web UI
+# ⚡ CLAUTRON OneClick (v1.1.1) — Desktop App & Local Web UI
 
 Aplicativo Desktop nativo para Windows (Electron) e Web UI local projetado para interagir com o modelo multimodal de raciocínio profundo **NVIDIA Nemotron 3.5 Super VL 120B** sem configurações complexas de ambiente.
 
@@ -8,7 +8,23 @@ Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.1.0
 
 ## 🇧🇷 Português (Brasil)
 
-### ✨ Recursos Principais (v1.1)
+### ✨ Recursos Principais (v1.1.1)
+
+* 🛡️ **Clautron NeMo Core & Guardrails:**
+  * **NeMo Guardrails de Pré-Validação:** Sanitização de caracteres de controle e bytes nulos, e normalização com alternância estrita de papéis no histórico.
+  * **NeMo LLM-as-a-Judge em Background:** Avaliação assíncrona não bloqueante de cada resposta com pontuação (1 a 10) e veredito PASS/FAIL gravado em `data/nemo_evals.jsonl`.
+  * **Seed Determinística & Modo JSON:** Suporte a seed constante para reprodução exata e formatação `json_object`.
+  * **Feedback Humano (👍/👎):** Botões no rodapé para qualificar respostas e reportar motivos específicos em `data/feedback.jsonl`.
+* 🤖 **Modo Adaptativo Heurístico ("Automático"):**
+  * Detecção instantânea de intenção e modulação dinâmica de temperatura, top-p, tokens e thinking (código, criativo, rápido, profundo).
+* ⚙️ **Central de Configurações Globais:**
+  * Custom System Prompt permanente, sliders de hiperparâmetros com legendas explicativas e botão de restauração.
+* 🟢 **Verificação de Atualizações do GitHub:**
+  * Checagem automática e não intrusiva com modal de changelog e botão de download.
+* 🔍 **Busca Instantânea no Histórico:**
+  * Barra de busca rápida na barra lateral para filtrar conversas salvas em tempo real.
+* ⚡ **Smart Auto-Scroll & Telemetria TTFT:**
+  * Rolagem inteligente sem travamento ("scroll hijacking"), caixa de pensamento recolhida por padrão e cronômetro de precisão.
 
 * 🖥️ **Aplicativo Desktop Nativo (Windows x64):**
   * Empacotado com **Electron** e **electron-builder** com instalador NSIS completo.

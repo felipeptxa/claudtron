@@ -1029,6 +1029,509 @@
     .btn-ping.ok { color: #81c995; border-color: rgba(129,201,149,0.4); }
     .btn-ping.fail { color: #f28b82; border-color: rgba(242,139,130,0.4); }
     .btn-ping:disabled { opacity: 0.6; cursor: wait; }
+
+    .btn-update-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #86efac;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.15);
+    }
+
+    .btn-update-badge:hover {
+      background: rgba(34, 197, 94, 0.22);
+      border-color: rgba(34, 197, 94, 0.6);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.3);
+    }
+
+    .update-pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #22c55e;
+      animation: pulse-update 1.8s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-update {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      }
+      70% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+      }
+    }
+
+    .update-ver-tag {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .update-version-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background: #111318;
+      border: 1px solid #282a2c;
+      border-radius: 12px;
+      padding: 14px 20px;
+      text-align: center;
+    }
+
+    .update-changelog-markdown {
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .update-changelog-markdown h1,
+    .update-changelog-markdown h2,
+    .update-changelog-markdown h3 {
+      color: #f1f3f4;
+      margin: 12px 0 6px 0;
+      font-size: 14px;
+    }
+
+    .update-changelog-markdown ul,
+    .update-changelog-markdown ol {
+      padding-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    .update-changelog-markdown li {
+      margin-bottom: 4px;
+    }
+
+    .update-changelog-markdown code {
+      background: #1e1f20;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .settings-section {
+      background: #111318;
+      border: 1px solid #282a2c;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .settings-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #8e918f;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .settings-slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .settings-slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #e3e3e3;
+    }
+
+    .settings-slider-val {
+      font-family: monospace;
+      font-weight: 600;
+      color: #60a5fa;
+      background: #18191a;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid #282a2c;
+      font-size: 11px;
+    }
+
+    .settings-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #282a2c;
+      outline: none;
+      transition: background 0.2s;
+    }
+
+    .settings-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .settings-slider::-webkit-slider-thumb:hover {
+      background: #60a5fa;
+      transform: scale(1.15);
+    }
+
+    .settings-textarea {
+      width: 100%;
+      background: #18191a;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline: none;
+      line-height: 1.5;
+      min-height: 75px;
+      max-height: 180px;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .settings-textarea:focus {
+      border-color: #60a5fa;
+    }
+
+    .param-desc {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #94a3b8;
+      margin-top: 3px;
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    #tempDescription {
+      font-weight: 500;
+      min-height: 16px;
+    }
+
+    .presets-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .btn-preset-chip {
+      background: #18191a;
+      border: 1px solid #282a2c;
+      color: #c4c7c5;
+      padding: 4px 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .btn-preset-chip:hover {
+      background: #282a2c;
+      color: #ffffff;
+      border-color: #3c4043;
+    }
+
+    .btn-preset-chip.active {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: #3b82f6;
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
+    .btn-preset-chip.auto-active {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: #22c55e;
+      color: #86efac;
+      font-weight: 600;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+
+    .auto-preset-notice {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .sliders-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: opacity 0.22s ease, filter 0.22s ease;
+    }
+
+    .sliders-container.auto-mode {
+      opacity: 0.42;
+      pointer-events: none;
+      filter: grayscale(0.25);
+    }
+  
+    /* Busca no Histórico da Barra Lateral */
+    .sidebar-search-box {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      background: #1e1f20;
+      border: 1px solid #2d3135;
+      border-radius: 8px;
+      padding: 0 8px;
+      height: 32px;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-search-box:focus-within {
+      border-color: #3b82f6;
+      background: #232527;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .sidebar-search-icon {
+      color: #8e918f;
+      flex-shrink: 0;
+      transition: color 0.15s ease;
+    }
+
+    .sidebar-search-box:focus-within .sidebar-search-icon {
+      color: #93c5fd;
+    }
+
+    .sidebar-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #e3e3e3;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .sidebar-search-input::placeholder {
+      color: #6a6f73;
+      font-size: 11.5px;
+    }
+
+    .sidebar-search-clear {
+      background: transparent;
+      border: none;
+      color: #8e918f;
+      cursor: pointer;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      padding: 0;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-search-clear:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .sidebar-empty-state {
+      padding: 24px 14px;
+      text-align: center;
+      font-size: 12px;
+      color: #8e918f;
+      line-height: 1.5;
+    }
+
+    /* Badge de Telemetria TTFT / Tempo Total */
+    .badge-telemetry {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.28);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.2px;
+      user-select: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+  
+    
+    /* Badge de Avaliação Clautron NeMo Core */
+    .badge-nemo {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      color: #34d399;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.2px;
+      user-select: none;
+      cursor: help;
+      transition: all 0.2s ease;
+    }
+    .badge-nemo.nemo-evaluating {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+    .badge-nemo.nemo-pass {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+    .badge-nemo.nemo-fail {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    /* Botões de Feedback (NeMo Eval Engine) */
+    .feedback-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      position: relative;
+    }
+
+    .btn-feedback {
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 11px;
+      gap: 4px;
+      transition: all 0.18s ease;
+    }
+
+    .btn-feedback:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .btn-feedback-good.active-good {
+      background: rgba(34, 197, 94, 0.16) !important;
+      border-color: rgba(34, 197, 94, 0.45) !important;
+      color: #86efac !important;
+      font-weight: 600;
+    }
+
+    .btn-feedback-good.active-good svg {
+      stroke: #86efac;
+      fill: rgba(34, 197, 94, 0.25);
+    }
+
+    .btn-feedback-bad.active-bad {
+      background: rgba(239, 68, 68, 0.16) !important;
+      border-color: rgba(239, 68, 68, 0.45) !important;
+      color: #fca5a5 !important;
+      font-weight: 600;
+    }
+
+    .btn-feedback-bad.active-bad svg {
+      stroke: #fca5a5;
+      fill: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Popover de Motivo do Feedback Negativo */
+    .feedback-popover {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      background: #18191a;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+      z-index: 1000;
+      min-width: 155px;
+      animation: popover-appear 0.15s ease-out;
+    }
+
+    @keyframes popover-appear {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-popover-title {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #8e918f;
+      letter-spacing: 0.5px;
+      padding: 2px 4px 4px 4px;
+      border-bottom: 1px solid #282a2c;
+      margin-bottom: 2px;
+    }
+
+    .btn-feedback-reason {
+      background: transparent;
+      border: none;
+      color: #c4c7c5;
+      font-size: 11px;
+      text-align: left;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .btn-feedback-reason:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ffffff;
+    }
+
   </style>
 </head>
 <body>
@@ -1046,6 +1549,16 @@
         </svg>
         Nova conversa
       </button>
+
+      <!-- Campo de Busca Instantânea no Histórico -->
+      <div class="sidebar-search-box">
+        <svg class="sidebar-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="sidebarSearchInput" class="sidebar-search-input" placeholder="Buscar conversas..." oninput="handleSidebarSearch(this.value)" autocomplete="off" spellcheck="false" />
+        <button type="button" id="sidebarSearchClear" class="sidebar-search-clear" onclick="clearSidebarSearch()" style="display: none;" title="Limpar busca">✕</button>
+      </div>
     </div>
     <div class="chat-list" id="chatList"></div>
     <div class="sidebar-resizer" id="sidebarResizer" title="Arraste para redimensionar"></div>
@@ -1064,14 +1577,20 @@
         <div class="status-dot"></div>
         <h1>CLAUTRON OneClick</h1>
         <span class="model-badge">Nemotron 3.5 Super VL 120B</span>
+        <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Clique para ver os detalhes da nova versão">
+          <span class="update-pulse-dot"></span>
+          <span>🟢 Atualização Disponível</span>
+          <span class="update-ver-tag" id="updateVerTag">v...</span>
+        </button>
       </div>
 
       <div class="header-right">
         <div class="effort-container" title="Nível de raciocínio memorizado individualmente nesta conversa">
           <span class="effort-label">Effort:</span>
           <select id="effortSelect" class="effort-select" onchange="handleEffortChange()">
+            <option value="auto" selected>🤖 Automático (Adaptativo)</option>
             <option value="low">Rápido (Sem Thinking)</option>
-            <option value="medium" selected>Médio (Equilibrado)</option>
+            <option value="medium">Médio (Equilibrado)</option>
             <option value="high">Alto (Profundo / CoT)</option>
           </select>
         </div>
@@ -1083,12 +1602,12 @@
           <span id="pingLabel">Diagnóstico</span>
         </button>
 
-        <button class="btn-settings-header" onclick="openKeyModal()" title="Configurar API Key">
+        <button class="btn-settings-header" onclick="openSettingsModal()" title="Configurações Globais">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
-          <span>Chave API</span>
+          <span>Configurações</span>
         </button>
       </div>
     </header>
@@ -1126,24 +1645,165 @@
     </footer>
   </div>
 
-  <div class="info-modal" id="keyModal">
-    <div class="info-card" style="max-width: 500px;">
+  <div class="info-modal" id="settingsModal">
+    <div class="info-card" style="max-width: 580px;">
       <div class="info-card-header">
-        <strong style="font-size: 14px; color: #f1f3f4;">Configurar API Key NVIDIA</strong>
-        <button class="btn-item-action" onclick="closeKeyModal()">✕</button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <strong style="font-size: 14px; color: #f1f3f4;">Configurações Globais</strong>
+        </div>
+        <button class="btn-item-action" onclick="closeSettingsModal()">✕</button>
       </div>
-      <div class="info-card-body">
-        <p style="font-size: 13px; color: #c4c7c5;">
-          Insira sua chave de API pessoal da NVIDIA NIM (iniciada com <code>nvapi-...</code>). Ela fica gravada com segurança no seu computador.
-        </p>
-        <div>
-          <label style="font-size: 11px; text-transform: uppercase; color: #8e918f; font-weight: 600;">NVIDIA_API_KEY:</label>
-          <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." />
+
+      <div class="info-card-body" style="gap: 16px;">
+        <!-- Seção 1: Chave de API -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Autenticação NVIDIA NIM</span>
+          </div>
+          <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
+            Chave pessoal da NVIDIA (iniciada com <code>nvapi-...</code>). Obtenha em <a href="https://build.nvidia.com" target="_blank" style="color: #60a5fa; text-decoration: none;">build.nvidia.com</a>.
+          </p>
+          <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." autocomplete="off" spellcheck="false" />
+        </div>
+
+        <!-- Seção 2: Custom System Prompt -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Custom System Prompt (Permanente)</span>
+          </div>
+          <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
+            Instruções permanentes que serão combinadas com o seletor de esforço (Effort) em todas as conversas.
+          </p>
+          <textarea id="modalCustomSystemPrompt" class="settings-textarea" placeholder="Ex: Atue como um engenheiro de software sênior. Responda com código limpo, testes unitários e arquitetura escalável..."></textarea>
+        </div>
+
+        <!-- Seção 3: Hiperparâmetros de Inferência -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+            <span>Hiperparâmetros de Inferência</span>
+          </div>
+
+          <!-- Barra de Presets Rápidos -->
+          <div class="presets-bar" id="presetsBar">
+            <button type="button" class="btn-preset-chip auto-active" id="chipPresetAuto" onclick="selectHyperparameterPreset('auto')">
+              <span>🤖 Automático</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetCode" onclick="selectHyperparameterPreset('code')">
+              <span>🎯 Código</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetBalanced" onclick="selectHyperparameterPreset('balanced')">
+              <span>⚖️ Equilibrado</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetCreative" onclick="selectHyperparameterPreset('creative')">
+              <span>🎨 Criativo</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetManual" onclick="selectHyperparameterPreset('manual')">
+              <span>🛠️ Manual</span>
+            </button>
+          </div>
+
+          <!-- Aviso do Modo Automático -->
+          <div id="autoPresetNotice" class="auto-preset-notice" style="display: block;">
+            <div style="display: flex; align-items: center; gap: 7px;">
+              <span style="font-size: 13px;">🤖</span>
+              <span style="font-weight: 600; color: #86efac; font-size: 12px;">Parâmetros modulados automaticamente a cada pergunta</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+              O motor heurístico analisa o contexto e define Temperatura, Top-P, Tokens e Thinking ideais.
+            </div>
+          </div>
+
+          <div id="slidersContainer" class="sliders-container auto-mode">
+            <!-- Temperature com Legenda Dinâmica -->
+            <div class="settings-slider-row">
+              <div class="settings-slider-header">
+                <span>Temperature (Criatividade)</span>
+                <span class="settings-slider-val" id="valTemperatureDisplay">0.70</span>
+              </div>
+              <input type="range" id="inputTemperature" class="settings-slider" min="0.0" max="1.5" step="0.05" value="0.70" oninput="handleManualSliderInput('temperature')" />
+              <div id="tempDescription" class="param-desc">⚖️ Equilíbrio padrão da indústria (respostas balanceadas e contextuais)</div>
+            </div>
+
+            <!-- Top-P com Descrição Fixa -->
+            <div class="settings-slider-row" style="margin-top: 6px;">
+              <div class="settings-slider-header">
+                <span>Top-P (Nucleus Sampling)</span>
+                <span class="settings-slider-val" id="valTopPDisplay">0.95</span>
+              </div>
+              <input type="range" id="inputTopP" class="settings-slider" min="0.1" max="1.0" step="0.05" value="0.95" oninput="handleManualSliderInput('top_p')" />
+              <div class="param-desc">Filtro de amostragem por probabilidade cumulativa (mantém o vocabulário focado e coerente).</div>
+            </div>
+
+            <!-- Max Output Tokens com Descrição Fixa -->
+            <div class="settings-slider-row" style="margin-top: 6px;">
+              <div class="settings-slider-header">
+                <span>Max Output Tokens</span>
+                <span class="settings-slider-val" id="valMaxTokensDisplay">4096</span>
+              </div>
+              <input type="range" id="inputMaxTokens" class="settings-slider" min="512" max="8192" step="256" value="4096" oninput="handleManualSliderInput('max_tokens')" />
+              <div class="param-desc">Limite máximo de tokens gerados por resposta (aumente para scripts e respostas extensas).</div>
+            </div>
+
+            <!-- Parâmetros Avançados (Clautron NeMo Core) -->
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #282a2c; display: flex; flex-direction: column; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #e3e3e3; cursor: pointer; user-select: none;">
+                <input type="checkbox" id="checkNemoAutoEval" style="cursor: pointer; accent-color: #10b981;" checked />
+                <span>🛡️ <strong>Avaliação Automática NeMo em Segundo Plano</strong> (LLM-as-a-Judge)</span>
+              </label>
+              <div class="param-desc" style="font-size: 10.5px; margin-top: -3px;">Dispara o NeMo Evaluator em background para validar a precisão, integridade e concisão de cada resposta.</div>
+
+              <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 11px; color: #8e918f; font-weight: 600; margin-bottom: 4px;">Seed de Reprodução (Opcional):</div>
+                  <input type="number" id="inputSeed" placeholder="Ex: 42 (vazio = aleatório)" style="width: 100%; background: #18191a; border: 1px solid #3c4043; border-radius: 6px; padding: 6px 10px; color: #e3e3e3; font-size: 12px; outline: none;" />
+                </div>
+                <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                  <label style="display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #c4c7c5; cursor: pointer; margin-top: 18px; user-select: none;">
+                    <input type="checkbox" id="checkJsonMode" style="cursor: pointer; accent-color: #3b82f6;" />
+                    <span>Modo JSON Estrito (<code>json_object</code>)</span>
+                  </label>
+                </div>
+              </div>
+              <div class="param-desc" style="font-size: 10.5px;">Controla inferência determinística (seed constante) e formatação de saída em objeto JSON válido da NVIDIA NIM.</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="info-card-footer">
-        <button class="btn-preview-ctrl" onclick="saveKeyModal()" style="background: #3b82f6; color: #fff; border-color: #2563eb;">Salvar Chave</button>
-        <button class="btn-preview-ctrl" onclick="closeKeyModal()">Cancelar</button>
+
+      <div class="info-card-footer" style="justify-content: space-between;">
+        <button class="btn-preview-ctrl" onclick="restoreDefaultSettings()" title="Restaurar sliders para 0.7, 0.95 e 4096" style="color: #f28b82;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          Restaurar Padrões
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-preview-ctrl" onclick="closeSettingsModal()">Cancelar</button>
+          <button class="btn-preview-ctrl" onclick="saveSettingsModal()" style="background: #3b82f6; color: #fff; border-color: #2563eb; font-weight: 500;">Salvar Configurações</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1220,6 +1880,52 @@
     </div>
   </div>
 
+  <!-- Modal de Atualização -->
+  <div class="info-modal" id="updateModal">
+    <div class="info-card" style="max-width: 600px;">
+      <div class="info-card-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <strong style="font-size: 14px; color: #f1f3f4;">Nova Versão Disponível</strong>
+        </div>
+        <button class="btn-item-action" onclick="closeUpdateModal()">✕</button>
+      </div>
+      <div class="info-card-body">
+        <div class="update-version-banner">
+          <div>
+            <div style="font-size: 11px; color: #8e918f; text-transform: uppercase; font-weight: 600;">Versão Atual</div>
+            <div style="font-size: 15px; font-weight: 700; color: #c4c7c5; margin-top: 2px;" id="currentVersionLabel">v1.1.1</div>
+          </div>
+          <div style="font-size: 20px; color: #8e918f;">➔</div>
+          <div>
+            <div style="font-size: 11px; color: #86efac; text-transform: uppercase; font-weight: 600;">Nova Versão</div>
+            <div style="font-size: 16px; font-weight: 700; color: #86efac; margin-top: 2px;" id="latestVersionLabel">v...</div>
+          </div>
+        </div>
+
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: #8e918f; font-weight: 600;">Notas da Versão (Changelog):</span>
+          <div class="info-preview-box update-changelog-markdown" id="updateChangelogBox" style="margin-top: 8px; max-height: 240px; color: #e3e3e3; font-family: inherit;"></div>
+        </div>
+      </div>
+      <div class="info-card-footer">
+        <button class="btn-preview-ctrl" onclick="downloadUpdate()" style="background: #2563eb; color: #ffffff; border-color: #1d4ed8; font-weight: 500;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Baixar Atualização
+        </button>
+        <button class="btn-preview-ctrl" onclick="closeUpdateModal()">Mais tarde</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const API_URL = "/api/messages";
     const MODEL_ID = "nvidia/nemotron-3.5-super-vl-120b-a12b";
@@ -1245,29 +1951,309 @@
       breaks: true
     });
 
-    function getStoredApiKey() {
-      return localStorage.getItem(API_KEY_STORAGE) || '';
+    const SETTINGS_STORAGE_KEY = "clautron_settings";
+    const DEFAULT_SETTINGS = {
+      apiKey: "",
+      customSystemPrompt: "",
+      preset: "auto",
+      temperature: 0.70,
+      top_p: 0.95,
+      max_tokens: 4096,
+      seed: null,
+      jsonMode: false,
+      nemoAutoEval: true
+    };
+    let currentSelectedPreset = "auto";
+
+    // ── Motor de Classificação Heurística Adaptativo ─────────────────────────
+    function detectPromptComplexity(text, attachments = []) {
+      const cleanText = (text || '').trim();
+      const lower = cleanText.toLowerCase();
+
+      // a) Categoria "Code / Technical"
+      const hasCodeBlock = cleanText.includes('```');
+      const hasCodeAttachment = attachments && attachments.some(a => {
+        if (a.type === 'text_file' && a.name) {
+          const ext = a.name.split('.').pop().toLowerCase();
+          return ['js', 'ts', 'jsx', 'tsx', 'py', 'html', 'css', 'json', 'sql', 'cpp', 'c', 'cs', 'java', 'go', 'rs', 'php', 'sh', 'bat', 'yaml', 'yml'].includes(ext);
+        }
+        return false;
+      });
+
+      const codeKeywords = [
+        'código', 'codigo', 'script', 'função', 'funcao', 'function', 'bug', 'erro', 'error',
+        'refatore', 'refatorar', 'const ', 'let ', 'var ', 'def ', 'class ', 'import ', 'export ',
+        'api', 'sql', 'select ', 'insert ', 'query', 'banco de dados', 'frontend', 'backend',
+        'regex', 'typescript', 'python', 'javascript', 'html', 'css', 'compilar', 'build',
+        'exception', 'stack trace', 'repositório', 'endpoint', 'docker', 'terminal', 'powershell',
+        'git ', 'json', 'algoritmo', 'interface ', 'type '
+      ];
+
+      const containsCodeKeywords = codeKeywords.some(kw => lower.includes(kw));
+      const containsCodeSyntax = (cleanText.includes('{') && cleanText.includes('}')) || cleanText.includes('=>') || cleanText.includes('def ') || cleanText.includes('class ');
+
+      if (hasCodeBlock || hasCodeAttachment || (containsCodeKeywords && (cleanText.length > 25 || containsCodeSyntax))) {
+        return {
+          category: 'code',
+          tag: 'Código',
+          temperature: 0.20,
+          top_p: 0.90,
+          max_tokens: 8192,
+          thinking: true,
+          systemPrompt: "Você está operando no modo adaptativo CÓDIGO / TÉCNICO. Forneça soluções precisas, código limpo, arquitetura sólida e refatoração cuidadosa."
+        };
+      }
+
+      // b) Categoria "Creative / Brainstorm"
+      const creativeKeywords = [
+        'crie uma história', 'crie uma historia', 'ideias', 'brainstorm', 'roteiro',
+        'poema', 'poesia', 'slogan', 'redação', 'redacao', 'copy', 'copywriting',
+        'crie um texto', 'crie um conto', 'imagine', 'narrativa', 'metáfora', 'metafora',
+        'marketing', 'personagem', 'enredo', 'ficção', 'ficcao', 'nome para empresa', 'ideia de'
+      ];
+
+      const isCreative = creativeKeywords.some(kw => lower.includes(kw));
+      if (isCreative) {
+        return {
+          category: 'creative',
+          tag: 'Criativo',
+          temperature: 1.05,
+          top_p: 0.98,
+          max_tokens: 4096,
+          thinking: false,
+          systemPrompt: "Você está operando no modo adaptativo CRIATIVO / BRAINSTORM. Explore variedade vocabular, imaginação, pensamento lateral e ideias inovadoras."
+        };
+      }
+
+      // c) Categoria "Quick / Factual"
+      const quickKeywords = [
+        'olá', 'ola', 'oi', 'bom dia', 'boa tarde', 'boa noite', 'o que é', 'o que e',
+        'defina', 'traduza', 'liste 3', 'liste 5', 'quanto é', 'quanto e', 'quem foi',
+        'qual é', 'qual e', 'onde fica', 'significado de', 'sinônimo de', 'sinonimo de'
+      ];
+
+      const isQuickTerm = quickKeywords.some(kw => lower.startsWith(kw) || lower.includes(kw));
+      if (cleanText.length < 70 && !containsCodeSyntax && (isQuickTerm || cleanText.length < 40)) {
+        return {
+          category: 'quick',
+          tag: 'Rápido',
+          temperature: 0.30,
+          top_p: 0.85,
+          max_tokens: 1536,
+          thinking: false,
+          systemPrompt: "Você está operando no modo adaptativo RÁPIDO / FACTUAL. Seja direto, conciso e objetivo sem rodeios ou explicações desnecessárias."
+        };
+      }
+
+      // d) Categoria "Deep / Analytical" (Fallback padrão para prompts longos ou analíticos)
+      return {
+        category: 'deep',
+        tag: 'Profundo',
+        temperature: 0.60,
+        top_p: 0.95,
+        max_tokens: 6144,
+        thinking: true,
+        systemPrompt: "Você está operando no modo adaptativo PROFUNDO / ANALÍTICO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
+      };
     }
 
+    function getGlobalSettings() {
+      try {
+        const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            apiKey: parsed.apiKey || localStorage.getItem(API_KEY_STORAGE) || "",
+            customSystemPrompt: typeof parsed.customSystemPrompt === 'string' ? parsed.customSystemPrompt : "",
+            preset: parsed.preset || "auto",
+            temperature: (typeof parsed.temperature === 'number' && !isNaN(parsed.temperature)) ? parsed.temperature : 0.70,
+            top_p: (typeof parsed.top_p === 'number' && !isNaN(parsed.top_p)) ? parsed.top_p : 0.95,
+            max_tokens: (typeof parsed.max_tokens === 'number' && parsed.max_tokens > 0) ? parsed.max_tokens : 4096,
+            seed: (typeof parsed.seed === 'number' && !isNaN(parsed.seed)) ? parsed.seed : null,
+            jsonMode: !!parsed.jsonMode
+          };
+        }
+      } catch (e) {
+        console.error("Falha ao carregar configurações:", e);
+      }
+      return {
+        ...DEFAULT_SETTINGS,
+        apiKey: localStorage.getItem(API_KEY_STORAGE) || ""
+      };
+    }
+
+    function selectHyperparameterPreset(preset) {
+      currentSelectedPreset = preset;
+      const chips = ['Auto', 'Code', 'Balanced', 'Creative', 'Manual'];
+      chips.forEach(ch => {
+        const el = document.getElementById('chipPreset' + ch);
+        if (el) {
+          el.classList.remove('active', 'auto-active');
+        }
+      });
+
+      const activeEl = document.getElementById('chipPreset' + preset.charAt(0).toUpperCase() + preset.slice(1));
+      if (activeEl) {
+        if (preset === 'auto') activeEl.classList.add('auto-active');
+        else activeEl.classList.add('active');
+      }
+
+      const notice = document.getElementById('autoPresetNotice');
+      const sliders = document.getElementById('slidersContainer');
+
+      if (preset === 'auto') {
+        if (notice) notice.style.display = 'block';
+        if (sliders) sliders.classList.add('auto-mode');
+      } else {
+        if (notice) notice.style.display = 'none';
+        if (sliders) sliders.classList.remove('auto-mode');
+
+        if (preset === 'code') {
+          document.getElementById('inputTemperature').value = '0.20';
+          document.getElementById('inputTopP').value = '0.90';
+          document.getElementById('inputMaxTokens').value = '8192';
+        } else if (preset === 'balanced') {
+          document.getElementById('inputTemperature').value = '0.70';
+          document.getElementById('inputTopP').value = '0.95';
+          document.getElementById('inputMaxTokens').value = '4096';
+        } else if (preset === 'creative') {
+          document.getElementById('inputTemperature').value = '1.05';
+          document.getElementById('inputTopP').value = '0.98';
+          document.getElementById('inputMaxTokens').value = '4096';
+        }
+        updateSettingsSliderDisplay('temperature');
+        updateSettingsSliderDisplay('top_p');
+        updateSettingsSliderDisplay('max_tokens');
+      }
+    }
+
+    function handleManualSliderInput(type) {
+      updateSettingsSliderDisplay(type);
+      if (currentSelectedPreset !== 'manual') {
+        selectHyperparameterPreset('manual');
+      }
+    }
+
+    function getStoredApiKey() {
+      return getGlobalSettings().apiKey;
+    }
+
+    function updateSettingsSliderDisplay(type) {
+      if (type === 'temperature') {
+        const numVal = parseFloat(document.getElementById('inputTemperature').value);
+        const valStr = numVal.toFixed(2);
+        document.getElementById('valTemperatureDisplay').textContent = valStr;
+
+        const descEl = document.getElementById('tempDescription');
+        if (descEl) {
+          if (numVal < 0.40) {
+            descEl.textContent = "🎯 Respostas ultra determinísticas e precisas (ideal para código, lógica pura e refatoração)";
+            descEl.style.color = "#93c5fd";
+          } else if (numVal <= 0.89) {
+            descEl.textContent = "⚖️ Equilíbrio padrão da indústria (respostas balanceadas e contextuais)";
+            descEl.style.color = "#86efac";
+          } else {
+            descEl.textContent = "🎨 Mais criativo e exploratório (ideal para brainstorming, redação e conceitos visuais)";
+            descEl.style.color = "#fbcfe8";
+          }
+        }
+      } else if (type === 'top_p') {
+        const val = parseFloat(document.getElementById('inputTopP').value).toFixed(2);
+        document.getElementById('valTopPDisplay').textContent = val;
+      } else if (type === 'max_tokens') {
+        const val = document.getElementById('inputMaxTokens').value;
+        document.getElementById('valMaxTokensDisplay').textContent = val;
+      }
+    }
+
+    function openSettingsModal() {
+      const s = getGlobalSettings();
+      document.getElementById('modalKeyInput').value = s.apiKey;
+      document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
+      document.getElementById('inputTemperature').value = s.temperature.toFixed(2);
+      document.getElementById('inputTopP').value = s.top_p.toFixed(2);
+      document.getElementById('inputMaxTokens').value = s.max_tokens;
+
+      selectHyperparameterPreset(s.preset || 'auto');
+      updateSettingsSliderDisplay('temperature');
+      updateSettingsSliderDisplay('top_p');
+      updateSettingsSliderDisplay('max_tokens');
+
+      const seedEl = document.getElementById('inputSeed');
+      if (seedEl) seedEl.value = (typeof s.seed === 'number') ? s.seed : '';
+      const jsonCheck = document.getElementById('checkJsonMode');
+      if (jsonCheck) jsonCheck.checked = !!s.jsonMode;
+      const nemoCheck = document.getElementById('checkNemoAutoEval');
+      if (nemoCheck) nemoCheck.checked = (s.nemoAutoEval !== false);
+
+      document.getElementById('settingsModal').classList.add('aberto');
+    }
+
+    // Alias para manter compatibilidade com códigos legados e erros 401
     function openKeyModal() {
-      const input = document.getElementById('modalKeyInput');
-      input.value = getStoredApiKey();
-      document.getElementById('keyModal').classList.add('aberto');
-      input.focus();
+      openSettingsModal();
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('aberto');
     }
 
     function closeKeyModal() {
-      document.getElementById('keyModal').classList.remove('aberto');
+      closeSettingsModal();
+    }
+
+    function restoreDefaultSettings() {
+      selectHyperparameterPreset('auto');
+      document.getElementById('inputTemperature').value = DEFAULT_SETTINGS.temperature.toFixed(2);
+      document.getElementById('inputTopP').value = DEFAULT_SETTINGS.top_p.toFixed(2);
+      document.getElementById('inputMaxTokens').value = DEFAULT_SETTINGS.max_tokens;
+
+      updateSettingsSliderDisplay('temperature');
+      updateSettingsSliderDisplay('top_p');
+      updateSettingsSliderDisplay('max_tokens');
+      if (document.getElementById('inputSeed')) document.getElementById('inputSeed').value = '';
+      if (document.getElementById('checkJsonMode')) document.getElementById('checkJsonMode').checked = false;
+      if (document.getElementById('checkNemoAutoEval')) document.getElementById('checkNemoAutoEval').checked = true;
+    }
+
+    function saveSettingsModal() {
+      const apiKeyVal = document.getElementById('modalKeyInput').value.trim();
+      const customPromptVal = document.getElementById('modalCustomSystemPrompt').value;
+      const tempVal = parseFloat(document.getElementById('inputTemperature').value);
+      const topPVal = parseFloat(document.getElementById('inputTopP').value);
+      const maxTokensVal = parseInt(document.getElementById('inputMaxTokens').value, 10);
+      const seedRaw = parseInt(document.getElementById('inputSeed').value, 10);
+      const jsonModeVal = document.getElementById('checkJsonMode').checked;
+      const nemoAutoEvalVal = document.getElementById('checkNemoAutoEval') ? document.getElementById('checkNemoAutoEval').checked : true;
+
+      const settings = {
+        seed: !isNaN(seedRaw) ? seedRaw : null,
+        jsonMode: !!jsonModeVal,
+        nemoAutoEval: !!nemoAutoEvalVal,
+        apiKey: apiKeyVal,
+        customSystemPrompt: customPromptVal,
+        preset: currentSelectedPreset || 'auto',
+        temperature: !isNaN(tempVal) ? tempVal : 0.70,
+        top_p: !isNaN(topPVal) ? topPVal : 0.95,
+        max_tokens: !isNaN(maxTokensVal) ? maxTokensVal : 4096
+      };
+
+      try {
+        localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+        if (apiKeyVal) {
+          localStorage.setItem(API_KEY_STORAGE, apiKeyVal);
+        } else {
+          localStorage.removeItem(API_KEY_STORAGE);
+        }
+      } catch (e) {
+        console.error("Falha ao salvar configurações:", e);
+      }
+
+      closeSettingsModal();
     }
 
     function saveKeyModal() {
-      const val = document.getElementById('modalKeyInput').value.trim();
-      if (val) {
-        localStorage.setItem(API_KEY_STORAGE, val);
-      } else {
-        localStorage.removeItem(API_KEY_STORAGE);
-      }
-      closeKeyModal();
+      saveSettingsModal();
     }
 
     function getTimestamp() {
@@ -1327,11 +2313,20 @@
       const mode = (session && session.effort) ? session.effort : document.getElementById('effortSelect').value;
       
       switch (mode) {
+        case 'auto':
+          return {
+            modeName: 'Auto',
+            effortMode: 'auto',
+            isAuto: true,
+            max_tokens: 4096,
+            systemPrompt: ""
+          };
         case 'low':
           return {
             modeName: 'Rápido',
             max_tokens: 2048,
             effortMode: 'low',
+            isAuto: false,
             systemPrompt: "Você está operando no modo de esforço RÁPIDO. Seja direto, conciso e objetivo. Forneça o código ou a resposta solicitada sem raciocínios longos, divagações ou introduções desnecessárias."
           };
         case 'high':
@@ -1339,6 +2334,7 @@
             modeName: 'Alto',
             max_tokens: 8192,
             effortMode: 'high',
+            isAuto: false,
             systemPrompt: "Você está operando no modo de esforço ALTO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
           };
         case 'medium':
@@ -1347,6 +2343,7 @@
             modeName: 'Médio',
             max_tokens: 4096,
             effortMode: 'medium',
+            isAuto: false,
             systemPrompt: "Você está operando no modo de esforço MÉDIO. Mantenha equilíbrio ideal entre explicações concisas e código de alta qualidade técnica."
           };
       }
@@ -1503,11 +2500,73 @@
       renderAttachmentPreviews();
     }
 
+    
+    // ── Busca Instantânea no Histórico ────────────────────────────────────────
+    let currentSearchQuery = '';
+
+    function handleSidebarSearch(val) {
+      currentSearchQuery = (val || '').trim();
+      const clearBtn = document.getElementById('sidebarSearchClear');
+      if (clearBtn) {
+        clearBtn.style.display = currentSearchQuery ? 'flex' : 'none';
+      }
+      renderSidebar();
+    }
+
+    function clearSidebarSearch() {
+      const input = document.getElementById('sidebarSearchInput');
+      if (input) {
+        input.value = '';
+        handleSidebarSearch('');
+        input.focus();
+      }
+    }
+
+    // ── Formatador de Telemetria TTFT / Duração ──────────────────────────────
+    function formatTelemetryBadge(ttft, totalTime) {
+      if (typeof ttft === 'number' && typeof totalTime === 'number' && ttft > 0 && totalTime > 0) {
+        const ttftSec = (ttft / 1000).toFixed(2);
+        const totalSec = (totalTime / 1000).toFixed(1);
+        return `<span class="badge-telemetry" title="Time To First Token: ${ttftSec}s | Duração Total: ${totalSec}s">⚡ TTFT: ${ttftSec}s · Total: ${totalSec}s</span>`;
+      }
+      return '';
+    }
+
     function renderSidebar() {
       const listEl = document.getElementById('chatList');
+      if (!listEl) return;
       listEl.innerHTML = '';
 
-      sessions.forEach(session => {
+      const q = currentSearchQuery.toLowerCase();
+      const filteredSessions = !q ? sessions : sessions.filter(session => {
+        // 1. Título da conversa
+        if ((session.title || '').toLowerCase().includes(q)) return true;
+
+        // 2. Mensagens da conversa (usuário e assistente)
+        if (Array.isArray(session.messages)) {
+          const matchMsg = session.messages.some(m => {
+            if (m.displayText && m.displayText.toLowerCase().includes(q)) return true;
+            if (typeof m.content === 'string' && m.content.toLowerCase().includes(q)) return true;
+            if (Array.isArray(m.content)) {
+              return m.content.some(c => c && c.text && c.text.toLowerCase().includes(q));
+            }
+            if (m.thinking && m.thinking.toLowerCase().includes(q)) return true;
+            return false;
+          });
+          if (matchMsg) return true;
+        }
+        return false;
+      });
+
+      if (filteredSessions.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'sidebar-empty-state';
+        emptyDiv.textContent = q ? 'Nenhuma conversa encontrada' : 'Nenhuma conversa ainda';
+        listEl.appendChild(emptyDiv);
+        return;
+      }
+
+      filteredSessions.forEach(session => {
         const item = document.createElement('div');
         item.className = `chat-item ${session.id === currentSessionId ? 'active' : ''}`;
         item.dataset.sessionId = session.id;
@@ -1672,7 +2731,7 @@
       }
 
       const newId = 'chat_' + Date.now();
-      const currentSelectedEffort = document.getElementById('effortSelect').value || 'medium';
+      const currentSelectedEffort = (document.getElementById('effortSelect') && document.getElementById('effortSelect').value) || 'auto';
       
       const newSession = {
         id: newId,
@@ -1739,11 +2798,11 @@
         if (msg.role === 'user') {
           appendUserBubble(msg.content, msg.time, msg.attachments);
         } else {
-          appendAssistantBubble(msg.content, msg.thinking, msg.time, msg.effortUsed);
+          appendAssistantBubble(msg.content, msg.thinking, msg.time, msg.effortUsed, msg.ttft, msg.totalTime, msg.interactionId, msg.feedback, msg.nemoEval);
         }
       });
 
-      chatWindow.scrollTop = chatWindow.scrollHeight;
+      smartScrollToBottom(true);
     }
 
     function showError(msg) {
@@ -1829,6 +2888,7 @@
       pendingAttachments = [];
       renderAttachmentPreviews();
 
+      smartScrollToBottom(true);
       setGeneratingState(true);
       const msgTime = getTimestamp();
 
@@ -1883,8 +2943,14 @@
       saveStorage();
 
       const effortConfig = getEffortSettings();
+      const globalSettings = getGlobalSettings();
       const streamingBubbleObj = createStreamingAssistantBubble();
       currentAbortController = new AbortController();
+
+      let currentInteractionId = 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+      const t0 = performance.now();
+      let ttft = null;
+      let totalTime = null;
 
       let accumulatedRaw = '';
       let accumulatedThinking = '';
@@ -1893,12 +2959,54 @@
       try {
         const payloadMessages = session.messages.map(m => ({ role: m.role, content: m.content }));
 
+        // Heurística Adaptativa: modula parâmetros se o seletor for Auto OU preset for Auto
+        const isAutoActive = (effortConfig.isAuto || globalSettings.preset === 'auto');
+        let finalTemperature = globalSettings.temperature;
+        let finalTopP = globalSettings.top_p;
+        let finalMaxTokens = globalSettings.max_tokens || 4096;
+        let isThinking = (effortConfig.effortMode !== 'low');
+        let baseSystemPrompt = effortConfig.systemPrompt;
+        let effortTagToDisplay = effortConfig.modeName;
+
+        if (isAutoActive) {
+          const detected = detectPromptComplexity(combinedText, currentAttachments);
+          finalTemperature = detected.temperature;
+          finalTopP = detected.top_p;
+          finalMaxTokens = detected.max_tokens;
+          isThinking = detected.thinking;
+          baseSystemPrompt = detected.systemPrompt;
+          effortTagToDisplay = `Auto (${detected.tag})`;
+          console.log('[HEURÍSTICA]', detected.tag, '| Temp:', finalTemperature, '| TopP:', finalTopP, '| Tokens:', finalMaxTokens, '| CoT:', isThinking);
+        } else {
+          if (effortConfig.effortMode === 'high' && finalMaxTokens < 8192) {
+            finalMaxTokens = 8192;
+          } else if (effortConfig.effortMode === 'low') {
+            finalMaxTokens = Math.min(finalMaxTokens, 2048);
+          }
+        }
+
+        // Concatena o Custom System Prompt permanente com o prompt modulado
+        let combinedSystemPrompt = baseSystemPrompt;
+        if (globalSettings.customSystemPrompt && globalSettings.customSystemPrompt.trim()) {
+          combinedSystemPrompt = baseSystemPrompt 
+            ? (globalSettings.customSystemPrompt.trim() + "\n\n" + baseSystemPrompt)
+            : globalSettings.customSystemPrompt.trim();
+        }
+
         const requestBody = {
+          interactionId: currentInteractionId,
           model: MODEL_ID,
-          max_tokens: effortConfig.max_tokens,
+          max_tokens: finalMaxTokens,
+          temperature: finalTemperature,
+          top_p: finalTopP,
+          thinking: isThinking,
           effort: effortConfig.effortMode,
+          profile: effortTagToDisplay,
+          prompt: combinedText,
+          seed: (typeof globalSettings.seed === 'number' && !isNaN(globalSettings.seed)) ? globalSettings.seed : null,
+          response_format: globalSettings.jsonMode ? { type: "json_object" } : undefined,
           messages: payloadMessages,
-          system: effortConfig.systemPrompt
+          system: combinedSystemPrompt
         };
 
         const headers = {
@@ -1959,6 +3067,11 @@
                 try {
                   const parsed = JSON.parse(trimmed.slice(6));
 
+                  // Sincronização do ID de interação do backend
+                  if (parsed.__clautron_interaction_id) {
+                    currentInteractionId = parsed.__clautron_interaction_id;
+                  }
+
                   // Evento de erro inline do proxy
                   if (parsed.__clautron_error) {
                     throw new Error(parsed.__clautron_error);
@@ -1968,7 +3081,10 @@
                   const reasoningDelta = delta.reasoning_content || '';
                   const contentDelta = delta.content || '';
 
-                  if (reasoningDelta || contentDelta) firstTokenReceived = true;
+                  if ((reasoningDelta || contentDelta) && !firstTokenReceived) {
+                    firstTokenReceived = true;
+                    ttft = performance.now() - t0;
+                  }
 
                   if (reasoningDelta) {
                     accumulatedThinking += reasoningDelta;
@@ -2010,31 +3126,48 @@
           clearTimeout(clientTimeoutId);
         }
 
+        totalTime = performance.now() - t0;
         const finalAnswer = accumulatedAnswer.trim() || accumulatedRaw.trim() || 'Nenhuma resposta retornada.';
         const finalTime = getTimestamp();
 
-        streamingBubbleObj.finalize(finalAnswer, finalTime, effortConfig.modeName);
+        streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId);
 
         session.messages.push({
           role: 'assistant',
           content: finalAnswer,
           thinking: accumulatedThinking.trim(),
-          effortUsed: effortConfig.modeName,
+          effortUsed: effortTagToDisplay,
+          ttft: ttft,
+          totalTime: totalTime,
+          interactionId: currentInteractionId,
+          feedback: null,
+          nemoEval: null,
           time: finalTime
         });
         saveStorage();
 
+        // Clautron NeMo Core: Dispara avaliação em segundo plano (LLM-as-a-Judge) se ativa
+        if (globalSettings.nemoAutoEval !== false && currentInteractionId) {
+          triggerNeMoBackgroundEvaluation(currentInteractionId, combinedText, finalAnswer, effortTagToDisplay);
+        }
+
       } catch (err) {
         if (err.name === 'AbortError') {
+          if (t0 && !totalTime) totalTime = performance.now() - t0;
           const finalAnswer = (accumulatedAnswer.trim() || accumulatedRaw.trim()) + '\n\n*(Resposta interrompida por você)*';
           const finalTime = getTimestamp();
-          streamingBubbleObj.finalize(finalAnswer, finalTime, effortConfig.modeName);
+          streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId);
 
           session.messages.push({
             role: 'assistant',
             content: finalAnswer,
             thinking: accumulatedThinking.trim(),
-            effortUsed: effortConfig.modeName,
+            effortUsed: effortTagToDisplay,
+            ttft: ttft,
+            totalTime: totalTime,
+            interactionId: currentInteractionId,
+            feedback: null,
+            nemoEval: null,
             time: finalTime
           });
           saveStorage();
@@ -2045,6 +3178,36 @@
       } finally {
         currentAbortController = null;
         setGeneratingState(false);
+      }
+    }
+
+    
+    // ── Smart Auto-Scroll Controller ──────────────────────────────────────────
+    let userScrolledUp = false;
+
+    function initSmartScroll() {
+      const chat = document.getElementById('chatWindow');
+      if (!chat) return;
+
+      chat.addEventListener('scroll', () => {
+        // Se a distância do fundo for maior que 80px, o usuário rolou para cima
+        const distanceFromBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight;
+        if (distanceFromBottom > 80) {
+          userScrolledUp = true;
+        } else {
+          userScrolledUp = false;
+        }
+      }, { passive: true });
+    }
+
+    function smartScrollToBottom(force = false) {
+      const chat = document.getElementById('chatWindow');
+      if (!chat) return;
+      if (force) {
+        userScrolledUp = false;
+        chat.scrollTop = chat.scrollHeight;
+      } else if (!userScrolledUp) {
+        chat.scrollTop = chat.scrollHeight;
       }
     }
 
@@ -2107,7 +3270,7 @@
       row.appendChild(meta);
       chat.appendChild(row);
 
-      chat.scrollTop = chat.scrollHeight;
+      smartScrollToBottom(true);
       return row;
     }
 
@@ -2119,10 +3282,10 @@
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
 
+      // Caixa de raciocínio (Thinking) permanece fechada por padrão (sem atributo open)
       const thinkingBox = document.createElement('details');
       thinkingBox.className = 'thinking-box';
       thinkingBox.style.display = 'none';
-      thinkingBox.open = true;
       thinkingBox.innerHTML = `
         <summary>Processo de Raciocínio (Thinking)</summary>
         <div class="thinking-content"></div>
@@ -2135,7 +3298,7 @@
 
       row.appendChild(bubble);
       chat.appendChild(row);
-      chat.scrollTop = chat.scrollHeight;
+      smartScrollToBottom();
 
       const thinkingContent = thinkingBox.querySelector('.thinking-content');
 
@@ -2144,26 +3307,34 @@
           if (thinkingText) {
             thinkingBox.style.display = 'block';
             thinkingContent.textContent = thinkingText;
-            chat.scrollTop = chat.scrollHeight;
+            smartScrollToBottom();
           }
         },
         updateAnswer(answerText) {
           if (answerText) {
             textDiv.innerHTML = marked.parse(answerText);
             enhanceCodeBlocks(textDiv);
-            chat.scrollTop = chat.scrollHeight;
+            smartScrollToBottom();
           }
         },
-        finalize(finalText, time, effortUsed) {
+        finalize(finalText, time, effortUsed, telemetry = null, interactionId = null, nemoEval = null) {
           bubble.dataset.rawText = finalText;
           textDiv.innerHTML = marked.parse(finalText);
           enhanceCodeBlocks(textDiv);
+
+          const telemetryHtml = (telemetry && typeof telemetry.ttft === 'number' && typeof telemetry.totalTime === 'number')
+            ? formatTelemetryBadge(telemetry.ttft, telemetry.totalTime)
+            : '';
+          const nemoHtml = formatNeMoBadge(nemoEval, interactionId);
+          const feedbackHtml = generateFeedbackHtml(interactionId, null);
 
           const meta = document.createElement('div');
           meta.className = 'meta-tag';
           meta.innerHTML = `
             <span>Nemotron · ${time || getTimestamp()}</span>
             <span class="badge-effort">Effort: ${effortUsed}</span>
+            ${telemetryHtml}
+            ${nemoHtml}
             <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -2171,9 +3342,10 @@
               </svg>
               <span>Copiar</span>
             </button>
+            ${feedbackHtml}
           `;
           row.appendChild(meta);
-          chat.scrollTop = chat.scrollHeight;
+          smartScrollToBottom();
         },
         remove() {
           row.remove();
@@ -2181,7 +3353,203 @@
       };
     }
 
-    function appendAssistantBubble(replyText, thinkingText, time, effortUsed = 'Médio') {
+    
+    // ── Clautron Eval Engine: Feedback e Avaliação de Respostas ───────────────
+    function generateFeedbackHtml(interactionId, feedback = null) {
+      const rating = feedback?.rating || null;
+      const reason = feedback?.reason || null;
+      const goodActive = rating === 'good' ? 'active-good' : '';
+      const badActive = rating === 'bad' ? 'active-bad' : '';
+      const badLabel = reason || 'Problema';
+
+      return `
+        <div class="feedback-actions" data-interaction-id="${interactionId || ''}">
+          <button class="btn-action-msg btn-feedback btn-feedback-good ${goodActive}" title="Útil (Resposta satisfatória)" onclick="handleFeedbackClick(this, 'good')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+            <span>Útil</span>
+          </button>
+          <button class="btn-action-msg btn-feedback btn-feedback-bad ${badActive}" title="Reportar problema nesta resposta" onclick="handleFeedbackClick(this, 'bad')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
+            </svg>
+            <span class="bad-label-text">${escapeHtml(badLabel)}</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function closeFeedbackPopovers() {
+      document.querySelectorAll('.feedback-popover').forEach(p => p.remove());
+    }
+
+    async function submitFeedback(interactionId, rating, reason, triggerBtn) {
+      if (!interactionId) return;
+
+      const container = triggerBtn.closest('.feedback-actions');
+      if (container) {
+        const goodBtn = container.querySelector('.btn-feedback-good');
+        const badBtn = container.querySelector('.btn-feedback-bad');
+        const badLabel = container.querySelector('.bad-label-text');
+
+        if (rating === 'good') {
+          if (goodBtn) goodBtn.classList.add('active-good');
+          if (badBtn) badBtn.classList.remove('active-bad');
+          if (badLabel) badLabel.textContent = 'Problema';
+        } else {
+          if (badBtn) badBtn.classList.add('active-bad');
+          if (goodBtn) goodBtn.classList.remove('active-good');
+          if (badLabel && reason) badLabel.textContent = reason;
+        }
+      }
+
+      // Atualiza o feedback na sessão ativa
+      const session = getActiveSession();
+      if (session && Array.isArray(session.messages)) {
+        const msg = session.messages.find(m => m.interactionId === interactionId);
+        if (msg) {
+          msg.feedback = { rating, reason, timestamp: new Date().toISOString() };
+          saveStorage();
+        }
+      }
+
+      // Despacha requisição ao proxy backend
+      try {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ interactionId, rating, reason })
+        });
+      } catch (err) {
+        console.error('[EVAL FEEDBACK] Falha ao enviar feedback:', err);
+      }
+    }
+
+    function handleFeedbackClick(btn, rating) {
+      const container = btn.closest('.feedback-actions');
+      const interactionId = container?.dataset?.interactionId;
+      if (!interactionId) return;
+
+      if (rating === 'good') {
+        closeFeedbackPopovers();
+        submitFeedback(interactionId, 'good', null, btn);
+      } else {
+        const existing = container.querySelector('.feedback-popover');
+        if (existing) {
+          existing.remove();
+          return;
+        }
+        closeFeedbackPopovers();
+
+        const popover = document.createElement('div');
+        popover.className = 'feedback-popover';
+        popover.innerHTML = `
+          <div class="feedback-popover-title">Reportar Problema:</div>
+          <button type="button" class="btn-feedback-reason" data-reason="Código quebrado">⚠️ Código quebrado</button>
+          <button type="button" class="btn-feedback-reason" data-reason="Incompleto">⏳ Incompleto</button>
+          <button type="button" class="btn-feedback-reason" data-reason="Alucinação">🌀 Alucinação</button>
+          <button type="button" class="btn-feedback-reason" data-reason="Superficial">📉 Superficial</button>
+        `;
+
+        popover.querySelectorAll('.btn-feedback-reason').forEach(rBtn => {
+          rBtn.onclick = (e) => {
+            e.stopPropagation();
+            const reason = rBtn.dataset.reason;
+            popover.remove();
+            submitFeedback(interactionId, 'bad', reason, btn);
+          };
+        });
+
+        container.appendChild(popover);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.feedback-actions')) {
+        closeFeedbackPopovers();
+      }
+    });
+
+    
+    // ── Clautron NeMo Core: Badge e Avaliação LLM-as-a-Judge ───────────────────
+    function formatNeMoBadge(nemoEval = null, interactionId = null) {
+      const elemId = interactionId ? ` id="nemoBadge_${interactionId}"` : '';
+      if (!nemoEval) {
+        return `<span class="badge-nemo"${elemId} title="Protegido por NeMo Guardrails (sanitização e integridade de contexto)">🛡️ NeMo: Verificado</span>`;
+      }
+      if (nemoEval.evaluating) {
+        return `<span class="badge-nemo nemo-evaluating"${elemId} title="NeMo Evaluator analisando resposta em segundo plano...">🛡️ NeMo: Avaliando...</span>`;
+      }
+      const verdict = nemoEval.verdict || 'PASS';
+      const score = (typeof nemoEval.score === 'number') ? `${nemoEval.score}/10` : '';
+      const isPass = verdict === 'PASS';
+      const cls = isPass ? 'nemo-pass' : 'nemo-fail';
+      const titleAttr = escapeHtml(nemoEval.reasoning || `Avaliação NeMo: ${verdict} (${score})`);
+      return `<span class="badge-nemo ${cls}"${elemId} title="${titleAttr}">🛡️ NeMo: ${verdict}${score ? ' (' + score + ')' : ''}</span>`;
+    }
+
+    async function triggerNeMoBackgroundEvaluation(interactionId, userPrompt, assistantResponse, profileUsed) {
+      if (!interactionId || !assistantResponse) return;
+
+      const badgeEl = document.getElementById(`nemoBadge_${interactionId}`);
+      if (badgeEl) {
+        badgeEl.className = 'badge-nemo nemo-evaluating';
+        badgeEl.textContent = '🛡️ NeMo: Avaliando...';
+        badgeEl.title = 'NeMo Evaluator analisando acurácia, integridade e concisão em segundo plano...';
+      }
+
+      try {
+        const userKey = getStoredApiKey();
+        const headers = { 'Content-Type': 'application/json' };
+        if (userKey) headers['Authorization'] = `Bearer ${userKey}`;
+
+        const res = await fetch('/api/nemo/evaluate', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            interactionId: interactionId,
+            userPrompt: userPrompt,
+            assistantResponse: assistantResponse,
+            profileUsed: profileUsed
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.evaluation) {
+            const ev = data.evaluation;
+            const targetBadge = document.getElementById(`nemoBadge_${interactionId}`);
+            if (targetBadge) {
+              const isPass = (ev.verdict === 'PASS');
+              targetBadge.className = `badge-nemo ${isPass ? 'nemo-pass' : 'nemo-fail'}`;
+              targetBadge.textContent = `🛡️ NeMo: ${ev.verdict} (${ev.score}/10)`;
+              targetBadge.title = ev.reasoning || `Avaliação NeMo: ${ev.verdict}`;
+            }
+
+            // Atualiza o registro da mensagem na sessão ativa
+            const session = getActiveSession();
+            if (session && Array.isArray(session.messages)) {
+              const msg = session.messages.find(m => m.interactionId === interactionId);
+              if (msg) {
+                msg.nemoEval = ev;
+                saveStorage();
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[NEMO AUTO EVAL] Falha na avaliação em segundo plano (não crítica):', err.message);
+        const targetBadge = document.getElementById(`nemoBadge_${interactionId}`);
+        if (targetBadge) {
+          targetBadge.className = 'badge-nemo';
+          targetBadge.textContent = '🛡️ NeMo: Verificado';
+          targetBadge.title = 'Protegido por NeMo Guardrails';
+        }
+      }
+    }
+
+    function appendAssistantBubble(replyText, thinkingText, time, effortUsed = 'Médio', ttft = null, totalTime = null, interactionId = null, feedback = null, nemoEval = null) {
       const chat = document.getElementById('chatWindow');
       const row = document.createElement('div');
       row.className = 'message-row assistant';
@@ -2205,11 +3573,17 @@
       enhanceCodeBlocks(textDiv);
       bubble.appendChild(textDiv);
 
+      const telemetryHtml = formatTelemetryBadge(ttft, totalTime);
+      const nemoHtml = formatNeMoBadge(nemoEval, interactionId);
+      const feedbackHtml = generateFeedbackHtml(interactionId, feedback);
+
       const meta = document.createElement('div');
       meta.className = 'meta-tag';
       meta.innerHTML = `
         <span>Nemotron · ${time || getTimestamp()}</span>
         <span class="badge-effort">Effort: ${effortUsed}</span>
+        ${telemetryHtml}
+        ${nemoHtml}
         <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -2217,13 +3591,14 @@
           </svg>
           <span>Copiar</span>
         </button>
+        ${feedbackHtml}
       `;
 
       row.appendChild(bubble);
       row.appendChild(meta);
       chat.appendChild(row);
 
-      chat.scrollTop = chat.scrollHeight;
+      smartScrollToBottom();
       return row;
     }
 
@@ -2471,8 +3846,112 @@
       }
     }
 
+
+    const FALLBACK_VERSION = "1.1.1";
+    const GITHUB_REPO = "felipeptxa/clautron";
+    let latestReleaseInfo = null;
+
+    function parseSemVer(verStr) {
+      if (!verStr) return [0, 0, 0];
+      const cleaned = String(verStr).trim().replace(/^[vV]/, '');
+      const parts = cleaned.split('-')[0].split('.').map(n => parseInt(n, 10) || 0);
+      while (parts.length < 3) parts.push(0);
+      return parts;
+    }
+
+    function isNewerVersion(latestStr, currentStr) {
+      const [lMaj, lMin, lPat] = parseSemVer(latestStr);
+      const [cMaj, cMin, cPat] = parseSemVer(currentStr);
+
+      if (lMaj > cMaj) return true;
+      if (lMaj < cMaj) return false;
+      if (lMin > cMin) return true;
+      if (lMin < cMin) return false;
+      return lPat > cPat;
+    }
+
+    async function checkForUpdates() {
+      try {
+        let currentVer = FALLBACK_VERSION;
+        let repo = GITHUB_REPO;
+
+        try {
+          const pkgCtrl = new AbortController();
+          const pkgTid = setTimeout(() => pkgCtrl.abort(), 1500);
+          const pkgRes = await fetch('/package.json', { cache: 'no-cache', signal: pkgCtrl.signal }).finally(() => clearTimeout(pkgTid));
+          if (pkgRes.ok) {
+            const pkgData = await pkgRes.json();
+            if (pkgData.version) currentVer = pkgData.version;
+            if (pkgData.githubRepo) repo = pkgData.githubRepo;
+            else if (pkgData.repository && pkgData.repository.url) {
+              const match = pkgData.repository.url.match(/github\.com\/([^/]+(?:\/[^/.]+)?)/);
+              if (match) repo = match[1].replace(/\.git$/, '');
+            }
+          }
+        } catch (_) {}
+
+        const apiUrl = `https://api.github.com/repos/${repo}/releases/latest`;
+        const apiCtrl = new AbortController();
+        const apiTid = setTimeout(() => apiCtrl.abort(), 3000);
+
+        const res = await fetch(apiUrl, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' },
+          signal: apiCtrl.signal
+        }).finally(() => clearTimeout(apiTid));
+
+        if (!res.ok) return;
+
+        const release = await res.json();
+        const latestTag = release.tag_name || '';
+        if (!latestTag) return;
+
+        if (isNewerVersion(latestTag, currentVer)) {
+          latestReleaseInfo = {
+            currentVersion: currentVer,
+            latestVersion: latestTag.replace(/^[vV]/, ''),
+            releaseUrl: release.html_url || `https://github.com/${repo}/releases/latest`,
+            body: release.body || 'Nenhuma nota de versão fornecida.'
+          };
+
+          const badge = document.getElementById('btnUpdateBadge');
+          const tag = document.getElementById('updateVerTag');
+          if (badge && tag) {
+            tag.textContent = 'v' + latestReleaseInfo.latestVersion;
+            badge.style.display = 'inline-flex';
+          }
+        }
+      } catch (_) {
+        // Silencioso em caso de falha de conexão/offline
+      }
+    }
+
+    function openUpdateModal() {
+      if (!latestReleaseInfo) return;
+      document.getElementById('currentVersionLabel').textContent = 'v' + latestReleaseInfo.currentVersion;
+      document.getElementById('latestVersionLabel').textContent = 'v' + latestReleaseInfo.latestVersion;
+      const changelogBox = document.getElementById('updateChangelogBox');
+      if (window.marked && typeof window.marked.parse === 'function') {
+        changelogBox.innerHTML = marked.parse(latestReleaseInfo.body);
+      } else {
+        changelogBox.textContent = latestReleaseInfo.body;
+      }
+      document.getElementById('updateModal').classList.add('aberto');
+    }
+
+    function closeUpdateModal() {
+      document.getElementById('updateModal').classList.remove('aberto');
+    }
+
+    function downloadUpdate() {
+      if (latestReleaseInfo && latestReleaseInfo.releaseUrl) {
+        window.open(latestReleaseInfo.releaseUrl, '_blank');
+      }
+      closeUpdateModal();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       loadStorage();
+      initSmartScroll();
       initSidebarResizer();
       initAttachmentListeners();
 
@@ -2486,8 +3965,11 @@
       }
 
       if (!getStoredApiKey()) {
-        setTimeout(openKeyModal, 400);
+        setTimeout(openSettingsModal, 400);
       }
+
+      // Verificação não-intrusiva de atualizações no GitHub Releases
+      checkForUpdates();
     });
   </script>
 </body>
