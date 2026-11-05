@@ -2667,7 +2667,8 @@
     let inspectingSessionId = null;
     let currentAbortController = null;
     let isGenerating = false;
-    let currentInteractionId = null;
+    var currentInteractionId = null;
+    window.currentInteractionId = null;
     let currentLiveHTML = '';
     let pendingAttachments = [];
 
@@ -3558,7 +3559,8 @@
       }
 
       const newId = 'chat_' + Date.now();
-      const currentSelectedEffort = (session && session.effort) ? session.effort : 'auto';
+      const activeSession = getActiveSession();
+      const currentSelectedEffort = (activeSession && activeSession.effort) ? activeSession.effort : 'auto';
       
       const newSession = {
         id: newId,
@@ -3778,6 +3780,7 @@
       currentAbortController = new AbortController();
 
       currentInteractionId = 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+      window.currentInteractionId = currentInteractionId;
       const t0 = performance.now();
       let ttft = null;
       let totalTime = null;
@@ -4007,7 +4010,12 @@
           saveStorage();
         } else {
           streamingBubbleObj.remove();
-          showError("Falha na comunicação: " + err.message);
+          const errText = (err && err.message) ? err.message : String(err);
+          if (errText.includes('Failed to fetch') || errText.includes('NetworkError') || errText.includes('404')) {
+            showError("Falha na comunicação com o servidor local. Se estiver no preview web, certifique-se de executar o CLAUTRON localmente via START CLAUTRON.bat ou configure sua chave da NVIDIA.");
+          } else {
+            showError("Falha na comunicação: " + errText);
+          }
         }
       } finally {
         currentAbortController = null;

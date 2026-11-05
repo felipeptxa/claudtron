@@ -1,13 +1,13 @@
 <div align="center">
 
-# ⚡ CLAUTRON OneClick (v1.1.1)
+# ⚡ CLAUTRON OneClick (v1.2.0)
 ### Desktop Nativo & Web UI para NVIDIA Nemotron 3.5 Super VL 120B
 
 [![Website](https://img.shields.io/badge/%F0%9F%8C%90_Website_Oficial-felipeptxa.github.io%2Fclautron-00F0FF?style=for-the-badge&logo=googlechrome&logoColor=black)](https://felipeptxa.github.io/clautron/)
-[![Download Windows](https://img.shields.io/badge/%F0%9F%93%A5_Baixar_Windows_x64-v1.1.0-00FFA3?style=for-the-badge&logo=windows&logoColor=black)](https://github.com/felipeptxa/clautron/releases)
+[![Download Windows](https://img.shields.io/badge/%F0%9F%93%A5_Baixar_Windows_x64-v1.2.0-00FFA3?style=for-the-badge&logo=windows&logoColor=black)](https://github.com/felipeptxa/clautron/releases)
 [![Licença MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-7928CA?style=for-the-badge)](LICENSE)
 
-**[👉 Acessar Landing Page Oficial](https://felipeptxa.github.io/clautron/)** • **[📦 Baixar Instalador NSIS](https://github.com/felipeptxa/clautron/releases)** • **[📖 Documentação](#-recursos-principais-v111)**
+**[👉 Acessar Landing Page Oficial](https://felipeptxa.github.io/clautron/)** • **[⚡ Web Preview Online](https://felipeptxa.github.io/clautron/app.html)** • **[📦 Baixar Instalador NSIS](https://github.com/felipeptxa/clautron/releases)** • **[📖 Documentação](#-recursos-principais-v12)**
 
 ---
 
@@ -15,7 +15,7 @@
 
 Aplicativo Desktop nativo para Windows (Electron) e Web UI local projetado para interagir com o modelo multimodal de raciocínio profundo **NVIDIA Nemotron 3.5 Super VL 120B** sem configurações complexas de ambiente.
 
-Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.1.0.exe` (NSIS x64).
+Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.2.0.exe` (NSIS x64).
 
 ---
 

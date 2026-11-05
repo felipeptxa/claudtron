@@ -1,0 +1,4842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLAUTRON OneClick</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+  :root {
+      --bg-main: #060913;
+      --bg-sidebar: #090e1a;
+      --bg-card: #0f172a;
+      --bg-hover: #1e293b;
+      --bg-input: #0f172a;
+      --accent-cyan: #38bdf8;
+      --accent-teal: #2dd4bf;
+      --accent-purple: #a855f7;
+      --border-subtle: rgba(56, 189, 248, 0.08);
+      --border-card: rgba(255, 255, 255, 0.06);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    code, pre, .font-mono, .badge-telemetry, .param-desc code, .settings-slider-val {
+      font-family: 'JetBrains Mono', Consolas, monospace !important;
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    }
+
+    *::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    aside {
+      width: 280px;
+      min-width: 180px;
+      max-width: 520px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), 
+                  min-width 0.22s cubic-bezier(0.4, 0, 0.2, 1), 
+                  opacity 0.18s ease, 
+                  border-color 0.18s ease;
+      user-select: none;
+    }
+
+    aside.collapsed {
+      width: 0 !important;
+      min-width: 0 !important;
+      border-right-color: transparent !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    aside.collapsed .sidebar-resizer {
+      display: none;
+    }
+
+    /* Rodapé da Sidebar com Botão de Configurações Minimalista e Pill de Update */
+    .sidebar-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(9, 14, 26, 0.85);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+
+    .sidebar-update-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: #2dd4bf;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.2);
+      animation: pulsePillGlow 2.4s infinite;
+    }
+
+    .sidebar-update-pill:hover {
+      background: rgba(45, 212, 191, 0.22);
+      border-color: #2dd4bf;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(45, 212, 191, 0.4);
+    }
+
+    @keyframes pulsePillGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(45, 212, 191, 0.15); }
+      50% { box-shadow: 0 0 18px rgba(45, 212, 191, 0.45); }
+    }
+
+    .sidebar-footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-settings-sidebar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .btn-settings-sidebar:hover {
+      background: #1e293b;
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: rotate(30deg);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+    }
+
+    .sidebar-version-tag {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid var(--border-card);
+    }
+
+    .sidebar-resizer {
+      display: none;
+    }
+
+    .sidebar-resizer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 6px;
+      height: 100%;
+      cursor: col-resize;
+      z-index: 50;
+      background: transparent;
+      transition: background 0.15s ease;
+    }
+
+    .sidebar-resizer:hover,
+    .sidebar-resizer.resizing {
+      background: rgba(96, 165, 250, 0.4);
+    }
+
+    /* Quantum Neural Core Logo & Sidebar Branding */
+    .sidebar-brand-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 2px 14px 2px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 4px;
+    }
+
+    .quantum-logo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .quantum-logo-wrapper:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.35);
+      transform: scale(1.04);
+    }
+
+    @keyframes quantumPulse {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.22); opacity: 1; }
+    }
+
+    .quantum-core-pulse {
+      transform-origin: 20px 20px;
+      animation: quantumPulse 2.8s ease-in-out infinite;
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-brand-name {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .brand-clautron {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      letter-spacing: -0.3px;
+      color: #f8fafc;
+    }
+
+    .brand-oneclick {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13.5px;
+      color: #38bdf8;
+      letter-spacing: -0.2px;
+    }
+
+    .sidebar-brand-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.14);
+      padding: 1px 6px;
+      border-radius: 6px;
+      width: fit-content;
+      letter-spacing: 0.2px;
+    }
+
+    .sidebar-header {
+      padding: 16px 14px;
+      border-bottom: 1px solid #282a2c;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    .sidebar-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8e918f;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .btn-sidebar-new {
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-sidebar-new:hover {
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.25);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+    }
+
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 12.5px;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .chat-item:hover {
+      background: #1e293b;
+      color: var(--text-primary);
+    }
+
+    .chat-item.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.25);
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .chat-item-title {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 6px;
+    }
+
+    .chat-item-input {
+      flex: 1;
+      background: #111318;
+      border: 1px solid #3b82f6;
+      border-radius: 6px;
+      color: #ffffff;
+      padding: 3px 6px;
+      font-size: 12px;
+      outline: none;
+      margin-right: 6px;
+    }
+
+    .chat-item-actions {
+      display: none;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .chat-item:hover .chat-item-actions,
+    .chat-item.active .chat-item-actions {
+      display: flex;
+    }
+
+    .btn-item-action {
+      background: transparent;
+      border: none;
+      color: #8e918f;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-item-action:hover {
+      color: #f1f3f4;
+      background: #333639;
+    }
+
+    .btn-item-action.delete:hover {
+      color: #f28b82;
+    }
+
+    .app-main {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #131314;
+      position: relative;
+      user-select: text;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-main);
+      user-select: none;
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-toggle-sidebar {
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-toggle-sidebar:hover {
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan);
+    }
+
+    .header-status-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.8), 0 0 2px #10b981;
+      transition: all 0.3s ease;
+      cursor: help;
+    }
+
+    .header-status-led.disconnected {
+      background: #ef4444;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.8), 0 0 2px #ef4444;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #34a853;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(52, 168, 83, 0.4);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f1f3f4;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+
+    .model-badge {
+      font-size: 11px;
+      font-family: monospace;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      color: #c4c7c5;
+      padding: 4px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .effort-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #18191a;
+      border: 1px solid #282a2c;
+      border-radius: 10px;
+      padding: 4px 10px;
+    }
+
+    .effort-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8e918f;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .effort-select {
+      background: transparent;
+      border: none;
+      color: #60a5fa;
+      font-size: 12px;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .effort-select option {
+      background: #18191a;
+      color: #e3e3e3;
+    }
+
+    .btn-settings-header {
+      background: #18191a;
+      border: 1px solid #282a2c;
+      color: #c4c7c5;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-settings-header:hover {
+      background: #282a2c;
+      border-color: #3c4043;
+      color: #ffffff;
+    }
+
+    main {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      min-width: 0;
+    }
+
+    .placeholder-msg {
+      margin: auto;
+      color: #8e918f;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .message-row {
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .message-row.user {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .message-row.assistant {
+      align-self: flex-start;
+      align-items: flex-start;
+      max-width: 100%;
+    }
+
+    .bubble {
+      padding: 12px 18px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.65;
+      word-break: normal;
+      overflow-wrap: anywhere;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .bubble p {
+      margin-bottom: 10px;
+    }
+
+    .bubble p:last-child {
+      margin-bottom: 0;
+    }
+
+    .message-row.user .bubble {
+      background: #282a2c;
+      color: #f1f3f4;
+      border-bottom-right-radius: 4px;
+      white-space: pre-wrap;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .message-row.assistant .bubble {
+      background: transparent;
+      color: #e3e3e3;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .user-attachments-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .user-att-img {
+      max-width: 220px;
+      max-height: 180px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid #3c4043;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .user-att-img:hover {
+      transform: scale(1.02);
+    }
+
+    .user-att-file {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e1f20;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #a8c7fa;
+    }
+
+    .meta-tag {
+      font-size: 11px;
+      color: #8e918f;
+      margin-top: 5px;
+      padding: 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-effort {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: #212225;
+      border: 1px solid #3c4043;
+      color: #60a5fa;
+      font-family: monospace;
+    }
+
+    .btn-action-msg {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #8e918f;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-action-msg:hover {
+      color: #f1f3f4;
+      background: #282a2c;
+      border-color: #3c4043;
+    }
+
+    .btn-action-msg.copied {
+      color: #81c995;
+      border-color: rgba(129, 201, 149, 0.3);
+      background: rgba(129, 201, 149, 0.08);
+    }
+
+    details.thinking-box {
+      margin-bottom: 12px;
+      background: rgba(124, 58, 237, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-left: 3px solid #a855f7;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #cbd5e1;
+      width: 100%;
+      min-width: 0;
+      transition: all 0.2s ease;
+    }
+
+    details.thinking-box summary {
+      cursor: pointer;
+      user-select: none;
+      color: #c084fc;
+      font-weight: 600;
+      font-size: 12px;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    details.thinking-box summary:hover {
+      color: #e9d5ff;
+    }
+
+    details.thinking-box .thinking-content {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(168, 85, 247, 0.25);
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 11.5px;
+      color: #94a3b8;
+      overflow-x: auto;
+      max-height: 280px;
+    }
+
+    .code-block-wrapper {
+      margin: 14px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #3c4043;
+      background: #1e1f20;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .code-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 14px;
+      background: #18191a;
+      border-bottom: 1px solid #282a2c;
+      font-size: 11px;
+      font-family: monospace;
+      color: #8e918f;
+      width: 100%;
+    }
+
+    .code-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .code-lines-count {
+      color: #64748b;
+      font-size: 10px;
+    }
+
+    .code-header-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-code-action {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #c4c7c5;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-code-action:hover {
+      background: #282a2c;
+      color: #fff;
+    }
+
+    .btn-preview-action {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+    }
+
+    .btn-preview-action:hover {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .bubble pre {
+      background: #1e1f20 !important;
+      padding: 14px;
+      overflow-x: auto !important;
+      overflow-y: auto !important;
+      margin: 0 !important;
+      border: none !important;
+      max-height: 280px;
+      max-width: 100%;
+      box-sizing: border-box;
+      white-space: pre;
+      transition: max-height 0.25s ease;
+    }
+
+    .bubble pre.expanded {
+      max-height: none !important;
+    }
+
+    .bubble code {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+    }
+
+    .preview-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .preview-modal.aberto {
+      display: flex;
+    }
+
+    .preview-window {
+      background: #18191a;
+      border: 1px solid #3c4043;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      border-bottom: 1px solid #282a2c;
+      background: #131314;
+    }
+
+    .preview-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e3e3e3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-preview-ctrl {
+      background: #212225;
+      border: 1px solid #3c4043;
+      color: #c4c7c5;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-preview-ctrl:hover {
+      background: #282a2c;
+      color: #fff;
+    }
+
+    .preview-iframe-wrapper {
+      flex: 1;
+      background: #000;
+      position: relative;
+    }
+
+    .preview-iframe-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .info-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .info-modal.aberto {
+      display: flex;
+    }
+
+    .info-card {
+      background: #18191a;
+      border: 1px solid #3c4043;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .info-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #282a2c;
+      background: #131314;
+    }
+
+    .info-card-body {
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c4c7c5;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .info-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .info-stat-box {
+      background: #212225;
+      border: 1px solid #282a2c;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .info-stat-box .val {
+      font-size: 18px;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+
+    .info-stat-box .desc {
+      font-size: 11px;
+      color: #8e918f;
+      margin-top: 2px;
+    }
+
+    .info-preview-box {
+      background: #111318;
+      border: 1px solid #282a2c;
+      border-radius: 10px;
+      padding: 12px;
+      max-height: 220px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      color: #94a3b8;
+    }
+
+    .info-card-footer {
+      padding: 14px 20px;
+      border-top: 1px solid #282a2c;
+      background: #131314;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    footer {
+      padding: 12px 24px 20px 24px;
+      background: var(--bg-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      flex-shrink: 0;
+      width: 100%;
+      overflow: visible !important;
+      position: relative;
+      z-index: 100;
+    }
+
+    .input-container-wrapper {
+      max-width: 820px;
+      width: 100%;
+      position: relative;
+      z-index: 105;
+      overflow: visible !important;
+    }
+
+    .attachments-preview-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+      padding: 0 4px;
+    }
+
+    .attachment-chip {
+      background: #212225;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      font-size: 12px;
+      color: #e3e3e3;
+      position: relative;
+    }
+
+    .attachment-chip img {
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .attachment-chip .btn-remove-att {
+      background: transparent;
+      border: none;
+      color: #8e918f;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      border-radius: 50%;
+      transition: color 0.15s;
+    }
+
+    .attachment-chip .btn-remove-att:hover {
+      color: #f28b82;
+    }
+
+    
+    /* Barra de Ação Contextual (Acima do Campo de Mensagem) */
+    .context-action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 4px 6px 8px 6px;
+      margin-bottom: 2px;
+      position: relative;
+      z-index: 110;
+      overflow: visible !important;
+    }
+
+    .context-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      overflow: visible !important;
+    }
+
+    .context-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .context-bar-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border-subtle);
+      margin: 0 2px;
+    }
+
+    .preset-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-preset-pill {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+
+    .btn-preset-pill:hover {
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #ffffff;
+    }
+
+    .btn-preset-pill.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: #38bdf8;
+      color: #38bdf8;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-context-benchmark, .btn-ping {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--accent-cyan);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-context-benchmark:hover, .btn-ping:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+      color: #ffffff;
+    }
+
+    .btn-context-benchmark.ok, .btn-ping.ok {
+      color: var(--accent-teal);
+      border-color: rgba(45, 212, 191, 0.4);
+      background: rgba(45, 212, 191, 0.1);
+    }
+
+    .btn-context-benchmark.fail, .btn-ping.fail {
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .input-container {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.14);
+      border-radius: 16px;
+      padding: 8px 14px 8px 14px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .input-container:focus-within {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+      background: #131c35;
+    }
+
+    .btn-attach {
+      background: transparent;
+      border: none;
+      color: #8e918f;
+      cursor: pointer;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      margin-bottom: 3px;
+    }
+
+    .btn-attach:hover {
+      color: #f1f3f4;
+      background: #282a2c;
+    }
+
+    textarea {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #f1f3f4;
+      padding: 8px 0;
+      font-size: 14px;
+      resize: none;
+      height: 40px;
+      outline: none;
+      line-height: 1.5;
+      user-select: text;
+    }
+
+    textarea::placeholder {
+      color: #8e918f;
+    }
+
+    .btn-send {
+      background: #e3e3e3;
+      color: #131314;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+
+    .btn-send:hover {
+      background: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .btn-send:disabled {
+      background: #3c4043;
+      color: #8e918f;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-send.btn-stop {
+      background: #f28b82;
+      color: #131314;
+    }
+
+    .btn-send.btn-stop:hover {
+      background: #f6aea9;
+    }
+
+    .error-banner {
+      color: #f28b82;
+      font-size: 12px;
+      padding: 0 4px;
+      display: none;
+      text-align: center;
+    }
+
+    .key-input-field {
+      width: 100%;
+      background: #111318;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 10px 14px;
+      font-size: 13px;
+      outline: none;
+      font-family: monospace;
+      margin-top: 6px;
+      transition: border-color 0.2s;
+    }
+
+    .key-input-field:focus {
+      border-color: #60a5fa;
+    }
+
+    .btn-ping {
+      background: #18191a;
+      border: 1px solid #282a2c;
+      color: #8e918f;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      transition: all 0.15s ease;
+    }
+    .btn-ping:hover { background: #282a2c; border-color: #3c4043; color: #fff; }
+    .btn-ping.ok { color: #81c995; border-color: rgba(129,201,149,0.4); }
+    .btn-ping.fail { color: #f28b82; border-color: rgba(242,139,130,0.4); }
+    .btn-ping:disabled { opacity: 0.6; cursor: wait; }
+
+    
+    /* Seletor Multi-Modelos com Personas (v1.2) */
+    .persona-selector-container {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      z-index: 99999;
+      overflow: visible !important;
+    }
+
+    .btn-persona-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 5px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-persona-selector:hover {
+      background: #1e293b;
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .persona-dropdown, .model-dropdown, .persona-popover {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 0;
+      width: 340px;
+      background: #0b1222;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.1);
+      padding: 8px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 99999;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .persona-dropdown.open {
+      display: flex;
+      animation: fadeInDropdown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .persona-option {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .persona-option:hover {
+      background: #282a2c;
+    }
+
+    .persona-option.active {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+
+    .persona-option-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .persona-option-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #f1f3f4;
+    }
+
+    .persona-option-badges {
+      display: flex;
+      gap: 4px;
+    }
+
+    .persona-badge {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .persona-badge-vision {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .persona-badge-thinking {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .persona-badge-code {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .persona-badge-logic {
+      background: rgba(6, 182, 212, 0.15);
+      color: #22d3ee;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .persona-badge-fast {
+      background: rgba(234, 179, 8, 0.15);
+      color: #facc15;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .persona-option-desc {
+      font-size: 11px;
+      color: #9aa0a6;
+      line-height: 1.35;
+      margin-left: 22px;
+    }
+
+    .spinner-att {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin-att 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin-att {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-update-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #86efac;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.15);
+    }
+
+    .btn-update-badge:hover {
+      background: rgba(34, 197, 94, 0.22);
+      border-color: rgba(34, 197, 94, 0.6);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.3);
+    }
+
+    .update-pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #22c55e;
+      animation: pulse-update 1.8s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-update {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      }
+      70% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+      }
+    }
+
+    .update-ver-tag {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .update-version-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background: #111318;
+      border: 1px solid #282a2c;
+      border-radius: 12px;
+      padding: 14px 20px;
+      text-align: center;
+    }
+
+    .update-changelog-markdown {
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .update-changelog-markdown h1,
+    .update-changelog-markdown h2,
+    .update-changelog-markdown h3 {
+      color: #f1f3f4;
+      margin: 12px 0 6px 0;
+      font-size: 14px;
+    }
+
+    .update-changelog-markdown ul,
+    .update-changelog-markdown ol {
+      padding-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    .update-changelog-markdown li {
+      margin-bottom: 4px;
+    }
+
+    .update-changelog-markdown code {
+      background: #1e1f20;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .settings-section {
+      background: #111318;
+      border: 1px solid #282a2c;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .settings-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #8e918f;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .settings-slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .settings-slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #e3e3e3;
+    }
+
+    .settings-slider-val {
+      font-family: monospace;
+      font-weight: 600;
+      color: #60a5fa;
+      background: #18191a;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid #282a2c;
+      font-size: 11px;
+    }
+
+    .settings-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #282a2c;
+      outline: none;
+      transition: background 0.2s;
+    }
+
+    .settings-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .settings-slider::-webkit-slider-thumb:hover {
+      background: #60a5fa;
+      transform: scale(1.15);
+    }
+
+    .settings-textarea {
+      width: 100%;
+      background: #18191a;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline: none;
+      line-height: 1.5;
+      min-height: 75px;
+      max-height: 180px;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .settings-textarea:focus {
+      border-color: #60a5fa;
+    }
+
+    .param-desc {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #94a3b8;
+      margin-top: 3px;
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    #tempDescription {
+      font-weight: 500;
+      min-height: 16px;
+    }
+
+    .presets-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .btn-preset-chip {
+      background: #18191a;
+      border: 1px solid #282a2c;
+      color: #c4c7c5;
+      padding: 4px 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .btn-preset-chip:hover {
+      background: #282a2c;
+      color: #ffffff;
+      border-color: #3c4043;
+    }
+
+    .btn-preset-chip.active {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: #3b82f6;
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
+    .btn-preset-chip.auto-active {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: #22c55e;
+      color: #86efac;
+      font-weight: 600;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+
+    .auto-preset-notice {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .sliders-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: opacity 0.22s ease, filter 0.22s ease;
+    }
+
+    .sliders-container.auto-mode {
+      opacity: 0.42;
+      pointer-events: none;
+      filter: grayscale(0.25);
+    }
+  
+    /* Busca no Histórico da Barra Lateral */
+    .sidebar-search-box {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      background: #1e1f20;
+      border: 1px solid #2d3135;
+      border-radius: 8px;
+      padding: 0 8px;
+      height: 32px;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-search-box:focus-within {
+      border-color: #3b82f6;
+      background: #232527;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .sidebar-search-icon {
+      color: #8e918f;
+      flex-shrink: 0;
+      transition: color 0.15s ease;
+    }
+
+    .sidebar-search-box:focus-within .sidebar-search-icon {
+      color: #93c5fd;
+    }
+
+    .sidebar-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #e3e3e3;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .sidebar-search-input::placeholder {
+      color: #6a6f73;
+      font-size: 11.5px;
+    }
+
+    .sidebar-search-clear {
+      background: transparent;
+      border: none;
+      color: #8e918f;
+      cursor: pointer;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      padding: 0;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-search-clear:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .sidebar-empty-state {
+      padding: 24px 14px;
+      text-align: center;
+      font-size: 12px;
+      color: #8e918f;
+      line-height: 1.5;
+    }
+
+    /* Badge de Telemetria TTFT / Tempo Total */
+    .badge-telemetry {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.28);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.2px;
+      user-select: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+  
+    
+    /* Badge de Avaliação Clautron NeMo Core */
+    .badge-nemo {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      color: #34d399;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.2px;
+      user-select: none;
+      cursor: help;
+    <!-- Rodapé da Sidebar com Botão de Configurações Minimalista e Pill de Update -->
+    <div class="sidebar-footer">
+      <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver o changelog e baixar a atualização">
+        <span class="update-pulse-dot"></span>
+        <span id="sidebarUpdateText">🚀 Atualização v... disponível</span>
+      </button>
+
+      <div class="sidebar-footer-bottom">
+        <button class="btn-settings-sidebar" onclick="openSettingsModal()" title="Configurações Globais">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+        <span class="sidebar-version-tag" id="sidebarVersionLabel">v1.2.0</span>
+      </div>
+    </div>
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    <header>
+      <div class="header-left">
+        <button class="btn-toggle-sidebar" id="btnToggleSidebar" onclick="toggleSidebar()" title="Ocultar / Mostrar Barra Lateral (Ctrl+B)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="header-right">
+        <div class="header-status-led" id="headerStatusLed" title="NVIDIA NIM: Conectado"></div>
+      </div>
+    </header>
+    .btn-feedback-good.active-good svg {
+      stroke: #86efac;
+      fill: rgba(34, 197, 94, 0.25);
+    }
+
+    .btn-feedback-bad.active-bad {
+      background: rgba(239, 68, 68, 0.16) !important;
+      border-color: rgba(239, 68, 68, 0.45) !important;
+      color: #fca5a5 !important;
+      font-weight: 600;
+    }
+
+    .btn-feedback-bad.active-bad svg {
+      stroke: #fca5a5;
+      fill: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Popover de Motivo do Feedback Negativo */
+    .feedback-popover {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      background: #18191a;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+      z-index: 1000;
+      min-width: 155px;
+      animation: popover-appear 0.15s ease-out;
+    }
+
+    @keyframes popover-appear {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-popover-title {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #8e918f;
+      letter-spacing: 0.5px;
+      padding: 2px 4px 4px 4px;
+      border-bottom: 1px solid #282a2c;
+      margin-bottom: 2px;
+    }
+
+    .btn-feedback-reason {
+      background: transparent;
+      border: none;
+      color: #c4c7c5;
+      font-size: 11px;
+      text-align: left;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .btn-feedback-reason:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ffffff;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Barra Lateral -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <!-- Novo Branding com Quantum Neural Core Logo -->
+      <div class="sidebar-brand-box">
+        <div class="quantum-logo-wrapper">
+          <svg class="quantum-neural-logo" width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="quantumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="50%" stop-color="#2dd4bf" />
+                <stop offset="100%" stop-color="#a855f7" />
+              </linearGradient>
+              <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
+              </radialGradient>
+              <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="1.5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <!-- Hexágono Externo -->
+            <polygon points="20,2 35,11 35,29 20,38 5,29 5,11" stroke="url(#quantumGrad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="rgba(8, 13, 26, 0.6)" />
+            <!-- Linhas Neurais Convergentes -->
+            <line x1="20" y1="2" x2="20" y2="16" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="35" y1="11" x2="23.5" y2="18" stroke="#2dd4bf" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="35" y1="29" x2="23.5" y2="22" stroke="#2dd4bf" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="20" y1="38" x2="20" y2="24" stroke="#a855f7" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="5" y1="29" x2="16.5" y2="22" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="5" y1="11" x2="16.5" y2="18" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7" />
+            <!-- Nós Neurais -->
+            <circle cx="20" cy="2" r="1.8" fill="#38bdf8" />
+            <circle cx="35" cy="11" r="1.8" fill="#2dd4bf" />
+            <circle cx="35" cy="29" r="1.8" fill="#2dd4bf" />
+            <circle cx="20" cy="38" r="1.8" fill="#a855f7" />
+            <circle cx="5" cy="29" r="1.8" fill="#38bdf8" />
+            <circle cx="5" cy="11" r="1.8" fill="#38bdf8" />
+            <!-- Núcleo Quântico Pulsante -->
+            <circle class="quantum-core-pulse" cx="20" cy="20" r="4.5" fill="url(#coreGlow)" filter="url(#neonGlow)" />
+            <circle cx="20" cy="20" r="2" fill="#ffffff" />
+          </svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-name">
+            <span class="brand-clautron">CLAUTRON</span>
+            <span class="brand-oneclick">OneClick</span>
+          </div>
+          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.0</span>
+        </div>
+      </div>
+
+      <button class="btn-sidebar-new" onclick="createNewChatSession()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Nova conversa
+      </button>
+
+      <!-- Campo de Busca Instantânea no Histórico -->
+      <div class="sidebar-search-box">
+        <svg class="sidebar-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="sidebarSearchInput" class="sidebar-search-input" placeholder="Buscar conversas..." oninput="handleSidebarSearch(this.value)" autocomplete="off" spellcheck="false" />
+        <button type="button" id="sidebarSearchClear" class="sidebar-search-clear" onclick="clearSidebarSearch()" style="display: none;" title="Limpar busca">✕</button>
+      </div>
+
+      <div class="sidebar-title-row">
+        <span class="sidebar-title">Conversas Recentes</span>
+      </div>
+    </div>
+    <div class="chat-list" id="chatList"></div>
+
+    <!-- Rodapé da Sidebar com Botão de Configurações Minimalista -->
+    <div class="sidebar-footer">
+      <button class="btn-settings-sidebar" onclick="openSettingsModal()" title="Configurações Globais">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+      <div class="sidebar-footer-info">
+        <span class="sidebar-app-name">CLAUTRON OneClick</span>
+        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.0</span>
+      </div>
+    </div>
+
+    <div class="sidebar-resizer" id="sidebarResizer" title="Arraste para redimensionar"></div>
+  </aside>
+
+  <!-- Janela Principal -->
+  <div class="app-main">
+    <header>
+      <div class="header-left">
+        <button class="btn-toggle-sidebar" id="btnToggleSidebar" onclick="toggleSidebar()" title="Ocultar / Mostrar Barra Lateral">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+          </svg>
+        </button>
+        <div class="brand-logo-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <h1 class="app-brand-title">CLAUTRON OneClick</h1>
+        <span class="app-brand-version" id="headerVersionBadge">v1.2.0</span>
+      </div>
+
+      <div class="header-right">
+        <div class="header-status-pill" id="headerStatusPill" title="Status da Conexão com NVIDIA NIM">
+          <span class="status-indicator-dot"></span>
+          <span id="headerStatusText">NVIDIA OK</span>
+        </div>
+        <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Clique para ver os detalhes da nova versão">
+          <span class="update-pulse-dot"></span>
+          <span>🟢 Atualização Disponível</span>
+          <span class="update-ver-tag" id="updateVerTag">v...</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="chatWindow">
+      <div class="placeholder-msg" id="placeholder">Nova conversa iniciada. Em que posso te ajudar hoje?</div>
+    </main>
+
+    <footer>
+      <div class="input-container-wrapper">
+        <div class="attachments-preview-bar" id="attachmentsPreview"></div>
+
+        <!-- Nova Barra de Ação Contextual (Acima do Campo de Mensagem) -->
+        <div class="context-action-bar" id="contextActionBar">
+          <div class="context-bar-left">
+            <!-- Seletor de Persona Dropdown -->
+            <div class="persona-selector-container">
+              <button class="btn-persona-selector" id="btnPersonaSelector" onclick="togglePersonaDropdown(event)" title="Selecionar Modelo / Persona">
+                <span id="activePersonaIcon">🧠</span>
+                <span id="activePersonaName">CLAUTRON Omni</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="persona-dropdown" id="personaDropdown"></div>
+            </div>
+
+            <!-- Divisor -->
+            <div class="context-bar-divider"></div>
+
+            <!-- Chips Rápidos de Preset -->
+            <div class="preset-pills">
+              <button type="button" class="btn-preset-pill" id="pillPresetFast" onclick="setContextPreset('low')" title="Respostas rápidas e concisas sem thinking">
+                <span>⚡ Rápido</span>
+              </button>
+              <button type="button" class="btn-preset-pill active" id="pillPresetAuto" onclick="setContextPreset('auto')" title="Modulação heurística adaptativa inteligente">
+                <span>⭐ Auto</span>
+              </button>
+              <button type="button" class="btn-preset-pill" id="pillPresetDeep" onclick="setContextPreset('high')" title="Raciocínio profundo estendido (Chain-of-Thought)">
+                <span>🧠 Profundo</span>
+              </button>
+              <button type="button" class="btn-preset-pill" id="pillPresetCreative" onclick="setContextPreset('creative')" title="Inferência criativa com temperatura elevada">
+                <span>🎨 Criativo</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="context-bar-right">
+            <!-- Botão de Benchmark / Diagnóstico -->
+            <button class="btn-context-benchmark" id="btnPing" onclick="runPingTest()" title="Diagnóstico de Conexão com NVIDIA NIM">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              <span id="pingLabel">Diagnóstico</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input type="file" id="fileInput" multiple accept="*/*" style="display: none;" onchange="handleFileSelect(event)">
+          
+          <button class="btn-attach" onclick="document.getElementById('fileInput').click()" title="Anexar documentos (PDF, DOCX, XLSX, PPTX, IPYNB, ZIP), código ou imagens">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+          </button>
+
+          <textarea id="promptInput" placeholder="Faça uma pergunta ou anexe documentos (PDF, Word, Excel, ZIP), código ou imagens..." onkeydown="handleKey(event)"></textarea>
+          
+          <button class="btn-send" id="sendBtn" onclick="handleSendOrStop()" title="Enviar">
+            <span id="sendBtnContent">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="error-banner" id="errorBanner"></div>
+    </footer>
+  </div>
+
+  <div class="info-modal" id="settingsModal">
+    <div class="info-card" style="max-width: 580px;">
+      <div class="info-card-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <strong style="font-size: 14px; color: #f1f3f4;">Configurações Globais</strong>
+        </div>
+        <button class="btn-item-action" onclick="closeSettingsModal()">✕</button>
+      </div>
+
+      <div class="info-card-body" style="gap: 16px;">
+        <!-- Seção 1: Chave de API -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Autenticação NVIDIA NIM</span>
+          </div>
+          <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
+            Chave pessoal da NVIDIA (iniciada com <code>nvapi-...</code>). Obtenha em <a href="https://build.nvidia.com" target="_blank" style="color: #60a5fa; text-decoration: none;">build.nvidia.com</a>.
+          </p>
+          <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." autocomplete="off" spellcheck="false" />
+        </div>
+
+        <!-- Seção 2: Custom System Prompt -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Custom System Prompt (Permanente)</span>
+          </div>
+          <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
+            Instruções permanentes que serão combinadas com o seletor de esforço (Effort) em todas as conversas.
+          </p>
+          <textarea id="modalCustomSystemPrompt" class="settings-textarea" placeholder="Ex: Atue como um engenheiro de software sênior. Responda com código limpo, testes unitários e arquitetura escalável..."></textarea>
+        </div>
+
+        <!-- Seção 3: Hiperparâmetros de Inferência -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+            <span>Hiperparâmetros de Inferência</span>
+          </div>
+
+          <!-- Barra de Presets Rápidos -->
+          <div class="presets-bar" id="presetsBar">
+            <button type="button" class="btn-preset-chip auto-active" id="chipPresetAuto" onclick="selectHyperparameterPreset('auto')">
+              <span>🤖 Automático</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetCode" onclick="selectHyperparameterPreset('code')">
+              <span>🎯 Código</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetBalanced" onclick="selectHyperparameterPreset('balanced')">
+              <span>⚖️ Equilibrado</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetCreative" onclick="selectHyperparameterPreset('creative')">
+              <span>🎨 Criativo</span>
+            </button>
+            <button type="button" class="btn-preset-chip" id="chipPresetManual" onclick="selectHyperparameterPreset('manual')">
+              <span>🛠️ Manual</span>
+            </button>
+          </div>
+
+          <!-- Aviso do Modo Automático -->
+          <div id="autoPresetNotice" class="auto-preset-notice" style="display: block;">
+            <div style="display: flex; align-items: center; gap: 7px;">
+              <span style="font-size: 13px;">🤖</span>
+              <span style="font-weight: 600; color: #86efac; font-size: 12px;">Parâmetros modulados automaticamente a cada pergunta</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+              O motor heurístico analisa o contexto e define Temperatura, Top-P, Tokens e Thinking ideais.
+            </div>
+          </div>
+
+          <div id="slidersContainer" class="sliders-container auto-mode">
+            <!-- Temperature com Legenda Dinâmica -->
+            <div class="settings-slider-row">
+              <div class="settings-slider-header">
+                <span>Temperature (Criatividade)</span>
+                <span class="settings-slider-val" id="valTemperatureDisplay">0.70</span>
+              </div>
+              <input type="range" id="inputTemperature" class="settings-slider" min="0.0" max="1.5" step="0.05" value="0.70" oninput="handleManualSliderInput('temperature')" />
+              <div id="tempDescription" class="param-desc">⚖️ Equilíbrio padrão da indústria (respostas balanceadas e contextuais)</div>
+            </div>
+
+            <!-- Top-P com Descrição Fixa -->
+            <div class="settings-slider-row" style="margin-top: 6px;">
+              <div class="settings-slider-header">
+                <span>Top-P (Nucleus Sampling)</span>
+                <span class="settings-slider-val" id="valTopPDisplay">0.95</span>
+              </div>
+              <input type="range" id="inputTopP" class="settings-slider" min="0.1" max="1.0" step="0.05" value="0.95" oninput="handleManualSliderInput('top_p')" />
+              <div class="param-desc">Filtro de amostragem por probabilidade cumulativa (mantém o vocabulário focado e coerente).</div>
+            </div>
+
+            <!-- Max Output Tokens com Descrição Fixa -->
+            <div class="settings-slider-row" style="margin-top: 6px;">
+              <div class="settings-slider-header">
+                <span>Max Output Tokens</span>
+                <span class="settings-slider-val" id="valMaxTokensDisplay">4096</span>
+              </div>
+              <input type="range" id="inputMaxTokens" class="settings-slider" min="512" max="8192" step="256" value="4096" oninput="handleManualSliderInput('max_tokens')" />
+              <div class="param-desc">Limite máximo de tokens gerados por resposta (aumente para scripts e respostas extensas).</div>
+            </div>
+
+            <!-- Parâmetros Avançados (Clautron NeMo Core) -->
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #282a2c; display: flex; flex-direction: column; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #e3e3e3; cursor: pointer; user-select: none;">
+                <input type="checkbox" id="checkNemoAutoEval" style="cursor: pointer; accent-color: #10b981;" checked />
+                <span>🛡️ <strong>Avaliação Automática NeMo em Segundo Plano</strong> (LLM-as-a-Judge)</span>
+              </label>
+              <div class="param-desc" style="font-size: 10.5px; margin-top: -3px;">Dispara o NeMo Evaluator em background para validar a precisão, integridade e concisão de cada resposta.</div>
+
+              <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 11px; color: #8e918f; font-weight: 600; margin-bottom: 4px;">Seed de Reprodução (Opcional):</div>
+                  <input type="number" id="inputSeed" placeholder="Ex: 42 (vazio = aleatório)" style="width: 100%; background: #18191a; border: 1px solid #3c4043; border-radius: 6px; padding: 6px 10px; color: #e3e3e3; font-size: 12px; outline: none;" />
+                </div>
+                <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+                  <label style="display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #c4c7c5; cursor: pointer; margin-top: 18px; user-select: none;">
+                    <input type="checkbox" id="checkJsonMode" style="cursor: pointer; accent-color: #3b82f6;" />
+                    <span>Modo JSON Estrito (<code>json_object</code>)</span>
+                  </label>
+                </div>
+              </div>
+              <div class="param-desc" style="font-size: 10.5px;">Controla inferência determinística (seed constante) e formatação de saída em objeto JSON válido da NVIDIA NIM.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card-footer" style="justify-content: space-between;">
+        <button class="btn-preview-ctrl" onclick="restoreDefaultSettings()" title="Restaurar sliders para 0.7, 0.95 e 4096" style="color: #f28b82;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          Restaurar Padrões
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-preview-ctrl" onclick="closeSettingsModal()">Cancelar</button>
+          <button class="btn-preview-ctrl" onclick="saveSettingsModal()" style="background: #3b82f6; color: #fff; border-color: #2563eb; font-weight: 500;">Salvar Configurações</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview-modal" id="previewModal">
+    <div class="preview-window">
+      <div class="preview-header">
+        <div class="preview-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Pré-visualização Interativa ao Vivo
+        </div>
+        <div class="preview-controls">
+          <button class="btn-preview-ctrl" onclick="reloadLivePreview()" title="Recarregar">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
+            Recarregar
+          </button>
+          <button class="btn-preview-ctrl" onclick="closeLivePreview()" title="Fechar">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Fechar
+          </button>
+        </div>
+      </div>
+      <div class="preview-iframe-wrapper">
+        <iframe id="previewIframe" sandbox="allow-scripts allow-modals"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-modal" id="infoModal">
+    <div class="info-card">
+      <div class="info-card-header">
+        <strong id="infoModalTitle" style="font-size: 14px; color: #f1f3f4;">Detalhes da Conversa</strong>
+        <button class="btn-item-action" onclick="closeInfoModal()">✕</button>
+      </div>
+      <div class="info-card-body">
+        <div class="info-stats-grid">
+          <div class="info-stat-box">
+            <div class="val" id="infoTotalMsgs">0</div>
+            <div class="desc">Mensagens</div>
+          </div>
+          <div class="info-stat-box">
+            <div class="val" id="infoTotalUser">0</div>
+            <div class="desc">Perguntas (Você)</div>
+          </div>
+          <div class="info-stat-box">
+            <div class="val" id="infoCreatedAt">--:--</div>
+            <div class="desc">Criada em</div>
+          </div>
+        </div>
+
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: #8e918f; font-weight: 600;">Prévia do Conteúdo Bruto:</span>
+          <div class="info-preview-box" id="infoRawPreview"></div>
+        </div>
+      </div>
+      <div class="info-card-footer">
+        <button class="btn-preview-ctrl" onclick="exportCurrentSessionMarkdown()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Exportar Markdown (.md)
+        </button>
+        <button class="btn-preview-ctrl" onclick="closeInfoModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Atualização -->
+  <div class="info-modal" id="updateModal">
+    <div class="info-card" style="max-width: 600px;">
+      <div class="info-card-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <strong style="font-size: 14px; color: #f1f3f4;">Nova Versão Disponível</strong>
+        </div>
+        <button class="btn-item-action" onclick="closeUpdateModal()">✕</button>
+      </div>
+      <div class="info-card-body">
+        <div class="update-version-banner">
+          <div>
+            <div style="font-size: 11px; color: #8e918f; text-transform: uppercase; font-weight: 600;">Versão Atual</div>
+            <div style="font-size: 15px; font-weight: 700; color: #c4c7c5; margin-top: 2px;" id="currentVersionLabel">v1.2.0</div>
+          </div>
+          <div style="font-size: 20px; color: #8e918f;">➔</div>
+          <div>
+            <div style="font-size: 11px; color: #86efac; text-transform: uppercase; font-weight: 600;">Nova Versão</div>
+            <div style="font-size: 16px; font-weight: 700; color: #86efac; margin-top: 2px;" id="latestVersionLabel">v...</div>
+          </div>
+        </div>
+
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: #8e918f; font-weight: 600;">Notas da Versão (Changelog):</span>
+          <div class="info-preview-box update-changelog-markdown" id="updateChangelogBox" style="margin-top: 8px; max-height: 240px; color: #e3e3e3; font-family: inherit;"></div>
+        </div>
+      </div>
+      <div class="info-card-footer">
+        <button class="btn-preview-ctrl" onclick="downloadUpdate()" style="background: #2563eb; color: #ffffff; border-color: #1d4ed8; font-weight: 500;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Baixar Atualização
+        </button>
+        <button class="btn-preview-ctrl" onclick="closeUpdateModal()">Mais tarde</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "/api/messages";
+    
+    // ── Catálogo Oficial de Personas & Multi-Modelos (v1.2) ───────────────────
+    const PERSONAS_STORAGE_KEY = "clautron_persona_id";
+
+    const PERSONAS = [
+      {
+        id: "omni",
+        name: "CLAUTRON Omni",
+        icon: "🧠",
+        modelId: "nvidia/nemotron-3.5-super-vl-120b-a12b",
+        subtitle: "Visão computacional, raciocínio profundo (Thinking) e tarefas complexas.",
+        badges: ["👁️ Imagem + Texto", "🧠 Thinking"],
+        supportsVision: true,
+        isDefault: true
+      },
+      {
+        id: "coder",
+        name: "CLAUTRON Coder",
+        icon: "💻",
+        modelId: "qwen/qwen2.5-coder-32b-instruct",
+        subtitle: "Especialista puro em programação, refatoração, scripts e debugging.",
+        badges: ["💻 Código"],
+        supportsVision: false
+      },
+      {
+        id: "logic",
+        name: "CLAUTRON Lógica",
+        icon: "🔬",
+        modelId: "deepseek-ai/deepseek-r1",
+        subtitle: "Raciocínio lógico estrito, algoritmos densos e dedução passo a passo.",
+        badges: ["🔬 Lógica"],
+        supportsVision: false
+      },
+      {
+        id: "writer",
+        name: "CLAUTRON Redator",
+        icon: "⚡",
+        modelId: "meta/llama-3.3-70b-instruct",
+        subtitle: "Redação fluida, síntese, relatórios e respostas ultrarrápidas.",
+        badges: ["⚡ Rápido"],
+        supportsVision: false
+      },
+      {
+        id: "vision_lite",
+        name: "CLAUTRON Vision Lite",
+        icon: "👁️",
+        modelId: "meta/llama-3.2-11b-vision-instruct",
+        subtitle: "OCR veloz, leitura de prints de tela e diagramas leves.",
+        badges: ["👁️ Imagem Rápida"],
+        supportsVision: true
+      }
+    ];
+
+    function getActivePersona() {
+      const session = getActiveSession();
+      const storedId = session?.personaId || localStorage.getItem(PERSONAS_STORAGE_KEY) || "omni";
+      return PERSONAS.find(p => p.id === storedId) || PERSONAS[0];
+    }
+
+    function getBadgeClass(badgeText) {
+      if (badgeText.includes('Imagem')) return 'persona-badge-vision';
+      if (badgeText.includes('Thinking')) return 'persona-badge-thinking';
+      if (badgeText.includes('Código')) return 'persona-badge-code';
+      if (badgeText.includes('Lógica')) return 'persona-badge-logic';
+      if (badgeText.includes('Rápido')) return 'persona-badge-fast';
+      return 'persona-badge-code';
+    }
+
+    function selectPersona(personaId) {
+      const persona = PERSONAS.find(p => p.id === personaId);
+      if (!persona) return;
+
+      const session = getActiveSession();
+      if (session) {
+        session.personaId = persona.id;
+        session.modelId = persona.modelId;
+        saveStorage();
+      }
+      localStorage.setItem(PERSONAS_STORAGE_KEY, persona.id);
+
+      updatePersonaUI();
+      closePersonaDropdown();
+    }
+
+    function updatePersonaUI() {
+      const persona = getActivePersona();
+      const iconEl = document.getElementById('activePersonaIcon');
+      const nameEl = document.getElementById('activePersonaName');
+      if (iconEl) iconEl.textContent = persona.icon;
+      if (nameEl) nameEl.textContent = persona.name;
+
+      document.querySelectorAll('.persona-option').forEach(el => {
+        el.classList.toggle('active', el.dataset.personaId === persona.id);
+      });
+    }
+
+    function togglePersonaDropdown(e) {
+      if (e) e.stopPropagation();
+      const dropdown = document.getElementById('personaDropdown');
+      if (dropdown) dropdown.classList.toggle('open');
+    }
+
+    function closePersonaDropdown() {
+      const dropdown = document.getElementById('personaDropdown');
+      if (dropdown) dropdown.classList.remove('open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.persona-selector-container')) {
+        closePersonaDropdown();
+      }
+    });
+
+    function renderPersonaDropdown() {
+      const container = document.getElementById('personaDropdown');
+      if (!container) return;
+
+      const active = getActivePersona();
+      container.innerHTML = PERSONAS.map(p => {
+        const isActive = p.id === active.id;
+        const badgesHtml = p.badges.map(b => `<span class="persona-badge ${getBadgeClass(b)}">${escapeHtml(b)}</span>`).join('');
+        return `
+          <div class="persona-option ${isActive ? 'active' : ''}" data-persona-id="${p.id}" onclick="selectPersona('${p.id}')">
+            <div class="persona-option-header">
+              <div class="persona-option-title">
+                <span>${p.icon}</span>
+                <span>${escapeHtml(p.name)}</span>
+              </div>
+              <div class="persona-option-badges">
+                ${badgesHtml}
+              </div>
+            </div>
+            <div class="persona-option-desc">${escapeHtml(p.subtitle)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getDocumentIcon(name) {
+      const ext = (name || '').split('.').pop().toLowerCase();
+      if (ext === 'pdf') return '📕';
+      if (['docx', 'doc', 'rtf'].includes(ext)) return '📘';
+      if (['xlsx', 'xls', 'csv'].includes(ext)) return '📊';
+      if (ext === 'pptx') return '📙';
+      if (ext === 'ipynb') return '📓';
+      if (ext === 'zip') return '📦';
+      return '📄';
+    }
+
+    const STORAGE_KEY = "nemotron_chat_sessions_v1";
+    const API_KEY_STORAGE = "clautron_nvidia_api_key";
+    const SIDEBAR_WIDTH_KEY = "nemotron_sidebar_width";
+
+    let sessions = [];
+    let currentSessionId = null;
+    let inspectingSessionId = null;
+    let currentAbortController = null;
+    let isGenerating = false;
+    var currentInteractionId = null;
+    window.currentInteractionId = null;
+    let currentLiveHTML = '';
+    let pendingAttachments = [];
+
+    marked.setOptions({
+      highlight: function(code, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          return hljs.highlight(code, { language: lang }).value;
+        }
+        return hljs.highlightAuto(code).value;
+      },
+      breaks: true
+    });
+
+    const SETTINGS_STORAGE_KEY = "clautron_settings";
+    const DEFAULT_SETTINGS = {
+      apiKey: "",
+      customSystemPrompt: "",
+      preset: "auto",
+      temperature: 0.70,
+      top_p: 0.95,
+      max_tokens: 4096,
+      seed: null,
+      jsonMode: false,
+      nemoAutoEval: true
+    };
+    let currentSelectedPreset = "auto";
+
+    // ── Motor de Classificação Heurística Adaptativo ─────────────────────────
+    function detectPromptComplexity(text, attachments = []) {
+      const cleanText = (text || '').trim();
+      const lower = cleanText.toLowerCase();
+
+      // a) Categoria "Code / Technical"
+      const hasCodeBlock = cleanText.includes('```');
+      const hasCodeAttachment = attachments && attachments.some(a => {
+        if (a.type === 'text_file' && a.name) {
+          const ext = a.name.split('.').pop().toLowerCase();
+          return ['js', 'ts', 'jsx', 'tsx', 'py', 'html', 'css', 'json', 'sql', 'cpp', 'c', 'cs', 'java', 'go', 'rs', 'php', 'sh', 'bat', 'yaml', 'yml'].includes(ext);
+        }
+        return false;
+      });
+
+      const codeKeywords = [
+        'código', 'codigo', 'script', 'função', 'funcao', 'function', 'bug', 'erro', 'error',
+        'refatore', 'refatorar', 'const ', 'let ', 'var ', 'def ', 'class ', 'import ', 'export ',
+        'api', 'sql', 'select ', 'insert ', 'query', 'banco de dados', 'frontend', 'backend',
+        'regex', 'typescript', 'python', 'javascript', 'html', 'css', 'compilar', 'build',
+        'exception', 'stack trace', 'repositório', 'endpoint', 'docker', 'terminal', 'powershell',
+        'git ', 'json', 'algoritmo', 'interface ', 'type '
+      ];
+
+      const containsCodeKeywords = codeKeywords.some(kw => lower.includes(kw));
+      const containsCodeSyntax = (cleanText.includes('{') && cleanText.includes('}')) || cleanText.includes('=>') || cleanText.includes('def ') || cleanText.includes('class ');
+
+      if (hasCodeBlock || hasCodeAttachment || (containsCodeKeywords && (cleanText.length > 25 || containsCodeSyntax))) {
+        return {
+          category: 'code',
+          tag: 'Código',
+          temperature: 0.20,
+          top_p: 0.90,
+          max_tokens: 8192,
+          thinking: true,
+          systemPrompt: "Você está operando no modo adaptativo CÓDIGO / TÉCNICO. Forneça soluções precisas, código limpo, arquitetura sólida e refatoração cuidadosa."
+        };
+      }
+
+      // b) Categoria "Creative / Brainstorm"
+      const creativeKeywords = [
+        'crie uma história', 'crie uma historia', 'ideias', 'brainstorm', 'roteiro',
+        'poema', 'poesia', 'slogan', 'redação', 'redacao', 'copy', 'copywriting',
+        'crie um texto', 'crie um conto', 'imagine', 'narrativa', 'metáfora', 'metafora',
+        'marketing', 'personagem', 'enredo', 'ficção', 'ficcao', 'nome para empresa', 'ideia de'
+      ];
+
+      const isCreative = creativeKeywords.some(kw => lower.includes(kw));
+      if (isCreative) {
+        return {
+          category: 'creative',
+          tag: 'Criativo',
+          temperature: 1.05,
+          top_p: 0.98,
+          max_tokens: 4096,
+          thinking: false,
+          systemPrompt: "Você está operando no modo adaptativo CRIATIVO / BRAINSTORM. Explore variedade vocabular, imaginação, pensamento lateral e ideias inovadoras."
+        };
+      }
+
+      // c) Categoria "Quick / Factual"
+      const quickKeywords = [
+        'olá', 'ola', 'oi', 'bom dia', 'boa tarde', 'boa noite', 'o que é', 'o que e',
+        'defina', 'traduza', 'liste 3', 'liste 5', 'quanto é', 'quanto e', 'quem foi',
+        'qual é', 'qual e', 'onde fica', 'significado de', 'sinônimo de', 'sinonimo de'
+      ];
+
+      const isQuickTerm = quickKeywords.some(kw => lower.startsWith(kw) || lower.includes(kw));
+      if (cleanText.length < 70 && !containsCodeSyntax && (isQuickTerm || cleanText.length < 40)) {
+        return {
+          category: 'quick',
+          tag: 'Rápido',
+          temperature: 0.30,
+          top_p: 0.85,
+          max_tokens: 1536,
+          thinking: false,
+          systemPrompt: "Você está operando no modo adaptativo RÁPIDO / FACTUAL. Seja direto, conciso e objetivo sem rodeios ou explicações desnecessárias."
+        };
+      }
+
+      // d) Categoria "Deep / Analytical" (Fallback padrão para prompts longos ou analíticos)
+      return {
+        category: 'deep',
+        tag: 'Profundo',
+        temperature: 0.60,
+        top_p: 0.95,
+        max_tokens: 6144,
+        thinking: true,
+        systemPrompt: "Você está operando no modo adaptativo PROFUNDO / ANALÍTICO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
+      };
+    }
+
+    function getGlobalSettings() {
+      try {
+        const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            apiKey: parsed.apiKey || localStorage.getItem(API_KEY_STORAGE) || "",
+            customSystemPrompt: typeof parsed.customSystemPrompt === 'string' ? parsed.customSystemPrompt : "",
+            preset: parsed.preset || "auto",
+            temperature: (typeof parsed.temperature === 'number' && !isNaN(parsed.temperature)) ? parsed.temperature : 0.70,
+            top_p: (typeof parsed.top_p === 'number' && !isNaN(parsed.top_p)) ? parsed.top_p : 0.95,
+            max_tokens: (typeof parsed.max_tokens === 'number' && parsed.max_tokens > 0) ? parsed.max_tokens : 4096,
+            seed: (typeof parsed.seed === 'number' && !isNaN(parsed.seed)) ? parsed.seed : null,
+            jsonMode: !!parsed.jsonMode
+          };
+        }
+      } catch (e) {
+        console.error("Falha ao carregar configurações:", e);
+      }
+      return {
+        ...DEFAULT_SETTINGS,
+        apiKey: localStorage.getItem(API_KEY_STORAGE) || ""
+      };
+    }
+
+    function selectHyperparameterPreset(preset) {
+      currentSelectedPreset = preset;
+      const chips = ['Auto', 'Code', 'Balanced', 'Creative', 'Manual'];
+      chips.forEach(ch => {
+        const el = document.getElementById('chipPreset' + ch);
+        if (el) {
+          el.classList.remove('active', 'auto-active');
+        }
+      });
+
+      const activeEl = document.getElementById('chipPreset' + preset.charAt(0).toUpperCase() + preset.slice(1));
+      if (activeEl) {
+        if (preset === 'auto') activeEl.classList.add('auto-active');
+        else activeEl.classList.add('active');
+      }
+
+      const notice = document.getElementById('autoPresetNotice');
+      const sliders = document.getElementById('slidersContainer');
+
+      if (preset === 'auto') {
+        if (notice) notice.style.display = 'block';
+        if (sliders) sliders.classList.add('auto-mode');
+      } else {
+        if (notice) notice.style.display = 'none';
+        if (sliders) sliders.classList.remove('auto-mode');
+
+        if (preset === 'code') {
+          document.getElementById('inputTemperature').value = '0.20';
+          document.getElementById('inputTopP').value = '0.90';
+          document.getElementById('inputMaxTokens').value = '8192';
+        } else if (preset === 'balanced') {
+          document.getElementById('inputTemperature').value = '0.70';
+          document.getElementById('inputTopP').value = '0.95';
+          document.getElementById('inputMaxTokens').value = '4096';
+        } else if (preset === 'creative') {
+          document.getElementById('inputTemperature').value = '1.05';
+          document.getElementById('inputTopP').value = '0.98';
+          document.getElementById('inputMaxTokens').value = '4096';
+        }
+        updateSettingsSliderDisplay('temperature');
+        updateSettingsSliderDisplay('top_p');
+        updateSettingsSliderDisplay('max_tokens');
+      }
+    }
+
+    function handleManualSliderInput(type) {
+      updateSettingsSliderDisplay(type);
+      if (currentSelectedPreset !== 'manual') {
+        selectHyperparameterPreset('manual');
+      }
+    }
+
+    function getStoredApiKey() {
+      return getGlobalSettings().apiKey;
+    }
+
+    function updateSettingsSliderDisplay(type) {
+      if (type === 'temperature') {
+        const numVal = parseFloat(document.getElementById('inputTemperature').value);
+        const valStr = numVal.toFixed(2);
+        document.getElementById('valTemperatureDisplay').textContent = valStr;
+
+        const descEl = document.getElementById('tempDescription');
+        if (descEl) {
+          if (numVal < 0.40) {
+            descEl.textContent = "🎯 Respostas ultra determinísticas e precisas (ideal para código, lógica pura e refatoração)";
+            descEl.style.color = "#93c5fd";
+          } else if (numVal <= 0.89) {
+            descEl.textContent = "⚖️ Equilíbrio padrão da indústria (respostas balanceadas e contextuais)";
+            descEl.style.color = "#86efac";
+          } else {
+            descEl.textContent = "🎨 Mais criativo e exploratório (ideal para brainstorming, redação e conceitos visuais)";
+            descEl.style.color = "#fbcfe8";
+          }
+        }
+      } else if (type === 'top_p') {
+        const val = parseFloat(document.getElementById('inputTopP').value).toFixed(2);
+        document.getElementById('valTopPDisplay').textContent = val;
+      } else if (type === 'max_tokens') {
+        const val = document.getElementById('inputMaxTokens').value;
+        document.getElementById('valMaxTokensDisplay').textContent = val;
+      }
+    }
+
+    function openSettingsModal() {
+      const s = getGlobalSettings();
+      document.getElementById('modalKeyInput').value = s.apiKey;
+      document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
+      document.getElementById('inputTemperature').value = s.temperature.toFixed(2);
+      document.getElementById('inputTopP').value = s.top_p.toFixed(2);
+      document.getElementById('inputMaxTokens').value = s.max_tokens;
+
+      selectHyperparameterPreset(s.preset || 'auto');
+      updateSettingsSliderDisplay('temperature');
+      updateSettingsSliderDisplay('top_p');
+      updateSettingsSliderDisplay('max_tokens');
+
+      const seedEl = document.getElementById('inputSeed');
+      if (seedEl) seedEl.value = (typeof s.seed === 'number') ? s.seed : '';
+      const jsonCheck = document.getElementById('checkJsonMode');
+      if (jsonCheck) jsonCheck.checked = !!s.jsonMode;
+      const nemoCheck = document.getElementById('checkNemoAutoEval');
+      if (nemoCheck) nemoCheck.checked = (s.nemoAutoEval !== false);
+
+      document.getElementById('settingsModal').classList.add('aberto');
+    }
+
+    // Alias para manter compatibilidade com códigos legados e erros 401
+    function openKeyModal() {
+      openSettingsModal();
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('aberto');
+    }
+
+    function closeKeyModal() {
+      closeSettingsModal();
+    }
+
+    function restoreDefaultSettings() {
+      selectHyperparameterPreset('auto');
+      document.getElementById('inputTemperature').value = DEFAULT_SETTINGS.temperature.toFixed(2);
+      document.getElementById('inputTopP').value = DEFAULT_SETTINGS.top_p.toFixed(2);
+      document.getElementById('inputMaxTokens').value = DEFAULT_SETTINGS.max_tokens;
+
+      updateSettingsSliderDisplay('temperature');
+      updateSettingsSliderDisplay('top_p');
+      updateSettingsSliderDisplay('max_tokens');
+      if (document.getElementById('inputSeed')) document.getElementById('inputSeed').value = '';
+      if (document.getElementById('checkJsonMode')) document.getElementById('checkJsonMode').checked = false;
+      if (document.getElementById('checkNemoAutoEval')) document.getElementById('checkNemoAutoEval').checked = true;
+    }
+
+    function saveSettingsModal() {
+      const apiKeyVal = document.getElementById('modalKeyInput').value.trim();
+      const customPromptVal = document.getElementById('modalCustomSystemPrompt').value;
+      const tempVal = parseFloat(document.getElementById('inputTemperature').value);
+      const topPVal = parseFloat(document.getElementById('inputTopP').value);
+      const maxTokensVal = parseInt(document.getElementById('inputMaxTokens').value, 10);
+      const seedRaw = parseInt(document.getElementById('inputSeed').value, 10);
+      const jsonModeVal = document.getElementById('checkJsonMode').checked;
+      const nemoAutoEvalVal = document.getElementById('checkNemoAutoEval') ? document.getElementById('checkNemoAutoEval').checked : true;
+
+      const settings = {
+        seed: !isNaN(seedRaw) ? seedRaw : null,
+        jsonMode: !!jsonModeVal,
+        nemoAutoEval: !!nemoAutoEvalVal,
+        apiKey: apiKeyVal,
+        customSystemPrompt: customPromptVal,
+        preset: currentSelectedPreset || 'auto',
+        temperature: !isNaN(tempVal) ? tempVal : 0.70,
+        top_p: !isNaN(topPVal) ? topPVal : 0.95,
+        max_tokens: !isNaN(maxTokensVal) ? maxTokensVal : 4096
+      };
+
+      try {
+        localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+        if (apiKeyVal) {
+          localStorage.setItem(API_KEY_STORAGE, apiKeyVal);
+        } else {
+          localStorage.removeItem(API_KEY_STORAGE);
+        }
+      } catch (e) {
+        console.error("Falha ao salvar configurações:", e);
+      }
+
+      updateNvidiaStatusLed(!!apiKeyVal, apiKeyVal ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
+      closeSettingsModal();
+    }
+
+    function saveKeyModal() {
+      saveSettingsModal();
+    }
+
+    function getTimestamp() {
+      const now = new Date();
+      return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+    }
+
+    function formatDate(ts) {
+      if (!ts) return "--/--";
+      const d = new Date(ts);
+      return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function loadStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        sessions = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        console.error("Falha ao carregar sessões:", e);
+        sessions = [];
+      }
+    }
+
+    function saveStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+      } catch (e) {
+        console.error("Falha ao salvar sessões no localStorage:", e);
+      }
+    }
+
+    function getActiveSession() {
+      return sessions.find(s => s.id === currentSessionId);
+    }
+
+    
+    // ── Controle de Presets Rápidos na Barra Contextual (v1.2) ─────────────────
+    function setContextPreset(mode) {
+      const session = getActiveSession();
+      if (mode === 'auto') {
+        if (session) session.effort = 'auto';
+        selectHyperparameterPreset('auto');
+      } else if (mode === 'low') {
+        if (session) session.effort = 'low';
+        selectHyperparameterPreset('balanced');
+      } else if (mode === 'high') {
+        if (session) session.effort = 'high';
+        selectHyperparameterPreset('code');
+      } else if (mode === 'creative') {
+        if (session) session.effort = 'medium';
+        selectHyperparameterPreset('creative');
+      }
+      saveStorage();
+      syncContextPills();
+    }
+
+    function syncContextPills() {
+      const session = getActiveSession();
+      const effort = session?.effort || 'auto';
+      const settings = getGlobalSettings();
+      const preset = settings.preset || 'auto';
+
+      const pillFast = document.getElementById('pillPresetFast');
+      const pillAuto = document.getElementById('pillPresetAuto');
+      const pillDeep = document.getElementById('pillPresetDeep');
+      const pillCreative = document.getElementById('pillPresetCreative');
+
+      [pillFast, pillAuto, pillDeep, pillCreative].forEach(p => p && p.classList.remove('active'));
+
+      if (preset === 'creative') {
+        if (pillCreative) pillCreative.classList.add('active');
+      } else if (effort === 'high' || preset === 'code') {
+        if (pillDeep) pillDeep.classList.add('active');
+      } else if (effort === 'low') {
+        if (pillFast) pillFast.classList.add('active');
+      } else {
+        if (pillAuto) pillAuto.classList.add('active');
+      }
+    }
+
+    function syncEffortUI() {
+      syncContextPills();
+    }
+
+    function handleEffortChange(newVal) {
+      if (newVal) setContextPreset(newVal);
+    }
+
+    function getEffortSettings() {
+      const session = getActiveSession();
+      const mode = (session && session.effort) ? session.effort : 'auto';
+      
+      switch (mode) {
+        case 'auto':
+          return {
+            modeName: 'Auto',
+            effortMode: 'auto',
+            isAuto: true,
+            max_tokens: 4096,
+            systemPrompt: ""
+          };
+        case 'low':
+          return {
+            modeName: 'Rápido',
+            max_tokens: 2048,
+            effortMode: 'low',
+            isAuto: false,
+            systemPrompt: "Você está operando no modo de esforço RÁPIDO. Seja direto, conciso e objetivo. Forneça o código ou a resposta solicitada sem raciocínios longos, divagações ou introduções desnecessárias."
+          };
+        case 'high':
+          return {
+            modeName: 'Alto',
+            max_tokens: 8192,
+            effortMode: 'high',
+            isAuto: false,
+            systemPrompt: "Você está operando no modo de esforço ALTO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
+          };
+        case 'medium':
+        default:
+          return {
+            modeName: 'Médio',
+            max_tokens: 4096,
+            effortMode: 'medium',
+            isAuto: false,
+            systemPrompt: "Você está operando no modo de esforço MÉDIO. Mantenha equilíbrio ideal entre explicações concisas e código de alta qualidade técnica."
+          };
+      }
+    }
+
+    function initSidebarResizer() {
+      const sidebar = document.getElementById('sidebar');
+      const resizer = document.getElementById('sidebarResizer');
+      let isResizing = false;
+
+      const savedWidth = localStorage.getItem(SIDEBAR_WIDTH_KEY);
+      if (savedWidth && sidebar) {
+        sidebar.style.width = savedWidth + 'px';
+      }
+
+      resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+
+        const onMouseMove = (moveEvent) => {
+          if (!isResizing) return;
+          let newWidth = moveEvent.clientX;
+          if (newWidth < 180) newWidth = 180;
+          if (newWidth > 520) newWidth = 520;
+          sidebar.style.width = newWidth + 'px';
+        };
+
+        const onMouseUp = () => {
+          if (isResizing) {
+            isResizing = false;
+            resizer.classList.remove('resizing');
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+            localStorage.setItem(SIDEBAR_WIDTH_KEY, parseInt(sidebar.style.width, 10));
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+          }
+        };
+
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+      });
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('collapsed');
+    }
+
+    function initAttachmentListeners() {
+      const promptInput = document.getElementById('promptInput');
+
+      promptInput.addEventListener('paste', (e) => {
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        for (const item of items) {
+          if (item.kind === 'file') {
+            const file = item.getAsFile();
+            if (file) {
+              processFileAttachment(file);
+            }
+          }
+        }
+      });
+
+      const inputWrapper = document.querySelector('.input-container-wrapper');
+      inputWrapper.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        inputWrapper.style.opacity = '0.8';
+      });
+
+      inputWrapper.addEventListener('dragleave', () => {
+        inputWrapper.style.opacity = '1';
+      });
+
+      inputWrapper.addEventListener('drop', (e) => {
+        e.preventDefault();
+        inputWrapper.style.opacity = '1';
+        if (e.dataTransfer && e.dataTransfer.files) {
+          Array.from(e.dataTransfer.files).forEach(file => processFileAttachment(file));
+        }
+      });
+    }
+
+    function handleFileSelect(e) {
+      const files = Array.from(e.target.files);
+      files.forEach(file => processFileAttachment(file));
+      e.target.value = '';
+    }
+
+    function processFileAttachment(file) {
+      if (!file) return;
+      const isImg = file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(file.name);
+      const activePersona = getActivePersona();
+
+      if (isImg) {
+        if (!activePersona.supportsVision) {
+          showError("Este modelo opera apenas em texto. Alterne para o Omni ou Vision Lite para analisar imagens.");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const base64Data = e.target.result.split(',')[1];
+          pendingAttachments.push({
+            id: 'att_' + Date.now() + Math.random().toString(36).substr(2, 5),
+            name: file.name || 'imagem_colada.png',
+            type: 'image',
+            mediaType: file.type || 'image/png',
+            base64: base64Data,
+            previewUrl: e.target.result
+          });
+          renderAttachmentPreviews();
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // Ingestão Universal de Documentos / Códigos
+      const tempId = 'att_' + Date.now() + Math.random().toString(36).substr(2, 5);
+      pendingAttachments.push({
+        id: tempId,
+        name: file.name,
+        type: 'document_loading',
+        loading: true
+      });
+      renderAttachmentPreviews();
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const base64Data = e.target.result.split(',')[1];
+          const res = await fetch('/api/parse-file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: file.name, base64: base64Data })
+          });
+          const data = await res.json();
+          const idx = pendingAttachments.findIndex(a => a.id === tempId);
+          if (idx !== -1) {
+            if (data.success) {
+              const metaParts = [];
+              if (data.pages) metaParts.push(`${data.pages} pág${data.pages > 1 ? 's' : ''}`);
+              if (data.sheets) metaParts.push(`${data.sheets} aba${data.sheets > 1 ? 's' : ''}`);
+              if (data.wordCount) metaParts.push(`${data.wordCount.toLocaleString('pt-BR')} palavras`);
+
+              pendingAttachments[idx] = {
+                id: tempId,
+                name: file.name,
+                type: 'document',
+                fileType: data.fileType,
+                metaLabel: metaParts.join(' · '),
+                extractedText: data.extractedText,
+                loading: false
+              };
+            } else {
+              pendingAttachments.splice(idx, 1);
+              showError(data.error || ("Falha ao extrair " + file.name));
+            }
+            renderAttachmentPreviews();
+          }
+        } catch (err) {
+          const idx = pendingAttachments.findIndex(a => a.id === tempId);
+          if (idx !== -1) pendingAttachments.splice(idx, 1);
+          renderAttachmentPreviews();
+          showError("Erro na extração do documento: " + err.message);
+        }
+      };
+      reader.onerror = () => {
+        const idx = pendingAttachments.findIndex(a => a.id === tempId);
+        if (idx !== -1) pendingAttachments.splice(idx, 1);
+        renderAttachmentPreviews();
+        showError("Falha ao ler arquivo: " + file.name);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderAttachmentPreviews() {
+      const container = document.getElementById('attachmentsPreview');
+      container.innerHTML = '';
+
+      pendingAttachments.forEach(att => {
+        const chip = document.createElement('div');
+        chip.className = 'attachment-chip';
+
+        if (att.loading) {
+          chip.innerHTML = `
+            <div class="spinner-att"></div>
+            <span style="color: #93c5fd;">Extraindo ${escapeHtml(att.name.length > 20 ? att.name.substring(0, 20) + '...' : att.name)}</span>
+          `;
+        } else if (att.type === 'image') {
+          chip.innerHTML = `
+            <img src="${att.previewUrl}" alt="${escapeHtml(att.name)}">
+            <span>${escapeHtml(att.name.length > 18 ? att.name.substring(0, 18) + '...' : att.name)}</span>
+            <button class="btn-remove-att" onclick="removeAttachment('${att.id}')" title="Remover imagem">✕</button>
+          `;
+        } else {
+          const icon = getDocumentIcon(att.name);
+          const metaBadge = att.metaLabel ? `<span style="font-size: 10px; color: #86efac; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); border-radius: 4px; padding: 1px 4px; margin-left: 4px;">${escapeHtml(att.metaLabel)}</span>` : '';
+          chip.innerHTML = `
+            <span style="font-size: 15px;">${icon}</span>
+            <div style="display: flex; align-items: center; gap: 2px;">
+              <span style="font-weight: 500;">${escapeHtml(att.name.length > 22 ? att.name.substring(0, 22) + '...' : att.name)}</span>
+              ${metaBadge}
+            </div>
+            <button class="btn-remove-att" onclick="removeAttachment('${att.id}')" title="Remover anexo">✕</button>
+          `;
+        }
+        container.appendChild(chip);
+      });
+    }
+
+    function removeAttachment(id) {
+      pendingAttachments = pendingAttachments.filter(a => a.id !== id);
+      renderAttachmentPreviews();
+    }
+
+    
+    // ── Busca Instantânea no Histórico ────────────────────────────────────────
+    let currentSearchQuery = '';
+
+    function handleSidebarSearch(val) {
+      currentSearchQuery = (val || '').trim();
+      const clearBtn = document.getElementById('sidebarSearchClear');
+      if (clearBtn) {
+        clearBtn.style.display = currentSearchQuery ? 'flex' : 'none';
+      }
+      renderSidebar();
+    }
+
+    function clearSidebarSearch() {
+      const input = document.getElementById('sidebarSearchInput');
+      if (input) {
+        input.value = '';
+        handleSidebarSearch('');
+        input.focus();
+      }
+    }
+
+    // ── Formatador de Telemetria TTFT / Duração ──────────────────────────────
+    function formatTelemetryBadge(ttft, totalTime) {
+      if (typeof ttft === 'number' && typeof totalTime === 'number' && ttft > 0 && totalTime > 0) {
+        const ttftSec = (ttft / 1000).toFixed(2);
+        const totalSec = (totalTime / 1000).toFixed(1);
+        return `<span class="badge-telemetry" title="Time To First Token: ${ttftSec}s | Duração Total: ${totalSec}s">⚡ TTFT: ${ttftSec}s · Total: ${totalSec}s</span>`;
+      }
+      return '';
+    }
+
+    function renderSidebar() {
+      const listEl = document.getElementById('chatList');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+
+      const q = currentSearchQuery.toLowerCase();
+      const filteredSessions = !q ? sessions : sessions.filter(session => {
+        // 1. Título da conversa
+        if ((session.title || '').toLowerCase().includes(q)) return true;
+
+        // 2. Mensagens da conversa (usuário e assistente)
+        if (Array.isArray(session.messages)) {
+          const matchMsg = session.messages.some(m => {
+            if (m.displayText && m.displayText.toLowerCase().includes(q)) return true;
+            if (typeof m.content === 'string' && m.content.toLowerCase().includes(q)) return true;
+            if (Array.isArray(m.content)) {
+              return m.content.some(c => c && c.text && c.text.toLowerCase().includes(q));
+            }
+            if (m.thinking && m.thinking.toLowerCase().includes(q)) return true;
+            return false;
+          });
+          if (matchMsg) return true;
+        }
+        return false;
+      });
+
+      if (filteredSessions.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'sidebar-empty-state';
+        emptyDiv.textContent = q ? 'Nenhuma conversa encontrada' : 'Nenhuma conversa ainda';
+        listEl.appendChild(emptyDiv);
+        return;
+      }
+
+      filteredSessions.forEach(session => {
+        const item = document.createElement('div');
+        item.className = `chat-item ${session.id === currentSessionId ? 'active' : ''}`;
+        item.dataset.sessionId = session.id;
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'chat-item-title';
+        titleSpan.innerText = session.title || "Nova Conversa";
+        titleSpan.title = session.title || "Nova Conversa";
+
+        titleSpan.ondblclick = (e) => {
+          e.stopPropagation();
+          startRenameSession(session.id);
+        };
+
+        item.onclick = () => switchChatSession(session.id);
+
+        const actions = document.createElement('div');
+        actions.className = 'chat-item-actions';
+
+        const infoBtn = document.createElement('button');
+        infoBtn.className = 'btn-item-action';
+        infoBtn.title = 'Inspecionar conteúdo';
+        infoBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        `;
+        infoBtn.onclick = (e) => {
+          e.stopPropagation();
+          openInfoModal(session.id);
+        };
+
+        const renameBtn = document.createElement('button');
+        renameBtn.className = 'btn-item-action';
+        renameBtn.title = 'Renomear';
+        renameBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+        `;
+        renameBtn.onclick = (e) => {
+          e.stopPropagation();
+          startRenameSession(session.id);
+        };
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn-item-action delete';
+        delBtn.title = 'Excluir';
+        delBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        `;
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteChatSession(session.id);
+        };
+
+        actions.appendChild(infoBtn);
+        actions.appendChild(renameBtn);
+        actions.appendChild(delBtn);
+
+        item.appendChild(titleSpan);
+        item.appendChild(actions);
+        listEl.appendChild(item);
+      });
+    }
+
+    function startRenameSession(id) {
+      const itemEl = document.querySelector(`.chat-item[data-session-id="${id}"]`);
+      if (!itemEl) return;
+
+      const titleSpan = itemEl.querySelector('.chat-item-title');
+      const session = sessions.find(s => s.id === id);
+      if (!titleSpan || !session) return;
+
+      const currentTitle = session.title || "";
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'chat-item-input';
+      input.value = currentTitle;
+
+      itemEl.replaceChild(input, titleSpan);
+      input.focus();
+      input.select();
+
+      const finishRename = (save) => {
+        if (save) {
+          const newTitle = input.value.trim();
+          if (newTitle) session.title = newTitle;
+          saveStorage();
+        }
+        renderSidebar();
+      };
+
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') finishRename(true);
+        if (e.key === 'Escape') finishRename(false);
+      };
+
+      input.onblur = () => finishRename(true);
+    }
+
+    function openInfoModal(id) {
+      const session = sessions.find(s => s.id === id);
+      if (!session) return;
+
+      inspectingSessionId = id;
+      document.getElementById('infoModalTitle').innerText = session.title || "Conversa Sem Título";
+      document.getElementById('infoTotalMsgs').innerText = session.messages.length;
+
+      const userCount = session.messages.filter(m => m.role === 'user').length;
+      document.getElementById('infoTotalUser').innerText = userCount;
+      document.getElementById('infoCreatedAt').innerText = formatDate(session.createdAt);
+
+      let previewText = '';
+      session.messages.forEach(m => {
+        const author = m.role === 'user' ? 'Você' : 'Nemotron';
+        const textContent = typeof m.content === 'string' ? m.content : JSON.stringify(m.content);
+        previewText += `[${m.time || '--:--'}] ${author}:\n${textContent}\n\n`;
+      });
+
+      document.getElementById('infoRawPreview').innerText = previewText || '(Nenhuma mensagem nesta conversa)';
+      document.getElementById('infoModal').classList.add('aberto');
+    }
+
+    function closeInfoModal() {
+      document.getElementById('infoModal').classList.remove('aberto');
+      inspectingSessionId = null;
+    }
+
+    function exportCurrentSessionMarkdown() {
+      const session = sessions.find(s => s.id === inspectingSessionId) || getActiveSession();
+      if (!session || session.messages.length === 0) return;
+
+      let md = `# ${session.title || "Conversa Nemotron"}\n`;
+      md += `*Data de criação: ${formatDate(session.createdAt)}*\n`;
+      md += `*Nível de Effort: ${session.effort || 'medium'}*\n\n---\n\n`;
+
+      session.messages.forEach(m => {
+        const author = m.role === 'user' ? '## 👤 Você' : '## 🤖 Nemotron';
+        const textContent = typeof m.content === 'string' ? m.content : '(Mensagem multimodal contendo anexos)';
+        md += `${author} *(${m.time || ''})*\n\n${textContent}\n\n---\n\n`;
+      });
+
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${(session.title || 'conversa').replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function createNewChatSession() {
+      if (isGenerating && currentAbortController) {
+        currentAbortController.abort();
+      }
+
+      const newId = 'chat_' + Date.now();
+      const activeSession = getActiveSession();
+      const currentSelectedEffort = (activeSession && activeSession.effort) ? activeSession.effort : 'auto';
+      
+      const newSession = {
+        id: newId,
+        title: "Nova Conversa",
+        messages: [],
+        effort: currentSelectedEffort,
+        createdAt: Date.now()
+      };
+
+      sessions.unshift(newSession);
+      currentSessionId = newId;
+      saveStorage();
+      renderSidebar();
+      syncEffortUI();
+      renderActiveChat();
+    }
+
+    function switchChatSession(id) {
+      if (id === currentSessionId) return;
+
+      if (isGenerating && currentAbortController) {
+        currentAbortController.abort();
+      }
+
+      currentSessionId = id;
+      renderSidebar();
+      syncEffortUI();
+      renderActiveChat();
+    }
+
+    function deleteChatSession(id) {
+      const index = sessions.findIndex(s => s.id === id);
+      if (index === -1) return;
+
+      sessions.splice(index, 1);
+
+      if (currentSessionId === id) {
+        currentSessionId = sessions.length > 0 ? sessions[0].id : null;
+      }
+
+      saveStorage();
+      renderSidebar();
+
+      if (!currentSessionId) {
+        createNewChatSession();
+      } else {
+        syncEffortUI();
+        renderActiveChat();
+      }
+    }
+
+    function renderActiveChat() {
+      const chatWindow = document.getElementById('chatWindow');
+      chatWindow.innerHTML = '';
+      clearError();
+
+      const session = getActiveSession();
+      if (!session || session.messages.length === 0) {
+        chatWindow.innerHTML = `<div class="placeholder-msg" id="placeholder">Nova conversa iniciada. Em que posso te ajudar hoje?</div>`;
+        return;
+      }
+
+      session.messages.forEach(msg => {
+        if (msg.role === 'user') {
+          appendUserBubble(msg.content, msg.time, msg.attachments);
+        } else {
+          appendAssistantBubble(msg.content, msg.thinking, msg.time, msg.effortUsed, msg.ttft, msg.totalTime, msg.interactionId, msg.feedback, msg.nemoEval, msg.persona);
+        }
+      });
+
+      smartScrollToBottom(true);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorBanner');
+      el.innerText = msg;
+      el.style.display = 'block';
+    }
+
+    function clearError() {
+      const el = document.getElementById('errorBanner');
+      el.innerText = '';
+      el.style.display = 'none';
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!isGenerating) {
+          sendMessage();
+        }
+      }
+    }
+
+    function setGeneratingState(generating) {
+      isGenerating = generating;
+      const sendBtn = document.getElementById('sendBtn');
+      const sendBtnContent = document.getElementById('sendBtnContent');
+      const input = document.getElementById('promptInput');
+
+      if (generating) {
+        sendBtn.classList.add('btn-stop');
+        sendBtn.title = "Parar";
+        sendBtnContent.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="5" y="5" width="14" height="14" rx="2"></rect>
+          </svg>
+        `;
+        input.disabled = true;
+      } else {
+        sendBtn.classList.remove('btn-stop');
+        sendBtn.title = "Enviar";
+        sendBtnContent.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+          </svg>
+        `;
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    function handleSendOrStop() {
+      if (isGenerating) {
+        if (currentAbortController) {
+          currentAbortController.abort();
+        }
+      } else {
+        sendMessage();
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('promptInput');
+      const text = input.value.trim();
+      
+      if (!text && pendingAttachments.length === 0) return;
+
+      const userKey = getStoredApiKey();
+
+      let session = getActiveSession();
+      if (!session) {
+        createNewChatSession();
+        session = getActiveSession();
+      }
+
+      clearError();
+      const placeholder = document.getElementById('placeholder');
+      if (placeholder) placeholder.remove();
+
+      input.value = '';
+      const currentAttachments = [...pendingAttachments];
+      pendingAttachments = [];
+      renderAttachmentPreviews();
+
+      smartScrollToBottom(true);
+      setGeneratingState(true);
+      const msgTime = getTimestamp();
+
+      let apiContentPayload;
+      let userDisplayText = text;
+
+      let combinedText = text;
+      // Ingestão Universal de Documentos e Códigos (v1.2)
+      const docFiles = currentAttachments.filter(a => a.type === 'document' || a.type === 'text_file');
+      if (docFiles.length > 0) {
+        docFiles.forEach(df => {
+          const content = df.extractedText || df.content || '';
+          const fType = df.fileType || (df.name ? df.name.split('.').pop().toUpperCase() : 'DOCUMENTO');
+          combinedText += `\n\n--- [Documento Anexado: ${df.name} | Tipo: ${fType}] ---\n${content}\n--- [Fim do Documento] ---\n\n`;
+        });
+      }
+
+      const imageFiles = currentAttachments.filter(a => a.type === 'image');
+
+      if (imageFiles.length > 0) {
+        apiContentPayload = [];
+        imageFiles.forEach(img => {
+          apiContentPayload.push({
+            type: "image_url",
+            image_url: {
+              url: `data:${img.mediaType || 'image/png'};base64,${img.base64}`
+            }
+          });
+        });
+
+        if (combinedText) {
+          apiContentPayload.push({
+            type: "text",
+            text: combinedText
+          });
+        }
+      } else {
+        apiContentPayload = combinedText;
+      }
+
+      if (session.messages.length === 0) {
+        const titleCandidate = text || (currentAttachments[0] ? currentAttachments[0].name : "Nova Conversa");
+        session.title = titleCandidate.length > 28 ? titleCandidate.substring(0, 28) + '...' : titleCandidate;
+        renderSidebar();
+      }
+
+      appendUserBubble(userDisplayText, msgTime, currentAttachments);
+      session.messages.push({
+        role: 'user',
+        content: apiContentPayload,
+        displayText: userDisplayText,
+        attachments: currentAttachments,
+        time: msgTime
+      });
+      saveStorage();
+
+      const effortConfig = getEffortSettings();
+      const globalSettings = getGlobalSettings();
+      const streamingBubbleObj = createStreamingAssistantBubble();
+      currentAbortController = new AbortController();
+
+      currentInteractionId = 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+      window.currentInteractionId = currentInteractionId;
+      const t0 = performance.now();
+      let ttft = null;
+      let totalTime = null;
+
+      let accumulatedRaw = '';
+      let accumulatedThinking = '';
+      let accumulatedAnswer = '';
+
+      try {
+        const payloadMessages = session.messages.map(m => ({ role: m.role, content: m.content }));
+
+        // Heurística Adaptativa: modula parâmetros se o seletor for Auto OU preset for Auto
+        const isAutoActive = (effortConfig.isAuto || globalSettings.preset === 'auto');
+        let finalTemperature = globalSettings.temperature;
+        let finalTopP = globalSettings.top_p;
+        let finalMaxTokens = globalSettings.max_tokens || 4096;
+        let isThinking = (effortConfig.effortMode !== 'low');
+        let baseSystemPrompt = effortConfig.systemPrompt;
+        let effortTagToDisplay = effortConfig.modeName;
+
+        if (isAutoActive) {
+          const detected = detectPromptComplexity(combinedText, currentAttachments);
+          finalTemperature = detected.temperature;
+          finalTopP = detected.top_p;
+          finalMaxTokens = detected.max_tokens;
+          isThinking = detected.thinking;
+          baseSystemPrompt = detected.systemPrompt;
+          effortTagToDisplay = `Auto (${detected.tag})`;
+          console.log('[HEURÍSTICA]', detected.tag, '| Temp:', finalTemperature, '| TopP:', finalTopP, '| Tokens:', finalMaxTokens, '| CoT:', isThinking);
+        } else {
+          if (effortConfig.effortMode === 'high' && finalMaxTokens < 8192) {
+            finalMaxTokens = 8192;
+          } else if (effortConfig.effortMode === 'low') {
+            finalMaxTokens = Math.min(finalMaxTokens, 2048);
+          }
+        }
+
+        // Concatena o Custom System Prompt permanente com o prompt modulado
+        let combinedSystemPrompt = baseSystemPrompt;
+        if (globalSettings.customSystemPrompt && globalSettings.customSystemPrompt.trim()) {
+          combinedSystemPrompt = baseSystemPrompt 
+            ? (globalSettings.customSystemPrompt.trim() + "\n\n" + baseSystemPrompt)
+            : globalSettings.customSystemPrompt.trim();
+        }
+
+        const activePersona = getActivePersona();
+        const requestBody = {
+          interactionId: currentInteractionId,
+          model: activePersona.modelId,
+          persona: activePersona.name,
+          max_tokens: finalMaxTokens,
+          temperature: finalTemperature,
+          top_p: finalTopP,
+          thinking: isThinking,
+          effort: effortConfig.effortMode,
+          profile: effortTagToDisplay,
+          prompt: combinedText,
+          seed: (typeof globalSettings.seed === 'number' && !isNaN(globalSettings.seed)) ? globalSettings.seed : null,
+          response_format: globalSettings.jsonMode ? { type: "json_object" } : undefined,
+          messages: payloadMessages,
+          system: combinedSystemPrompt
+        };
+
+        const headers = {
+          "Content-Type": "application/json"
+        };
+
+        if (userKey) {
+          headers["Authorization"] = `Bearer ${userKey}`;
+        }
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(requestBody),
+          signal: currentAbortController.signal
+        });
+
+        if (!response.ok) {
+          let errMsg = `HTTP ${response.status}: ${response.statusText}`;
+          try {
+            const errData = await response.json();
+            errMsg = errData.error || errData.message || errData.detail || errMsg;
+          } catch (_) {
+            const errText = await response.text().catch(() => '');
+            if (errText) errMsg = errText.substring(0, 200);
+          }
+          if (response.status === 401) openKeyModal();
+          throw new Error(errMsg);
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+
+        // Timeout de 90s caso o primeiro token nunca chegue
+        let firstTokenReceived = false;
+        const clientTimeoutId = setTimeout(() => {
+          if (!firstTokenReceived) {
+            reader.cancel();
+            showError('Timeout: nenhum token recebido em 120s. Verifique sua chave de API e conexao com a internet.');
+            streamingBubbleObj.remove();
+            setGeneratingState(false);
+          }
+        }, 120000);
+
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed || trimmed === 'data: [DONE]') continue;
+
+              if (trimmed.startsWith('data: ')) {
+                try {
+                  const parsed = JSON.parse(trimmed.slice(6));
+
+                  // Sincronização do ID de interação do backend
+                  if (parsed.__clautron_interaction_id) {
+                    currentInteractionId = parsed.__clautron_interaction_id;
+                  }
+
+                  // Evento de erro inline do proxy
+                  if (parsed.__clautron_error) {
+                    throw new Error(parsed.__clautron_error);
+                  }
+
+                  const delta = parsed.choices?.[0]?.delta || {};
+                  const reasoningDelta = delta.reasoning_content || '';
+                  const contentDelta = delta.content || '';
+
+                  if ((reasoningDelta || contentDelta) && !firstTokenReceived) {
+                    firstTokenReceived = true;
+                    ttft = performance.now() - t0;
+                  }
+
+                  if (reasoningDelta) {
+                    accumulatedThinking += reasoningDelta;
+                    streamingBubbleObj.updateThinking(accumulatedThinking);
+                  }
+
+                  if (contentDelta) {
+                    accumulatedRaw += contentDelta;
+
+                    if (accumulatedRaw.includes('<thought>') && !accumulatedRaw.includes('</thought>')) {
+                      const parts = accumulatedRaw.split('<thought>');
+                      accumulatedThinking = parts[1] || '';
+                      streamingBubbleObj.updateThinking(accumulatedThinking);
+                    } else if (accumulatedRaw.includes('</thought>')) {
+                      const parts = accumulatedRaw.split('</thought>');
+                      accumulatedThinking = parts[0].replace('<thought>', '').trim();
+                      streamingBubbleObj.updateThinking(accumulatedThinking);
+                      accumulatedAnswer = parts.slice(1).join('</thought>');
+                      streamingBubbleObj.updateAnswer(accumulatedAnswer);
+                    } else {
+                      accumulatedAnswer = accumulatedRaw;
+                      streamingBubbleObj.updateAnswer(accumulatedAnswer);
+                    }
+                  }
+                } catch (parseOrProxyErr) {
+                  // Se for um erro real (nao apenas JSON invalido de chunk parcial), re-lanca
+                  if (parseOrProxyErr.message && !parseOrProxyErr.message.startsWith('JSON') &&
+                      !parseOrProxyErr.message.includes('Unexpected token') &&
+                      !parseOrProxyErr.message.includes('Unexpected end')) {
+                    clearTimeout(clientTimeoutId);
+                    throw parseOrProxyErr;
+                  }
+                  // JSON invalido (fragmento de chunk) — ignora silenciosamente
+                }
+              }
+            }
+          }
+        } finally {
+          clearTimeout(clientTimeoutId);
+        }
+
+        totalTime = performance.now() - t0;
+        const finalAnswer = accumulatedAnswer.trim() || accumulatedRaw.trim() || 'Nenhuma resposta retornada.';
+        const finalTime = getTimestamp();
+
+        streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId, null, activePersona.name);
+
+        session.messages.push({
+          role: 'assistant',
+          content: finalAnswer,
+          thinking: accumulatedThinking.trim(),
+          effortUsed: effortTagToDisplay,
+          persona: activePersona.name,
+          modelId: activePersona.modelId,
+          ttft: ttft,
+          totalTime: totalTime,
+          interactionId: currentInteractionId,
+          feedback: null,
+          nemoEval: null,
+          time: finalTime
+        });
+        saveStorage();
+
+        // Clautron NeMo Core: Dispara avaliação em segundo plano (LLM-as-a-Judge) se ativa
+        if (globalSettings.nemoAutoEval !== false && currentInteractionId) {
+          triggerNeMoBackgroundEvaluation(currentInteractionId, combinedText, finalAnswer, effortTagToDisplay);
+        }
+
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          if (t0 && !totalTime) totalTime = performance.now() - t0;
+          const finalAnswer = (accumulatedAnswer.trim() || accumulatedRaw.trim()) + '\n\n*(Resposta interrompida por você)*';
+          const finalTime = getTimestamp();
+          streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId);
+
+          session.messages.push({
+            role: 'assistant',
+            content: finalAnswer,
+            thinking: accumulatedThinking.trim(),
+            effortUsed: effortTagToDisplay,
+            ttft: ttft,
+            totalTime: totalTime,
+            interactionId: currentInteractionId,
+            feedback: null,
+            nemoEval: null,
+            time: finalTime
+          });
+          saveStorage();
+        } else {
+          streamingBubbleObj.remove();
+          const errText = (err && err.message) ? err.message : String(err);
+          if (errText.includes('Failed to fetch') || errText.includes('NetworkError') || errText.includes('404')) {
+            showError("Falha na comunicação com o servidor local. Se estiver no preview web, certifique-se de executar o CLAUTRON localmente via START CLAUTRON.bat ou configure sua chave da NVIDIA.");
+          } else {
+            showError("Falha na comunicação: " + errText);
+          }
+        }
+      } finally {
+        currentAbortController = null;
+        setGeneratingState(false);
+      }
+    }
+
+    
+    // ── Smart Auto-Scroll Controller ──────────────────────────────────────────
+    let userScrolledUp = false;
+
+    function initSmartScroll() {
+      const chat = document.getElementById('chatWindow');
+      if (!chat) return;
+
+      chat.addEventListener('scroll', () => {
+        // Se a distância do fundo for maior que 80px, o usuário rolou para cima
+        const distanceFromBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight;
+        if (distanceFromBottom > 80) {
+          userScrolledUp = true;
+        } else {
+          userScrolledUp = false;
+        }
+      }, { passive: true });
+    }
+
+    function smartScrollToBottom(force = false) {
+      const chat = document.getElementById('chatWindow');
+      if (!chat) return;
+      if (force) {
+        userScrolledUp = false;
+        chat.scrollTop = chat.scrollHeight;
+      } else if (!userScrolledUp) {
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    function appendUserBubble(content, time, attachments = []) {
+      const chat = document.getElementById('chatWindow');
+      const row = document.createElement('div');
+      row.className = 'message-row user';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.dataset.rawText = content;
+
+      if (attachments && attachments.length > 0) {
+        const attContainer = document.createElement('div');
+        attContainer.className = 'user-attachments-grid';
+
+        attachments.forEach(att => {
+          if (att.type === 'image') {
+            const imgEl = document.createElement('img');
+            imgEl.className = 'user-att-img';
+            imgEl.src = att.previewUrl || `data:${att.mediaType};base64,${att.base64}`;
+            imgEl.onclick = () => window.open(imgEl.src, '_blank');
+            attContainer.appendChild(imgEl);
+          } else {
+            const fileEl = document.createElement('div');
+            fileEl.className = 'user-att-file';
+            const icon = getDocumentIcon(att.name);
+            const metaStr = att.metaLabel ? ` (${att.metaLabel})` : '';
+            fileEl.innerHTML = `
+              <span style="font-size: 13px;">${icon}</span>
+              <span>${escapeHtml(att.name)}${escapeHtml(metaStr)}</span>
+            `;
+            attContainer.appendChild(fileEl);
+          }
+        });
+        bubble.appendChild(attContainer);
+      }
+
+      if (content) {
+        const textSpan = document.createElement('div');
+        textSpan.innerText = content;
+        bubble.appendChild(textSpan);
+      }
+
+      const meta = document.createElement('div');
+      meta.className = 'meta-tag';
+      meta.innerHTML = `
+        <span>Você · ${time || getTimestamp()}</span>
+        <button class="btn-action-msg" title="Editar mensagem" onclick="editUserMessage(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          <span>Editar</span>
+        </button>
+      `;
+
+      row.appendChild(bubble);
+      row.appendChild(meta);
+      chat.appendChild(row);
+
+      smartScrollToBottom(true);
+      return row;
+    }
+
+    function createStreamingAssistantBubble() {
+      const chat = document.getElementById('chatWindow');
+      const row = document.createElement('div');
+      row.className = 'message-row assistant';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+
+      // Caixa de raciocínio (Thinking) permanece fechada por padrão (sem atributo open)
+      const thinkingBox = document.createElement('details');
+      thinkingBox.className = 'thinking-box';
+      thinkingBox.style.display = 'none';
+      thinkingBox.innerHTML = `
+        <summary>🔮 Linha de Raciocínio (Chain-of-Thought)</summary>
+        <div class="thinking-content"></div>
+      `;
+      bubble.appendChild(thinkingBox);
+
+      const textDiv = document.createElement('div');
+      textDiv.innerHTML = '<span style="color: #8e918f;">Conectando e gerando resposta...</span>';
+      bubble.appendChild(textDiv);
+
+      row.appendChild(bubble);
+      chat.appendChild(row);
+      smartScrollToBottom();
+
+      const thinkingContent = thinkingBox.querySelector('.thinking-content');
+
+      return {
+        updateThinking(thinkingText) {
+          if (thinkingText) {
+            thinkingBox.style.display = 'block';
+            thinkingContent.textContent = thinkingText;
+            smartScrollToBottom();
+          }
+        },
+        updateAnswer(answerText) {
+          if (answerText) {
+            textDiv.innerHTML = marked.parse(answerText);
+            enhanceCodeBlocks(textDiv);
+            smartScrollToBottom();
+          }
+        },
+        finalize(finalText, time, effortUsed, telemetry = null, interactionId = null, nemoEval = null, personaName = null) {
+          bubble.dataset.rawText = finalText;
+          textDiv.innerHTML = marked.parse(finalText);
+          enhanceCodeBlocks(textDiv);
+
+          const telemetryHtml = (telemetry && typeof telemetry.ttft === 'number' && typeof telemetry.totalTime === 'number')
+            ? formatTelemetryBadge(telemetry.ttft, telemetry.totalTime)
+            : '';
+          const nemoHtml = formatNeMoBadge(nemoEval, interactionId);
+          const feedbackHtml = generateFeedbackHtml(interactionId, null);
+
+          const meta = document.createElement('div');
+          meta.className = 'meta-tag';
+          meta.innerHTML = `
+            <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'CLAUTRON')} · ${time || getTimestamp()}</span>
+            <span class="badge-effort">Effort: ${effortUsed}</span>
+            ${telemetryHtml}
+            ${nemoHtml}
+            <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copiar</span>
+            </button>
+            ${feedbackHtml}
+          `;
+          row.appendChild(meta);
+          smartScrollToBottom();
+        },
+        remove() {
+          row.remove();
+        }
+      };
+    }
+
+    
+    // ── Clautron Eval Engine: Feedback e Avaliação de Respostas ───────────────
+    function generateFeedbackHtml(interactionId, feedback = null) {
+      const rating = feedback?.rating || null;
+      const reason = feedback?.reason || null;
+      const goodActive = rating === 'good' ? 'active-good' : '';
+      const badActive = rating === 'bad' ? 'active-bad' : '';
+      const badLabel = reason || 'Problema';
+
+      return `
+        <div class="feedback-actions" data-interaction-id="${interactionId || ''}">
+          <button class="btn-action-msg btn-feedback btn-feedback-good ${goodActive}" title="Útil (Resposta satisfatória)" onclick="handleFeedbackClick(this, 'good')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+            <span>Útil</span>
+          </button>
+          <button class="btn-action-msg btn-feedback btn-feedback-bad ${badActive}" title="Reportar problema nesta resposta" onclick="handleFeedbackClick(this, 'bad')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
+            </svg>
+            <span class="bad-label-text">${escapeHtml(badLabel)}</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function closeFeedbackPopovers() {
+      document.querySelectorAll('.feedback-popover').forEach(p => p.remove());
+    }
+
+    async function submitFeedback(interactionId, rating, reason, triggerBtn) {
+      if (!interactionId) return;
+
+      const container = triggerBtn.closest('.feedback-actions');
+      if (container) {
+        const goodBtn = container.querySelector('.btn-feedback-good');
+        const badBtn = container.querySelector('.btn-feedback-bad');
+        const badLabel = container.querySelector('.bad-label-text');
+
+        if (rating === 'good') {
+          if (goodBtn) goodBtn.classList.add('active-good');
+          if (badBtn) badBtn.classList.remove('active-bad');
+          if (badLabel) badLabel.textContent = 'Problema';
+        } else {
+          if (badBtn) badBtn.classList.add('active-bad');
+          if (goodBtn) goodBtn.classList.remove('active-good');
+          if (badLabel && reason) badLabel.textContent = reason;
+        }
+      }
+
+      // Atualiza o feedback na sessão ativa
+      const session = getActiveSession();
+      if (session && Array.isArray(session.messages)) {
+        const msg = session.messages.find(m => m.interactionId === interactionId);
+        if (msg) {
+          msg.feedback = { rating, reason, timestamp: new Date().toISOString() };
+          saveStorage();
+        }
+      }
+
+      // Despacha requisição ao proxy backend
+      try {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ interactionId, rating, reason })
+        });
+      } catch (err) {
+        console.error('[EVAL FEEDBACK] Falha ao enviar feedback:', err);
+      }
+    }
+
+    function handleFeedbackClick(btn, rating) {
+      const container = btn.closest('.feedback-actions');
+      const interactionId = container?.dataset?.interactionId;
+      if (!interactionId) return;
+
+      if (rating === 'good') {
+        closeFeedbackPopovers();
+        submitFeedback(interactionId, 'good', null, btn);
+      } else {
+        const existing = container.querySelector('.feedback-popover');
+        if (existing) {
+          existing.remove();
+          return;
+        }
+        closeFeedbackPopovers();
+
+        const popover = document.createElement('div');
+        popover.className = 'feedback-popover';
+        popover.innerHTML = `
+          <div class="feedback-popover-title">Reportar Problema:</div>
+          <button type="button" class="btn-feedback-reason" data-reason="Código quebrado">⚠️ Código quebrado</button>
+          <button type="button" class="btn-feedback-reason" data-reason="Incompleto">⏳ Incompleto</button>
+          <button type="button" class="btn-feedback-reason" data-reason="Alucinação">🌀 Alucinação</button>
+          <button type="button" class="btn-feedback-reason" data-reason="Superficial">📉 Superficial</button>
+        `;
+
+        popover.querySelectorAll('.btn-feedback-reason').forEach(rBtn => {
+          rBtn.onclick = (e) => {
+            e.stopPropagation();
+            const reason = rBtn.dataset.reason;
+            popover.remove();
+            submitFeedback(interactionId, 'bad', reason, btn);
+          };
+        });
+
+        container.appendChild(popover);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.feedback-actions')) {
+        closeFeedbackPopovers();
+      }
+    });
+
+    
+    // ── Clautron NeMo Core: Badge e Avaliação LLM-as-a-Judge ───────────────────
+    function formatNeMoBadge(nemoEval = null, interactionId = null) {
+      const elemId = interactionId ? ` id="nemoBadge_${interactionId}"` : '';
+      if (!nemoEval) {
+        return `<span class="badge-nemo"${elemId} title="Protegido por NeMo Guardrails (sanitização e integridade de contexto)">🛡️ NeMo: Verificado</span>`;
+      }
+      if (nemoEval.evaluating) {
+        return `<span class="badge-nemo nemo-evaluating"${elemId} title="NeMo Evaluator analisando resposta em segundo plano...">🛡️ NeMo: Avaliando...</span>`;
+      }
+      const verdict = nemoEval.verdict || 'PASS';
+      const score = (typeof nemoEval.score === 'number') ? `${nemoEval.score}/10` : '';
+      const isPass = verdict === 'PASS';
+      const cls = isPass ? 'nemo-pass' : 'nemo-fail';
+      const titleAttr = escapeHtml(nemoEval.reasoning || `Avaliação NeMo: ${verdict} (${score})`);
+      return `<span class="badge-nemo ${cls}"${elemId} title="${titleAttr}">🛡️ NeMo: ${verdict}${score ? ' (' + score + ')' : ''}</span>`;
+    }
+
+    async function triggerNeMoBackgroundEvaluation(interactionId, userPrompt, assistantResponse, profileUsed) {
+      if (!interactionId || !assistantResponse) return;
+
+      const badgeEl = document.getElementById(`nemoBadge_${interactionId}`);
+      if (badgeEl) {
+        badgeEl.className = 'badge-nemo nemo-evaluating';
+        badgeEl.textContent = '🛡️ NeMo: Avaliando...';
+        badgeEl.title = 'NeMo Evaluator analisando acurácia, integridade e concisão em segundo plano...';
+      }
+
+      try {
+        const userKey = getStoredApiKey();
+        const headers = { 'Content-Type': 'application/json' };
+        if (userKey) headers['Authorization'] = `Bearer ${userKey}`;
+
+        const res = await fetch('/api/nemo/evaluate', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            interactionId: interactionId,
+            userPrompt: userPrompt,
+            assistantResponse: assistantResponse,
+            profileUsed: profileUsed
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.evaluation) {
+            const ev = data.evaluation;
+            const targetBadge = document.getElementById(`nemoBadge_${interactionId}`);
+            if (targetBadge) {
+              const isPass = (ev.verdict === 'PASS');
+              targetBadge.className = `badge-nemo ${isPass ? 'nemo-pass' : 'nemo-fail'}`;
+              targetBadge.textContent = `🛡️ NeMo: ${ev.verdict} (${ev.score}/10)`;
+              targetBadge.title = ev.reasoning || `Avaliação NeMo: ${ev.verdict}`;
+            }
+
+            // Atualiza o registro da mensagem na sessão ativa
+            const session = getActiveSession();
+            if (session && Array.isArray(session.messages)) {
+              const msg = session.messages.find(m => m.interactionId === interactionId);
+              if (msg) {
+                msg.nemoEval = ev;
+                saveStorage();
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[NEMO AUTO EVAL] Falha na avaliação em segundo plano (não crítica):', err.message);
+        const targetBadge = document.getElementById(`nemoBadge_${interactionId}`);
+        if (targetBadge) {
+          targetBadge.className = 'badge-nemo';
+          targetBadge.textContent = '🛡️ NeMo: Verificado';
+          targetBadge.title = 'Protegido por NeMo Guardrails';
+        }
+      }
+    }
+
+    function appendAssistantBubble(replyText, thinkingText, time, effortUsed = 'Médio', ttft = null, totalTime = null, interactionId = null, feedback = null, nemoEval = null, personaName = null) {
+      const chat = document.getElementById('chatWindow');
+      const row = document.createElement('div');
+      row.className = 'message-row assistant';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.dataset.rawText = replyText;
+
+      if (thinkingText) {
+        const details = document.createElement('details');
+        details.className = 'thinking-box';
+        details.innerHTML = `
+          <summary>🔮 Linha de Raciocínio (Chain-of-Thought)</summary>
+          <div class="thinking-content">${escapeHtml(thinkingText)}</div>
+        `;
+        bubble.appendChild(details);
+      }
+
+      const textDiv = document.createElement('div');
+      textDiv.innerHTML = marked.parse(replyText);
+      enhanceCodeBlocks(textDiv);
+      bubble.appendChild(textDiv);
+
+      const telemetryHtml = formatTelemetryBadge(ttft, totalTime);
+      const nemoHtml = formatNeMoBadge(nemoEval, interactionId);
+      const feedbackHtml = generateFeedbackHtml(interactionId, feedback);
+
+      const meta = document.createElement('div');
+      meta.className = 'meta-tag';
+      meta.innerHTML = `
+        <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'CLAUTRON')} · ${time || getTimestamp()}</span>
+        <span class="badge-effort">Effort: ${effortUsed}</span>
+        ${telemetryHtml}
+        ${nemoHtml}
+        <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Copiar</span>
+        </button>
+        ${feedbackHtml}
+      `;
+
+      row.appendChild(bubble);
+      row.appendChild(meta);
+      chat.appendChild(row);
+
+      smartScrollToBottom();
+      return row;
+    }
+
+    function enhanceCodeBlocks(container) {
+      const preElements = container.querySelectorAll('pre:not(.enhanced)');
+      preElements.forEach(pre => {
+        pre.classList.add('enhanced');
+        const code = pre.querySelector('code');
+        if (!code) return;
+
+        const codeText = code.innerText;
+        const lineCount = codeText.split('\n').length;
+        const classNames = code.className || '';
+        const match = classNames.match(/language-(\w+)/);
+        const language = match ? match[1].toLowerCase() : 'código';
+
+        const isHTML = language === 'html' || codeText.includes('<!DOCTYPE html>') || (codeText.includes('<html') && codeText.includes('</html>'));
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+
+        const header = document.createElement('div');
+        header.className = 'code-block-header';
+
+        const headerLeft = document.createElement('div');
+        headerLeft.className = 'code-header-left';
+        headerLeft.innerHTML = `
+          <span>${language.toUpperCase()}</span>
+          <span class="code-lines-count">(${lineCount} linhas)</span>
+        `;
+
+        const actions = document.createElement('div');
+        actions.className = 'code-header-actions';
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'btn-code-action';
+        toggleBtn.title = 'Alternar tamanho da janela de código';
+        toggleBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          <span class="toggle-text">Expandir</span>
+        `;
+        toggleBtn.onclick = () => {
+          const isExpanded = pre.classList.toggle('expanded');
+          const toggleText = toggleBtn.querySelector('.toggle-text');
+          toggleText.innerText = isExpanded ? 'Recolher' : 'Expandir';
+        };
+        actions.appendChild(toggleBtn);
+
+        if (isHTML) {
+          const previewBtn = document.createElement('button');
+          previewBtn.className = 'btn-code-action btn-preview-action';
+          previewBtn.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Ver ao Vivo</span>
+          `;
+          previewBtn.onclick = () => openLivePreview(codeText);
+          actions.appendChild(previewBtn);
+        }
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn-code-action';
+        copyBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Copiar</span>
+        `;
+        copyBtn.onclick = () => copyBlockCode(copyBtn, codeText);
+        actions.appendChild(copyBtn);
+
+        header.appendChild(headerLeft);
+        header.appendChild(actions);
+
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(header);
+        wrapper.appendChild(pre);
+      });
+    }
+
+    function openLivePreview(htmlContent) {
+      currentLiveHTML = htmlContent;
+      const modal = document.getElementById('previewModal');
+      const iframe = document.getElementById('previewIframe');
+      iframe.srcdoc = htmlContent;
+      modal.classList.add('aberto');
+    }
+
+    function reloadLivePreview() {
+      const iframe = document.getElementById('previewIframe');
+      iframe.srcdoc = '';
+      setTimeout(() => {
+        iframe.srcdoc = currentLiveHTML;
+      }, 50);
+    }
+
+    function closeLivePreview() {
+      const modal = document.getElementById('previewModal');
+      const iframe = document.getElementById('previewIframe');
+      iframe.srcdoc = '';
+      modal.classList.remove('aberto');
+    }
+
+    function copyBlockCode(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#81c995" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span style="color: #81c995;">Copiado!</span>
+        `;
+        setTimeout(() => {
+          btn.innerHTML = original;
+        }, 2000);
+      });
+    }
+
+    function editUserMessage(btn) {
+      if (isGenerating && currentAbortController) {
+        currentAbortController.abort();
+      }
+
+      const session = getActiveSession();
+      if (!session) return;
+
+      const targetRow = btn.closest('.message-row');
+      const rawText = targetRow.querySelector('.bubble').dataset.rawText || '';
+
+      const chat = document.getElementById('chatWindow');
+      const allRows = Array.from(chat.querySelectorAll('.message-row'));
+      const rowIndex = allRows.indexOf(targetRow);
+
+      if (rowIndex !== -1) {
+        session.messages = session.messages.slice(0, rowIndex);
+        saveStorage();
+
+        for (let i = allRows.length - 1; i >= rowIndex; i--) {
+          allRows[i].remove();
+        }
+      }
+
+      const input = document.getElementById('promptInput');
+      input.value = rawText;
+      input.focus();
+
+      if (session.messages.length === 0) {
+        chat.innerHTML = `<div class="placeholder-msg" id="placeholder">Nova conversa iniciada. Em que posso te ajudar hoje?</div>`;
+      }
+    }
+
+    function copyMessage(btn) {
+      const row = btn.closest('.message-row');
+      const bubble = row.querySelector('.bubble');
+      const textToCopy = bubble.dataset.rawText || '';
+
+      if (!textToCopy) return;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalHTML = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = `
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#81c995" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Copiado!</span>
+        `;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = originalHTML;
+        }, 2000);
+      }).catch(err => {
+        console.error('Falha ao copiar:', err);
+      });
+    }
+
+    function escapeHtml(string) {
+      const entityMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
+      return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+    }
+
+    async function runPingTest() {
+      const btn = document.getElementById('btnPing');
+      const label = document.getElementById('pingLabel');
+      btn.className = 'btn-ping';
+      btn.disabled = true;
+      label.textContent = '1/2 Servidor...';
+
+      // Passo 1: testa servidor local
+      try {
+        const r = await fetch('/api/ping');
+        const data = await r.json();
+        if (!data.ok) throw new Error('resposta inesperada');
+      } catch (e) {
+        btn.className = 'btn-ping fail';
+        btn.disabled = false;
+        label.textContent = 'Servidor FAIL';
+        showError('Servidor local não respondeu: ' + e.message);
+        setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 6000);
+        return;
+      }
+
+      // Passo 2: testa conexão com NVIDIA
+      label.textContent = '2/2 NVIDIA...';
+      try {
+        const userKey = getStoredApiKey();
+        const headers = { 'Content-Type': 'application/json' };
+        if (userKey) headers['Authorization'] = 'Bearer ' + userKey;
+
+        const r = await fetch('/api/test-nvidia', { headers });
+        const data = await r.json();
+
+        if (data.ok) {
+          btn.className = 'btn-ping ok';
+          btn.disabled = false;
+          label.textContent = 'NVIDIA OK ✓';
+          updateNvidiaStatusLed(true, 'NVIDIA NIM: Conectado');
+          clearError();
+          setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 4000);
+        } else {
+          btn.className = 'btn-ping fail';
+          btn.disabled = false;
+          label.textContent = 'NVIDIA FAIL';
+          updateNvidiaStatusLed(false, 'NVIDIA NIM: Falha de conexão');
+          showError('Diagnóstico [' + (data.step || '?') + ']: ' + (data.error || 'erro desconhecido'));
+          setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 10000);
+        }
+      } catch (e) {
+        btn.className = 'btn-ping fail';
+        btn.disabled = false;
+        label.textContent = 'Erro';
+        showError('Falha no diagnóstico: ' + e.message);
+        setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 6000);
+      }
+    }
+
+
+    const FALLBACK_VERSION = "1.2.0";
+    const GITHUB_REPO = "felipeptxa/clautron";
+    let latestReleaseInfo = null;
+
+    function parseSemVer(verStr) {
+      if (!verStr) return [0, 0, 0];
+      const cleaned = String(verStr).trim().replace(/^[vV]/, '');
+      const parts = cleaned.split('-')[0].split('.').map(n => parseInt(n, 10) || 0);
+      while (parts.length < 3) parts.push(0);
+      return parts;
+    }
+
+    function isNewerVersion(latestStr, currentStr) {
+      const [lMaj, lMin, lPat] = parseSemVer(latestStr);
+      const [cMaj, cMin, cPat] = parseSemVer(currentStr);
+
+      if (lMaj > cMaj) return true;
+      if (lMaj < cMaj) return false;
+      if (lMin > cMin) return true;
+      if (lMin < cMin) return false;
+      return lPat > cPat;
+    }
+
+    // ── Status LED NVIDIA NIM Controller ──────────────────────────────────────
+    function updateNvidiaStatusLed(connected, tooltip) {
+      const led = document.getElementById('headerStatusLed');
+      if (!led) return;
+      if (connected) {
+        led.classList.remove('disconnected');
+        led.title = tooltip || 'NVIDIA NIM: Conectado';
+      } else {
+        led.classList.add('disconnected');
+        led.title = tooltip || 'NVIDIA NIM: Sem chave de API / Desconectado';
+      }
+    }
+
+    async function checkForUpdates() {
+      try {
+        let currentVer = FALLBACK_VERSION;
+        let repo = GITHUB_REPO;
+
+        try {
+          const pkgCtrl = new AbortController();
+          const pkgTid = setTimeout(() => pkgCtrl.abort(), 1500);
+          const pkgRes = await fetch('/package.json', { cache: 'no-cache', signal: pkgCtrl.signal }).finally(() => clearTimeout(pkgTid));
+          if (pkgRes.ok) {
+            const pkgData = await pkgRes.json();
+            if (pkgData.version) currentVer = pkgData.version;
+            if (pkgData.githubRepo) repo = pkgData.githubRepo;
+            else if (pkgData.repository && pkgData.repository.url) {
+              const match = pkgData.repository.url.match(/github\.com\/([^/]+(?:\/[^/.]+)?)/);
+              if (match) repo = match[1].replace(/\.git$/, '');
+            }
+          }
+        } catch (_) {}
+
+        const apiUrl = `https://api.github.com/repos/${repo}/releases/latest`;
+        const apiCtrl = new AbortController();
+        const apiTid = setTimeout(() => apiCtrl.abort(), 3000);
+
+        const res = await fetch(apiUrl, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' },
+          signal: apiCtrl.signal
+        }).finally(() => clearTimeout(apiTid));
+
+        if (!res.ok) return;
+
+        const release = await res.json();
+        const latestTag = release.tag_name || '';
+        if (!latestTag) return;
+
+        if (isNewerVersion(latestTag, currentVer)) {
+          latestReleaseInfo = {
+            currentVersion: currentVer,
+            latestVersion: latestTag.replace(/^[vV]/, ''),
+            releaseUrl: release.html_url || `https://github.com/${repo}/releases/latest`,
+            body: release.body || 'Nenhuma nota de versão fornecida.'
+          };
+
+          const pill = document.getElementById('sidebarUpdatePill');
+          const pillText = document.getElementById('sidebarUpdateText');
+          if (pill && pillText) {
+            pillText.textContent = '🚀 Atualização v' + latestReleaseInfo.latestVersion + ' disponível';
+            pill.style.display = 'inline-flex';
+          }
+          const brandTag = document.getElementById('sidebarBrandVersionTag');
+          if (brandTag) brandTag.textContent = 'v' + currentVer;
+          const sBadge = document.getElementById('sidebarVersionLabel');
+          if (sBadge) sBadge.textContent = 'v' + currentVer;
+        }
+      } catch (_) {
+        // Silencioso em caso de falha de conexão/offline
+      }
+    }
+
+    function openUpdateModal() {
+      if (!latestReleaseInfo) return;
+      document.getElementById('currentVersionLabel').textContent = 'v' + latestReleaseInfo.currentVersion;
+      document.getElementById('latestVersionLabel').textContent = 'v' + latestReleaseInfo.latestVersion;
+      const changelogBox = document.getElementById('updateChangelogBox');
+      if (window.marked && typeof window.marked.parse === 'function') {
+        changelogBox.innerHTML = marked.parse(latestReleaseInfo.body);
+      } else {
+        changelogBox.textContent = latestReleaseInfo.body;
+      }
+      document.getElementById('updateModal').classList.add('aberto');
+    }
+
+    function closeUpdateModal() {
+      document.getElementById('updateModal').classList.remove('aberto');
+    }
+
+    function downloadUpdate() {
+      if (latestReleaseInfo && latestReleaseInfo.releaseUrl) {
+        window.open(latestReleaseInfo.releaseUrl, '_blank');
+      }
+      closeUpdateModal();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStorage();
+      initSmartScroll();
+      renderPersonaDropdown();
+      updatePersonaUI();
+      initSidebarResizer();
+      initAttachmentListeners();
+
+      if (sessions.length === 0) {
+        createNewChatSession();
+      } else {
+        currentSessionId = sessions[0].id;
+        renderSidebar();
+        syncEffortUI();
+        renderActiveChat();
+      }
+
+      if (!getStoredApiKey()) {
+        setTimeout(openSettingsModal, 400);
+      }
+
+      // Inicializa LED de status de conexão com base na chave de API
+      const initialKey = getStoredApiKey();
+      updateNvidiaStatusLed(!!initialKey, initialKey ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
+
+      // Verificação não-intrusiva de atualizações no GitHub Releases
+      checkForUpdates();
+    });
+  </script>
+</body>
+</html>
