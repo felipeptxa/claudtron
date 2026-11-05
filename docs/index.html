@@ -342,86 +342,317 @@
       <div class="relative max-w-5xl mx-auto rounded-2xl p-1 bg-gradient-to-b from-neonCyan/30 via-cyberBorder/40 to-neonPurple/20 shadow-[0_0_50px_rgba(0,240,255,0.15)]">
         <div class="bg-cyberBg rounded-[14px] border border-cyberBorder overflow-hidden text-left font-sans">
           
-          <!-- Mockup Window Titlebar -->
-          <div class="h-10 bg-cyberSurface px-4 flex items-center justify-between border-b border-cyberBorder">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#FF5F56] inline-block"></span>
-              <span class="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27C93F] inline-block"></span>
-              <span class="text-xs font-mono text-mutedText ml-3">CLOUDTRON OneClick • nemotron-3.5-vl-120b</span>
+          <!-- Mockup Window Titlebar (Windows Native Style) -->
+          <div class="h-10 bg-[#060913] px-3.5 flex items-center justify-between border-b border-cyberBorder select-none">
+            
+            <!-- Left: Windows App Icon & Title -->
+            <div class="flex items-center gap-2.5">
+              <div class="w-5 h-5 rounded bg-neonCyan/15 border border-neonCyan/30 flex items-center justify-center text-neonCyan">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-white tracking-tight">CLOUDTRON OneClick</span>
+              <span class="text-[11px] font-mono text-mutedText hidden sm:inline">• nemotron-3.5-vl-120b</span>
             </div>
+
+            <!-- Center: Heuristic Presets Switcher -->
+            <div class="hidden lg:flex items-center gap-1.5 bg-cyberSurface/80 p-0.5 rounded-lg border border-cyberBorder/80">
+              <button onclick="setMockupPreset('Profundo', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all bg-neonCyan/15 text-neonCyan border border-neonCyan/40 font-semibold shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+                Profundo (CoT)
+              </button>
+              <button onclick="setMockupPreset('Código', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white">
+                Código
+              </button>
+              <button onclick="setMockupPreset('Criativo', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white">
+                Criativo
+              </button>
+              <button onclick="setMockupPreset('Rápido', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white">
+                Rápido
+              </button>
+            </div>
+
+            <!-- Right: Status Badge & Windows Control Buttons -->
             <div class="flex items-center gap-3">
-              <!-- Topbar Heuristic Preset Indicator -->
-              <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-cyberBorder/80 text-neonCyan border border-neonCyan/30">Effort: Auto (Código)</span>
               <!-- Status Verde NVIDIA OK -->
               <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-neonGreen/10 border border-neonGreen/30 text-neonGreen text-[11px] font-mono font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-neonGreen"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-neonGreen animate-pulse"></span>
                 <span>NVIDIA OK ✓</span>
               </div>
+
+              <!-- Native Windows Window Controls (Min, Max, Close) -->
+              <div class="flex items-center -mr-2">
+                <!-- Minimize Button -->
+                <button type="button" class="w-9 h-8 flex items-center justify-center text-mutedText hover:text-white hover:bg-white/10 transition-colors" title="Minimizar">
+                  <svg class="w-3 h-3" viewBox="0 0 10 1" fill="currentColor">
+                    <rect width="10" height="1"/>
+                  </svg>
+                </button>
+                <!-- Maximize / Restore Button -->
+                <button type="button" class="w-9 h-8 flex items-center justify-center text-mutedText hover:text-white hover:bg-white/10 transition-colors" title="Maximizar">
+                  <svg class="w-3 h-3" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <rect x="0.6" y="0.6" width="8.8" height="8.8"/>
+                  </svg>
+                </button>
+                <!-- Close Button (Windows Red on Hover) -->
+                <button type="button" onclick="showToast('CLOUDTRON OneClick v1.2.0 • Desktop Nativo Windows')" class="w-9 h-8 flex items-center justify-center text-mutedText hover:text-white hover:bg-[#E81123] transition-colors rounded-tr-[12px]" title="Fechar">
+                  <svg class="w-3 h-3" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <line x1="1" y1="1" x2="9" y2="9"/>
+                    <line x1="9" y1="1" x2="1" y2="9"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Heuristic Preset Sub-Bar -->
+          <div class="px-4 py-2 bg-cyberSurface/50 border-b border-cyberBorder flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+            <div class="flex items-center gap-2 text-mutedText">
+              <span class="text-neonCyan">⚙️</span>
+              <span id="presetDesc"><strong>Profundo (CoT):</strong> Raciocínio estendido (Chain-of-Thought) habilitado com alta densidade lógica para arquitetura e refatoração complexa.</span>
+            </div>
+            <div class="text-[11px] text-mutedText font-mono shrink-0">
+              Latência NIM: <span class="text-neonGreen font-semibold">114ms</span>
             </div>
           </div>
 
-          <!-- Mockup Window Content -->
-          <div class="p-6 md:p-8 space-y-6 bg-gradient-to-b from-cyberCard/40 to-cyberBg">
+          <!-- Window Body: Left Sidebar + Right Main Area -->
+          <div class="grid grid-cols-1 md:grid-cols-[240px_1fr] bg-[#080d1a] min-h-[520px]">
             
-            <!-- User Prompt with Image Attachment -->
-            <div class="flex items-start gap-3 bg-cyberCard/70 p-4 rounded-xl border border-cyberBorder/60 max-w-3xl ml-auto">
-              <div class="w-7 h-7 rounded-full bg-neonCyan/20 text-neonCyan flex items-center justify-center font-bold text-xs shrink-0">U</div>
-              <div class="text-sm space-y-2">
-                <p class="text-white">Analise o print do erro de compilação anexo e reescreva a função gerando os testes unitários em TypeScript.</p>
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyberSurface border border-cyberBorder text-xs text-mutedText font-mono">
-                  <svg class="w-4 h-4 text-neonCyan" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                  <span>build_error_trace.png (1920x1080) [Ctrl+V]</span>
-                </div>
-              </div>
-            </div>
+            <!-- Left Sidebar (Conversas & Context Bridge) -->
+            <aside class="hidden md:flex flex-col justify-between p-3.5 bg-[#090e1a] border-r border-cyberBorder text-xs select-none">
+              
+              <!-- Sidebar Top -->
+              <div class="space-y-3">
+                <!-- Botão Nova Sessão -->
+                <button type="button" onclick="showToast('Nova sessão iniciada no modelo Nemotron 120B')" class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-neonCyan/10 border border-neonCyan/30 text-neonCyan font-semibold hover:bg-neonCyan/20 hover:border-neonCyan hover:shadow-[0_0_12px_rgba(0,240,255,0.2)] transition-all">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>Nova Sessão</span>
+                </button>
 
-            <!-- AI Response Box -->
-            <div class="flex items-start gap-3 bg-cyberSurface/90 p-5 rounded-xl border border-neonCyan/20 max-w-4xl mr-auto shadow-lg">
-              <div class="w-7 h-7 rounded-full bg-neonPurple/20 text-neonPurple border border-neonPurple/40 flex items-center justify-center shrink-0">
-                <svg class="w-4 h-4 text-neonCyan" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              </div>
-              <div class="space-y-4 w-full">
-                <div class="flex items-center justify-between text-xs font-mono text-mutedText">
-                  <span class="text-neonCyan font-semibold">Nemotron 3.5 Super VL 120B</span>
-                  <span class="text-[11px] text-mutedText">Latência: 114ms • Streaming Ativo</span>
-                </div>
+                <!-- Botão Importar Contexto (Context Bridge) -->
+                <button type="button" onclick="showToast('Context Bridge: Pronto para importar do Claude / ChatGPT / Cursor')" class="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-neonPurple/10 border border-neonPurple/30 text-neonPurple font-semibold hover:bg-neonPurple/20 hover:border-neonPurple hover:shadow-[0_0_12px_rgba(121,40,202,0.2)] transition-all">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>📥 Importar Contexto</span>
+                </button>
 
-                <!-- Bloco Retrátil de Chain-of-Thought (<details> com thinking box estilizada) -->
-                <details class="thinking-details group bg-cyberCard/90 rounded-lg border border-neonPurple/30 overflow-hidden" open>
-                  <summary class="flex items-center justify-between px-3.5 py-2.5 bg-neonPurple/10 cursor-pointer text-xs font-mono text-neonPurple select-none hover:bg-neonPurple/15 transition-colors">
-                    <div class="flex items-center gap-2">
-                      <svg class="w-4 h-4 text-neonPurple" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                      <span class="font-bold">🔮 Linha de Raciocínio (Chain-of-Thought)</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <span class="text-[11px] text-mutedText">1.2s de dedução lógica</span>
-                      <svg class="thinking-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                  </summary>
-                  <div class="p-3.5 text-xs font-mono text-mutedText/90 space-y-1.5 border-t border-neonPurple/20 bg-cyberBg/60">
-                    <p>&gt; OCR identificou: `TypeError: Cannot read properties of undefined (reading 'tokenStream')`</p>
-                    <p>&gt; Causa-raiz: O handler assíncrono não aguarda a inicialização do socket SSE antes do dispatch.</p>
-                    <p>&gt; Solução: Implementar `Mutex` assíncrono com fallback resiliente e tipagem estrita via `zod`.</p>
+                <!-- Lista de Sessões Recentes -->
+                <div class="pt-2">
+                  <div class="text-[10px] font-mono uppercase tracking-wider text-mutedText font-semibold px-1 mb-2">
+                    Sessões Recentes
                   </div>
-                </details>
+                  <div class="space-y-1">
+                    <!-- Sessão Ativa -->
+                    <div class="flex items-center gap-2 px-2.5 py-2 rounded-lg bg-neonCyan/15 border border-neonCyan/30 text-white font-medium cursor-pointer shadow-[0_0_10px_rgba(0,240,255,0.1)]">
+                      <svg class="w-3.5 h-3.5 text-neonCyan shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                      <span class="truncate text-xs">📌 Projeto Migrado: Refatoração</span>
+                    </div>
 
-                <!-- Resposta Formatada com Syntax Highlighting -->
-                <div class="rounded-lg bg-cyberBg border border-cyberBorder overflow-hidden">
-                  <div class="flex items-center justify-between px-4 py-1.5 bg-cyberSurface/80 border-b border-cyberBorder text-xs font-mono text-mutedText">
-                    <span>tokenStreamHandler.ts</span>
-                    <span class="text-neonGreen">TypeScript</span>
+                    <!-- Sessão 2 -->
+                    <div class="flex items-center gap-2 px-2.5 py-2 rounded-lg text-mutedText hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+                      <svg class="w-3.5 h-3.5 text-mutedText shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                      <span class="truncate text-xs">OCR &amp; Gráfico Financeiro</span>
+                    </div>
+
+                    <!-- Sessão 3 -->
+                    <div class="flex items-center gap-2 px-2.5 py-2 rounded-lg text-mutedText hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+                      <svg class="w-3.5 h-3.5 text-mutedText shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                      <span class="truncate text-xs">Análise de Arquitetura AST</span>
+                    </div>
                   </div>
-                  <pre class="p-4 text-xs font-mono overflow-x-auto text-lightText leading-relaxed"><code><span class="text-neonPurple font-bold">export async function</span> <span class="text-neonCyan">dispatchTokenStream</span>(payload: <span class="text-neonGreen">StreamPayload</span>): <span class="text-neonGreen">Promise</span>&lt;<span class="text-neonCyan">void</span>&gt; {
-  <span class="text-mutedText">// Inicializa canal de eventos com proteção contra null pointer</span>
-  <span class="text-neonPurple font-bold">if</span> (!payload.tokenStream) {
-    <span class="text-neonPurple font-bold">throw new</span> <span class="text-neonCyan">StreamInitializationError</span>(<span class="text-neonGreen">'[CLOUDTRON] Stream não alocado.'</span>);
-  }
-  <span class="text-neonPurple font-bold">await</span> payload.tokenStream.pipeThrough(<span class="text-neonPurple font-bold">new</span> <span class="text-neonCyan">TextDecoderStream</span>());
-}</code></pre>
+                </div>
+              </div>
+
+              <!-- Sidebar Bottom (Diagnóstico & Telemetria) -->
+              <div class="pt-3 border-t border-cyberBorder/80 space-y-2 font-mono text-[11px]">
+                <div class="p-2 rounded-lg bg-cyberSurface/60 border border-cyberBorder">
+                  <div class="text-[10px] text-mutedText uppercase">Preset Ativo</div>
+                  <div class="text-neonCyan font-semibold" id="sidebarPresetLabel">Profundo (CoT)</div>
+                </div>
+                <div class="p-2 rounded-lg bg-cyberSurface/60 border border-cyberBorder">
+                  <div class="text-[10px] text-mutedText uppercase">Conexão NVIDIA</div>
+                  <div class="text-neonGreen font-semibold flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-neonGreen"></span>
+                    <span>nvapi-*** Conectado</span>
+                  </div>
+                </div>
+              </div>
+
+            </aside>
+
+            <!-- Right Main Area: Tabs, Messages, Sandbox & Input -->
+            <div class="flex flex-col justify-between bg-gradient-to-b from-[#0b1329] to-[#080d1a]">
+              
+              <!-- Tab Navigation Bar -->
+              <div class="px-4 py-2.5 bg-cyberSurface/40 border-b border-cyberBorder flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <!-- Tab Chat & Código -->
+                  <button id="tabMockupChat" onclick="switchMockupTab('chat')" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyberCard border border-neonCyan/40 text-neonCyan font-semibold transition-all shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>Chat &amp; Código</span>
+                  </button>
+
+                  <!-- Tab Live Sandbox Preview -->
+                  <button id="tabMockupSandbox" onclick="switchMockupTab('sandbox')" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-cyberBorder text-mutedText hover:text-white font-medium transition-all">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <span>Live Sandbox Preview</span>
+                    <span class="px-1.5 py-0.2 rounded bg-neonGreen/20 text-neonGreen text-[10px] font-mono">Interativo</span>
+                  </button>
+                </div>
+
+                <div class="text-[11px] font-mono text-mutedText hidden sm:block">
+                  NVIDIA Nemotron 3.5 VL 120B
+                </div>
+              </div>
+
+              <!-- Tab View 1: Chat & Messages -->
+              <div id="mockupChatView" class="p-4 sm:p-6 space-y-4 overflow-y-auto max-h-[420px]">
+                
+                <!-- User Prompt with Image Attachment -->
+                <div class="flex items-start gap-3 bg-cyberCard/70 p-4 rounded-xl border border-cyberBorder/60 max-w-2xl ml-auto">
+                  <div class="w-7 h-7 rounded-full bg-neonCyan/20 text-neonCyan flex items-center justify-center font-bold text-xs shrink-0">U</div>
+                  <div class="text-sm space-y-2">
+                    <p class="text-white text-xs sm:text-sm">Analise o print desta tela de dashboard anexada e gere o componente em React com TypeScript e Tailwind CSS.</p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyberSurface border border-cyberBorder text-xs text-mutedText font-mono">
+                      <svg class="w-4 h-4 text-neonCyan" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                      <span>dashboard_wireframe.png (1920x1080) [Ctrl+V]</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- AI Response Box -->
+                <div class="flex items-start gap-3 bg-cyberSurface/90 p-4 sm:p-5 rounded-xl border border-neonCyan/20 max-w-3xl mr-auto shadow-lg">
+                  <div class="w-7 h-7 rounded-full bg-neonPurple/20 text-neonPurple border border-neonPurple/40 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-neonCyan" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  </div>
+                  <div class="space-y-3.5 w-full">
+                    <div class="flex items-center justify-between text-xs font-mono text-mutedText">
+                      <span class="text-neonCyan font-semibold">CLOUDTRON • Nemotron 3.5 VL 120B</span>
+                      <span class="text-[11px] text-mutedText">Latência: 114ms • Streaming Ativo</span>
+                    </div>
+
+                    <!-- Bloco Retrátil de Chain-of-Thought -->
+                    <details class="thinking-details group bg-cyberCard/90 rounded-lg border border-neonPurple/30 overflow-hidden" open>
+                      <summary class="flex items-center justify-between px-3 py-2 bg-neonPurple/10 cursor-pointer text-xs font-mono text-neonPurple select-none hover:bg-neonPurple/15 transition-colors">
+                        <div class="flex items-center gap-2">
+                          <svg class="w-4 h-4 text-neonPurple" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                          <span class="font-bold">🔮 Linha de Raciocínio (Chain-of-Thought)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="text-[11px] text-mutedText">1.2s de dedução lógica</span>
+                          <svg class="thinking-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                      </summary>
+                      <div class="p-3 text-xs font-mono text-mutedText/90 space-y-1 border-t border-neonPurple/20 bg-cyberBg/60">
+                        <p>&gt; Identificada imagem de dashboard contendo métricas analíticas (ARR, Churn, Latência de API).</p>
+                        <p>&gt; Análise visual: Layout em CSS Grid com colunas responsivas, paleta Deep Midnight e acentos Neon.</p>
+                        <p>&gt; Otimização: Aplicar React hooks tipados com micro-interações fluidas e sandbox seguro.</p>
+                      </div>
+                    </details>
+
+                    <!-- Resposta Formatada com Syntax Highlighting & Botão Copiar -->
+                    <div class="rounded-lg bg-cyberBg border border-cyberBorder overflow-hidden">
+                      <div class="flex items-center justify-between px-3.5 py-1.5 bg-cyberSurface/80 border-b border-cyberBorder text-xs font-mono text-mutedText">
+                        <span>MetricCard.tsx</span>
+                        <div class="flex items-center gap-2">
+                          <span class="text-neonGreen">React / TypeScript</span>
+                          <button onclick="copySnippetCode(this)" type="button" class="text-[11px] px-2 py-0.5 rounded bg-white/5 border border-cyberBorder hover:border-neonCyan hover:text-white transition-colors">
+                            Copiar
+                          </button>
+                        </div>
+                      </div>
+                      <pre class="p-3 text-[11px] sm:text-xs font-mono overflow-x-auto text-lightText leading-relaxed"><code id="mockupSnippetCode"><span class="text-neonPurple font-bold">export const</span> <span class="text-neonCyan">MetricCard</span>: <span class="text-neonGreen">React.FC</span>&lt;<span class="text-neonGreen">MetricProps</span>&gt; = ({ title, value, change }) =&gt; {
+  <span class="text-neonPurple font-bold">return</span> (
+    &lt;<span class="text-neonCyan">div</span> className=<span class="text-neonGreen">"p-4 rounded-xl bg-cyberCard border border-neonCyan/30 shadow-lg"</span>&gt;
+      &lt;<span class="text-neonCyan">span</span> className=<span class="text-neonGreen">"text-xs font-mono text-neonCyan"</span>&gt;{title}&lt;/<span class="text-neonCyan">span</span>&gt;
+      &lt;<span class="text-neonCyan">h3</span> className=<span class="text-white font-bold text-xl mt-1"</span>&gt;{value}&lt;/<span class="text-neonCyan">h3</span>&gt;
+      &lt;<span class="text-neonCyan">p</span> className=<span class="text-neonGreen text-xs mt-1"</span>&gt;↑ {change}% vs mês anterior&lt;/<span class="text-neonCyan">p</span>&gt;
+    &lt;/<span class="text-neonCyan">div</span>&gt;
+  );
+};</code></pre>
+                    </div>
+
+                  </div>
                 </div>
 
               </div>
+
+              <!-- Tab View 2: Live Sandbox Preview (Interactive) -->
+              <div id="mockupSandboxView" class="hidden p-6 space-y-4 overflow-y-auto max-h-[420px]">
+                <div class="p-5 rounded-2xl bg-cyberSurface/80 border border-neonCyan/40 shadow-[0_0_25px_rgba(0,240,255,0.15)]">
+                  <div class="flex items-center justify-between pb-4 mb-4 border-b border-cyberBorder">
+                    <div>
+                      <div class="text-xs font-mono text-neonCyan uppercase tracking-wider font-bold">Sandbox Executando com Sucesso</div>
+                      <h4 class="text-white font-display font-bold text-base mt-0.5">Componente MetricCard (Preview em Tempo Real)</h4>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-neonGreen/10 border border-neonGreen/30 text-neonGreen font-mono text-xs font-semibold">
+                      Hot-Reload Ativo ✓
+                    </span>
+                  </div>
+
+                  <!-- Grid de Cards renderizados no Sandbox -->
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-4">
+                    <div class="p-4 rounded-xl bg-cyberBg border border-neonCyan/30 hover:border-neonCyan transition-all">
+                      <span class="text-[11px] font-mono text-mutedText">ARR Recorrente</span>
+                      <div class="text-xl font-bold text-white mt-1">R$ 148.500</div>
+                      <span class="text-[11px] font-mono text-neonGreen">↑ +18.4% este mês</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cyberBg border border-neonPurple/30 hover:border-neonPurple transition-all">
+                      <span class="text-[11px] font-mono text-mutedText">Latência de Inferência</span>
+                      <div class="text-xl font-bold text-white mt-1">112 ms</div>
+                      <span class="text-[11px] font-mono text-neonCyan">NVIDIA NIM H100</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cyberBg border border-neonGreen/30 hover:border-neonGreen transition-all">
+                      <span class="text-[11px] font-mono text-mutedText">Taxa de Sucesso SSE</span>
+                      <div class="text-xl font-bold text-white mt-1">99.98%</div>
+                      <span class="text-[11px] font-mono text-neonGreen">Zero buffer loss</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between pt-2 text-xs font-mono text-mutedText">
+                    <span>⚡ Executando em iframe sandbox com CSP restritivo</span>
+                    <button onclick="switchMockupTab('chat')" type="button" class="text-neonCyan hover:underline font-semibold">
+                      ← Voltar para Chat &amp; Código
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Input Bar -->
+              <div class="p-3 bg-cyberSurface/60 border-t border-cyberBorder flex items-center gap-3">
+                <div class="flex-1 flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-cyberBg border border-cyberBorder text-xs text-mutedText">
+                  <svg class="w-4 h-4 text-mutedText shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span class="truncate">Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)...</span>
+                </div>
+                <button onclick="showToast('CLOUDTRON: Simulador ativo. Baixe o app para inferência real!')" type="button" class="w-9 h-9 rounded-xl bg-neonCyan text-black flex items-center justify-center font-bold hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all shrink-0" title="Enviar comando">
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                  </svg>
+                </button>
+              </div>
+
             </div>
 
           </div>
@@ -696,7 +927,7 @@
           <p class="text-mutedText text-sm">Ajude a manter as releases ativas e novas integrações com uma contribuição via PayPal ou N26.</p>
         </div>
         <button onclick="openDonationModal()" type="button" class="shrink-0 px-6 py-3 rounded-xl bg-neonGreen/10 border border-neonGreen text-neonGreen font-bold text-sm hover:bg-neonGreen hover:text-black transition-all shadow-[0_0_20px_rgba(0,255,163,0.2)]">
-          Apoiar com Doação
+          Apoiar
         </button>
       </div>
     </section>
@@ -861,7 +1092,7 @@
         <a href="https://github.com/felipeptxa/claudtron/releases" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Releases</a>
         <a href="https://github.com/felipeptxa/claudtron/issues" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Reportar Issue</a>
         <button onclick="openDonationModal()" type="button" class="text-neonGreen hover:underline font-semibold flex items-center gap-1">
-          <span>☕ Apoiar com um café / Doação</span>
+          <span>☕ Buy me a Coffee</span>
         </button>
       </div>
 
@@ -974,6 +1205,72 @@
     if (heroDownloadBtn) {
       heroDownloadBtn.addEventListener('click', () => {
         showToast('Iniciando download do instalador CLOUDTRON OneClick v1.2.0...');
+      });
+    }
+
+    // 6. Mockup Tabs Switcher (Chat & Código vs Live Sandbox Preview)
+    function switchMockupTab(tab) {
+      const tabChat = document.getElementById('tabMockupChat');
+      const tabSandbox = document.getElementById('tabMockupSandbox');
+      const viewChat = document.getElementById('mockupChatView');
+      const viewSandbox = document.getElementById('mockupSandboxView');
+      if (!tabChat || !tabSandbox || !viewChat || !viewSandbox) return;
+
+      if (tab === 'sandbox') {
+        tabChat.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-cyberBorder text-mutedText hover:text-white font-medium transition-all';
+        tabSandbox.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyberCard border border-neonCyan/40 text-neonCyan font-semibold transition-all shadow-[0_0_12px_rgba(0,240,255,0.2)]';
+        viewChat.classList.add('hidden');
+        viewSandbox.classList.remove('hidden');
+        showToast('Live Sandbox: Componente renderizado em tempo real');
+      } else {
+        tabChat.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyberCard border border-neonCyan/40 text-neonCyan font-semibold transition-all shadow-[0_0_12px_rgba(0,240,255,0.2)]';
+        tabSandbox.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-cyberBorder text-mutedText hover:text-white font-medium transition-all';
+        viewChat.classList.remove('hidden');
+        viewSandbox.classList.add('hidden');
+      }
+    }
+
+    // 7. Heuristic Presets Switcher
+    function setMockupPreset(preset, btn) {
+      document.querySelectorAll('.mockup-preset-chip').forEach(b => {
+        b.className = 'mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white';
+      });
+      if (btn) {
+        btn.className = 'mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all bg-neonCyan/15 text-neonCyan border border-neonCyan/40 font-semibold shadow-[0_0_10px_rgba(0,240,255,0.2)]';
+      }
+      const descEl = document.getElementById('presetDesc');
+      const sidebarLabel = document.getElementById('sidebarPresetLabel');
+      if (sidebarLabel) sidebarLabel.textContent = preset + (preset === 'Profundo' ? ' (CoT)' : '');
+      
+      if (!descEl) return;
+      if (preset === 'Profundo') {
+        descEl.innerHTML = '<strong>Profundo (CoT):</strong> Raciocínio estendido (Chain-of-Thought) habilitado com alta densidade lógica para arquitetura e refatoração complexa.';
+      } else if (preset === 'Código') {
+        descEl.innerHTML = '<strong>Código:</strong> Amostragem determinística (Top-P 0.95, Temp 0.20) com foco estrito em sintaxe limpa e zero alucinação.';
+      } else if (preset === 'Criativo') {
+        descEl.innerHTML = '<strong>Criativo:</strong> Amostragem ampla (Temp 0.85, Top-P 0.98) para ideação, brainstorming arquitetural e copywriting técnico.';
+      } else if (preset === 'Rápido') {
+        descEl.innerHTML = '<strong>Rápido:</strong> Inferência direta sem CoT profundo, com latência ultrabaixa para consultas pontuais e auto-complete.';
+      }
+      showToast(`Modo heurístico alterado: ${preset}`);
+    }
+
+    // 8. Copiar Snippet de Código do Mockup
+    function copySnippetCode(btn) {
+      const codeEl = document.getElementById('mockupSnippetCode');
+      if (!codeEl) return;
+      const rawText = codeEl.innerText;
+      navigator.clipboard.writeText(rawText).then(() => {
+        showToast('Código TypeScript copiado para o clipboard!');
+        const prev = btn.innerText;
+        btn.innerText = 'Copiado! ✓';
+        btn.classList.add('text-neonGreen', 'border-neonGreen');
+        setTimeout(() => {
+          btn.innerText = prev;
+          btn.classList.remove('text-neonGreen', 'border-neonGreen');
+        }, 2000);
+      }).catch(err => {
+        console.warn('Falha ao copiar:', err);
       });
     }
   </script>
