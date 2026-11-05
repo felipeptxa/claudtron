@@ -1,0 +1,6 @@
+# Robots.txt for CLAUTRON OneClick Official Landing Page
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://felipeptxa.github.io/clautron/sitemap.xml
