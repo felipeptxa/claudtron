@@ -937,7 +937,12 @@ const server = http.createServer((req, res) => {
           res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
           res.end('404 Not Found');
         } else {
-          res.writeHead(200, { 'Content-Type': MIME_TYPES['.html'] });
+          res.writeHead(200, {
+            'Content-Type': MIME_TYPES['.html'],
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          });
           res.end(content);
         }
       });
@@ -952,7 +957,11 @@ const server = http.createServer((req, res) => {
         res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('500 Internal Server Error');
       } else {
-        res.writeHead(200, { 'Content-Type': contentType });
+        res.writeHead(200, {
+          'Content-Type': contentType,
+          'Cache-Control': (ext === '.html' || ext === '.js') ? 'no-cache, no-store, must-revalidate' : 'public, max-age=3600',
+          'Pragma': 'no-cache'
+        });
         res.end(content);
       }
     });
