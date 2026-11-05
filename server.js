@@ -936,7 +936,7 @@ const server = http.createServer((req, res) => {
   // ── Servidor de Arquivos Estáticos ────────────────────────────────────────
   const appHtmlPath = path.join(__dirname, 'app.html');
   const defaultPage = fs.existsSync(appHtmlPath) ? '/app.html' : '/index.html';
-  let safePath = (req.url === '/' || req.url === '/index.html') ? defaultPage : req.url;
+  let safePath = (req.url === '/') ? defaultPage : req.url;
   safePath = path.normalize(safePath).replace(/^(\.\.[\\/])+/, '');
   const filePath = path.join(__dirname, safePath);
 
