@@ -1,5 +1,5 @@
 /**
- * Cloudtron OneClick — Local Web UI & Proxy Server (v1.2.0)
+ * Cloudtron OneClick — Local Web UI & Proxy Server (v1.2.1)
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -209,7 +209,7 @@ const server = http.createServer((req, res) => {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
-            'User-Agent': 'Cloudtron-OneClick/1.2.0'
+            'User-Agent': 'Cloudtron-OneClick/1.2.1'
           }
         }, 15000);
       } catch (e) {
@@ -256,14 +256,13 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'Cloudtron-OneClick/1.2.0'
+            'User-Agent': 'Cloudtron-OneClick/1.2.1'
           },
           body: JSON.stringify({
             model: modelToTest,
             messages: [{ role: 'user', content: 'hi' }],
             max_tokens: 2,
-            stream: false,
-            chat_template_kwargs: { enable_thinking: false }
+            stream: false
           })
         }, 20000);
 
@@ -362,7 +361,7 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'Cloudtron-NeMo-Evaluator/1.2.0'
+            'User-Agent': 'Cloudtron-NeMo-Evaluator/1.2.1'
           },
           body: JSON.stringify(judgePayload)
         }, 30000);
@@ -767,7 +766,7 @@ const server = http.createServer((req, res) => {
               'Authorization': `Bearer ${apiKey}`,
               'Content-Type': 'application/json',
               'Accept': 'text/event-stream',
-              'User-Agent': 'Cloudtron-OneClick/1.2.0'
+              'User-Agent': 'Cloudtron-OneClick/1.2.1'
             },
             body: JSON.stringify(nvidiaPayload),
             signal: abortCtrl.signal
@@ -991,7 +990,7 @@ server.on('error', (err) => {
 
 server.listen(PORT, () => {
   console.log(`===============================================`);
-  console.log(` ⚡ Cloudtron OneClick - Local Server Ativo`);
+  console.log(` ⚡ Cloudtron OneClick v1.2.1 - Local Server Ativo`);
   console.log(` 🚀 Interface: http://localhost:${PORT}`);
   console.log(` 📡 Streaming de Baixa Latência Ativo`);
   console.log(` 🧠 Modelo: ${DEFAULT_MODEL}`);

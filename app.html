@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudtron OneClick</title>
+  <title>Cloudtron OneClick v1.2.1</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -442,16 +442,19 @@
       user-select: text;
     }
 
-    header {
+    header, .app-topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border-subtle);
-      background: var(--bg-main);
+      padding: 0 16px;
+      height: 44px;
+      min-height: 44px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: #060913;
       user-select: none;
       flex-shrink: 0;
       width: 100%;
+      box-sizing: border-box;
     }
 
     .header-left {
@@ -964,9 +967,10 @@
     .info-modal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
+      background: rgba(4, 7, 15, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 10000;
       display: none;
       align-items: center;
       justify-content: center;
@@ -1234,64 +1238,64 @@
 
     .input-container {
       display: flex;
-      align-items: flex-end;
-      gap: 10px;
-      background: #0f172a;
-      border: 1px solid rgba(56, 189, 248, 0.14);
-      border-radius: 16px;
-      padding: 8px 14px 8px 14px;
+      align-items: center;
+      gap: 12px;
+      background: #0d1424;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      padding: 10px 18px;
       transition: all 0.2s ease;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .input-container:focus-within {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
-      background: #131c35;
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+      background: #0f182c;
     }
 
     .btn-attach {
       background: transparent;
       border: none;
-      color: #8e918f;
+      color: #94a3b8;
       cursor: pointer;
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
       flex-shrink: 0;
-      margin-bottom: 3px;
     }
 
     .btn-attach:hover {
-      color: #f1f3f4;
-      background: #282a2c;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
     }
 
     textarea {
       flex: 1;
       background: transparent;
       border: none;
-      color: #f1f3f4;
-      padding: 8px 0;
-      font-size: 14px;
+      color: #f8fafc;
+      padding: 6px 0;
+      font-size: 13.5px;
       resize: none;
-      height: 40px;
+      height: 24px;
+      max-height: 180px;
       outline: none;
       line-height: 1.5;
       user-select: text;
     }
 
     textarea::placeholder {
-      color: #8e918f;
+      color: #64748b;
     }
 
     .btn-send {
-      background: #e3e3e3;
-      color: #131314;
+      background: #2dd4bf;
+      color: #04070f;
       border: none;
       border-radius: 50%;
       width: 36px;
@@ -1302,23 +1306,28 @@
       justify-content: center;
       transition: all 0.2s ease;
       flex-shrink: 0;
-      margin-bottom: 2px;
+      font-weight: bold;
     }
 
     .btn-send:hover {
-      background: #ffffff;
-      transform: scale(1.05);
+      background: #14b8a6;
+      box-shadow: 0 0 14px rgba(45, 212, 191, 0.45);
+      transform: scale(1.04);
     }
 
     .btn-send:disabled {
-      background: #3c4043;
-      color: #8e918f;
+      background: rgba(255, 255, 255, 0.08);
+      color: #64748b;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .btn-send.btn-stop {
-      background: #f28b82;
+      background: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+    }
       color: #131314;
     }
 
@@ -1416,7 +1425,7 @@
       display: none;
       flex-direction: column;
       gap: 4px;
-      z-index: 99999;
+      z-index: 1000;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -2267,31 +2276,77 @@
       gap: 7px;
       padding: 10px 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(6, 9, 19, 0.4);
+      background: #080d1a;
       flex-shrink: 0;
     }
 
     .sidebar-diagnostic-box {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(45, 212, 191, 0.22);
-      border-radius: 6px;
-      padding: 6px 10px;
+      background: #0d1424;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-diagnostic-box:hover {
+      border-color: rgba(56, 189, 248, 0.2);
+      background: #111a2e;
     }
 
     .diag-label {
       font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-secondary);
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #94a3b8;
+      font-weight: 500;
     }
 
     .diag-val {
-      font-size: 11px;
+      font-size: 11.5px;
       font-family: 'JetBrains Mono', monospace;
-      color: var(--accent-teal);
-      font-weight: 700;
+      color: #2dd4bf;
+      font-weight: 600;
+    }
+
+    /* ─── Linha de Contexto Heurístico (Abaixo da Topbar) ─── */
+    .heuristic-context-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      height: 24px;
+      min-height: 24px;
+      padding: 0 16px;
+      background: #050811;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 11px;
+      color: #64748b;
+      font-family: 'Inter', -apple-system, sans-serif;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    /* ─── Cabeçalho Elegante da Mensagem do Assistente ─── */
+    .assistant-msg-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+      letter-spacing: 0.2px;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    .assistant-msg-icon {
+      color: #2dd4bf;
     }
 
     /* ─── Thinking Box (Violeta Estilizada) ─── */
@@ -2537,7 +2592,7 @@
             <span class="brand-clautron">Cloudtron</span>
             <span class="brand-oneclick">OneClick</span>
           </div>
-          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.0</span>
+          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.1</span>
         </div>
       </div>
 
@@ -2598,7 +2653,7 @@
       </button>
       <div class="sidebar-footer-info">
         <span class="sidebar-app-name">Cloudtron OneClick</span>
-        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.0</span>
+        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.1</span>
         </div>
       </div>
       <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver a nova versão">
@@ -2657,18 +2712,21 @@
         <button type="button" class="preset-chip" id="chipAuto" onclick="setContextPreset('auto')">Auto</button>
       </div>
 
-      <div class="titlebar-right">
-        <div class="status-badge-live" id="headerStatusPill" onclick="runPingTest()" title="Diagnóstico de Conexão com NVIDIA NIM">
-          <span class="pulse-dot" id="headerStatusDot"></span>
-          <span id="headerStatusText">NVIDIA OK ✓</span>
-        </div>
+      <div class="titlebar-right" style="display: flex; align-items: center; gap: 10px;">
+        <span class="pulse-dot" id="headerStatusLed" onclick="runPingTest()" title="NVIDIA NIM: Conectado (Clique para testar conexão)" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; box-shadow: 0 0 6px #10b981; cursor: pointer; display: inline-block;"></span>
         <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Nova versão disponível">
           <span class="update-pulse-dot"></span>
-          <span>🟢 Atualização Disponível</span>
+          <span>🟢 Atualização</span>
           <span class="update-ver-tag" id="updateVerTag">v...</span>
         </button>
       </div>
     </header>
+
+    <!-- Linha de Contexto Heurístico (Abaixo da Topbar) -->
+    <div class="heuristic-context-bar" id="heuristicContextBar">
+      <span style="font-size: 11px;">⚙️</span>
+      <span id="heuristicStatusText">Motor Heurístico: Profundo (Chain-of-Thought ativado para raciocínio lógico avançado)</span>
+    </div>
 
     <!-- Sub-header de Navegação com Abas Chat vs Live Sandbox -->
     <div class="sub-navbar">
@@ -2683,7 +2741,7 @@
           <span class="tab-badge-interactive">Interativo</span>
         </button>
       </div>
-      <div class="sub-nav-meta mono" id="subHeaderModelTag">
+      <div class="sub-nav-meta mono" id="subHeaderModelTag" style="color: #475569; font-size: 11px;">
         NVIDIA Super VL 120B
       </div>
     </div>
@@ -2693,7 +2751,7 @@
     </main>
 
     <!-- Visualizador Live Sandbox Embutido -->
-    <div class="sandbox-view-container" id="sandboxContainer">
+    <div class="sandbox-view-container" id="sandboxContainer" style="display: none;">
       <div class="sandbox-view-header">
         <div class="sandbox-view-title">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -2717,52 +2775,6 @@
       <div class="input-container-wrapper">
         <div class="attachments-preview-bar" id="attachmentsPreview"></div>
 
-        <!-- Nova Barra de Ação Contextual (Acima do Campo de Mensagem) -->
-        <div class="context-action-bar" id="contextActionBar">
-          <div class="context-bar-left">
-            <!-- Seletor de Persona Dropdown -->
-            <div class="persona-selector-container">
-              <button class="btn-persona-selector" id="btnPersonaSelector" onclick="togglePersonaDropdown(event)" title="Selecionar Modelo / Persona">
-                <span id="activePersonaIcon">🧠</span>
-                <span id="activePersonaName">CLAUTRON Omni</span>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <div class="persona-dropdown" id="personaDropdown"></div>
-            </div>
-
-            <!-- Divisor -->
-            <div class="context-bar-divider"></div>
-
-            <!-- Chips Rápidos de Preset -->
-            <div class="preset-pills">
-              <button type="button" class="btn-preset-pill" id="pillPresetFast" onclick="setContextPreset('low')" title="Respostas rápidas e concisas sem thinking">
-                <span>⚡ Rápido</span>
-              </button>
-              <button type="button" class="btn-preset-pill active" id="pillPresetAuto" onclick="setContextPreset('auto')" title="Modulação heurística adaptativa inteligente">
-                <span>⭐ Auto</span>
-              </button>
-              <button type="button" class="btn-preset-pill" id="pillPresetDeep" onclick="setContextPreset('high')" title="Raciocínio profundo estendido (Chain-of-Thought)">
-                <span>🧠 Profundo</span>
-              </button>
-              <button type="button" class="btn-preset-pill" id="pillPresetCreative" onclick="setContextPreset('creative')" title="Inferência criativa com temperatura elevada">
-                <span>🎨 Criativo</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="context-bar-right">
-            <!-- Botão de Benchmark / Diagnóstico -->
-            <button class="btn-context-benchmark" id="btnPing" onclick="runPingTest()" title="Diagnóstico de Conexão com NVIDIA NIM">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-              </svg>
-              <span id="pingLabel">Diagnóstico</span>
-            </button>
-          </div>
-        </div>
-
         <div class="input-container">
           <input type="file" id="fileInput" multiple accept="*/*" style="display: none;" onchange="handleFileSelect(event)">
           
@@ -2772,15 +2784,10 @@
             </svg>
           </button>
 
-          <textarea id="promptInput" placeholder="Faça uma pergunta ou anexe documentos (PDF, Word, Excel, ZIP), código ou imagens..." onkeydown="handleKey(event)"></textarea>
+          <textarea id="promptInput" placeholder="Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)..." onkeydown="handleKey(event)"></textarea>
           
-          <button class="btn-send" id="sendBtn" onclick="handleSendOrStop()" title="Enviar">
-            <span id="sendBtnContent">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5"></line>
-                <polyline points="5 12 12 5 19 12"></polyline>
-              </svg>
-            </span>
+          <button class="btn-send" id="sendBtn" onclick="handleSendOrStop()" title="Enviar mensagem">
+            <span id="sendBtnContent" style="display: flex; align-items: center; justify-content: center; font-size: 15px; margin-left: 1px;">➤</span>
           </button>
         </div>
       </div>
@@ -3356,21 +3363,28 @@
       const chips = document.querySelectorAll('#topbarPresets .preset-chip');
       chips.forEach(c => c.classList.remove('active'));
 
+      const heuristicText = document.getElementById('heuristicStatusText');
+
       if (presetMode === 'high') {
         document.getElementById('chipDeep')?.classList.add('active');
         updateTelemetryIndicators(null, 'Profundo (CoT)');
+        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Profundo (Chain-of-Thought ativado para raciocínio lógico avançado)';
       } else if (presetMode === 'code') {
         document.getElementById('chipCode')?.classList.add('active');
         updateTelemetryIndicators(null, 'Código');
+        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Código (Inferência técnica de alta precisão com formatação de blocos)';
       } else if (presetMode === 'creative') {
         document.getElementById('chipCreative')?.classList.add('active');
         updateTelemetryIndicators(null, 'Criativo');
+        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Criativo (Temperatura elevada 0.85 para exploração e ideação)';
       } else if (presetMode === 'low') {
         document.getElementById('chipFast')?.classList.add('active');
         updateTelemetryIndicators(null, 'Rápido');
+        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Rápido (Inferência concisa e direta sem etapas estendidas de reflexão)';
       } else {
         document.getElementById('chipAuto')?.classList.add('active');
         updateTelemetryIndicators(null, 'Auto');
+        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Auto (Modulação dinâmica adaptativa de acordo com a complexidade do prompt)';
       }
     }
 
@@ -3476,7 +3490,7 @@
       if (iconEl) iconEl.textContent = persona.icon;
       if (nameEl) nameEl.textContent = persona.name;
       const subTag = document.getElementById('subHeaderModelTag');
-      if (subTag) subTag.textContent = persona.modelId || 'NVIDIA Super VL 120B';
+      if (subTag) subTag.textContent = 'NVIDIA Super VL 120B';
 
       document.querySelectorAll('.persona-option').forEach(el => {
         el.classList.toggle('active', el.dataset.personaId === persona.id);
@@ -3776,6 +3790,7 @@
     }
 
     function openSettingsModal() {
+      closePersonaDropdown();
       const s = getGlobalSettings();
       document.getElementById('modalKeyInput').value = s.apiKey;
       document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
@@ -3920,7 +3935,7 @@
       } else if (mode === 'low') {
         if (session) session.effort = 'low';
         selectHyperparameterPreset('balanced');
-      } else if (mode === 'high') {
+      } else if (mode === 'high' || mode === 'code') {
         if (session) session.effort = 'high';
         selectHyperparameterPreset('code');
       } else if (mode === 'creative') {
@@ -3935,25 +3950,7 @@
     function syncContextPills() {
       const session = getActiveSession();
       const effort = session?.effort || 'auto';
-      const settings = getGlobalSettings();
-      const preset = settings.preset || 'auto';
-
-      const pillFast = document.getElementById('pillPresetFast');
-      const pillAuto = document.getElementById('pillPresetAuto');
-      const pillDeep = document.getElementById('pillPresetDeep');
-      const pillCreative = document.getElementById('pillPresetCreative');
-
-      [pillFast, pillAuto, pillDeep, pillCreative].forEach(p => p && p.classList.remove('active'));
-
-      if (preset === 'creative') {
-        if (pillCreative) pillCreative.classList.add('active');
-      } else if (effort === 'high' || preset === 'code') {
-        if (pillDeep) pillDeep.classList.add('active');
-      } else if (effort === 'low') {
-        if (pillFast) pillFast.classList.add('active');
-      } else {
-        if (pillAuto) pillAuto.classList.add('active');
-      }
+      syncTopbarPresetChips(effort);
     }
 
     function syncEffortUI() {
@@ -5017,12 +5014,23 @@
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
 
+      // Cabeçalho elegante da mensagem do assistente
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'assistant-msg-header';
+      headerDiv.innerHTML = '<span class="assistant-msg-icon">⚡</span><span class="assistant-msg-title">Cloudtron • Nemotron 3.5 VL 120B</span>';
+      bubble.appendChild(headerDiv);
+
       // Caixa de raciocínio (Thinking) permanece fechada por padrão (sem atributo open)
       const thinkingBox = document.createElement('details');
       thinkingBox.className = 'thinking-box';
       thinkingBox.style.display = 'none';
       thinkingBox.innerHTML = `
-        <summary>🔮 Linha de Raciocínio (Chain-of-Thought)</summary>
+        <summary>
+          <div class="thinking-title-group">
+            <span>🔮 Linha de Raciocínio</span>
+          </div>
+          <span class="thinking-meta" id="thinkingMetaTimer">1.2s de dedução lógica ▼</span>
+        </summary>
         <div class="thinking-content"></div>
       `;
       bubble.appendChild(thinkingBox);
@@ -5056,6 +5064,14 @@
           bubble.dataset.rawText = finalText;
           textDiv.innerHTML = marked.parse(finalText);
           enhanceCodeBlocks(textDiv);
+
+          if (thinkingBox && thinkingBox.style.display !== 'none') {
+            const metaTimer = thinkingBox.querySelector('#thinkingMetaTimer');
+            if (metaTimer && telemetry && typeof telemetry.ttft === 'number') {
+              const sec = (telemetry.ttft / 1000).toFixed(1);
+              metaTimer.textContent = `${sec}s de dedução lógica ▼`;
+            }
+          }
 
           const telemetryHtml = (telemetry && typeof telemetry.ttft === 'number' && typeof telemetry.totalTime === 'number')
             ? formatTelemetryBadge(telemetry.ttft, telemetry.totalTime)
@@ -5293,11 +5309,23 @@
       bubble.className = 'bubble';
       bubble.dataset.rawText = replyText;
 
+      // Cabeçalho elegante da mensagem do assistente
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'assistant-msg-header';
+      headerDiv.innerHTML = '<span class="assistant-msg-icon">⚡</span><span class="assistant-msg-title">Cloudtron • Nemotron 3.5 VL 120B</span>';
+      bubble.appendChild(headerDiv);
+
       if (thinkingText) {
         const details = document.createElement('details');
         details.className = 'thinking-box';
+        const deductionTime = (ttft && ttft > 0) ? `${(ttft / 1000).toFixed(1)}s` : '1.2s';
         details.innerHTML = `
-          <summary>🔮 Linha de Raciocínio (Chain-of-Thought)</summary>
+          <summary>
+            <div class="thinking-title-group">
+              <span>🔮 Linha de Raciocínio</span>
+            </div>
+            <span class="thinking-meta">${deductionTime} de dedução lógica ▼</span>
+          </summary>
           <div class="thinking-content">${escapeHtml(thinkingText)}</div>
         `;
         bubble.appendChild(details);
@@ -5533,7 +5561,12 @@
       const label = document.getElementById('pingLabel');
       const modalBtn = document.getElementById('btnTestKeyModal');
       const modalResult = document.getElementById('modalTestResult');
-      const statusLed = document.getElementById('headerStatusLed');
+      const statusLed = document.getElementById('headerStatusLed') || document.getElementById('headerStatusDot');
+
+      if (statusLed) {
+        statusLed.style.background = '#f59e0b';
+        statusLed.style.boxShadow = '0 0 8px #f59e0b';
+      }
 
       const setModalFeedback = (status, text) => {
         if (!modalResult) return;
@@ -5580,8 +5613,19 @@
           modalBtn.disabled = false;
           modalBtn.textContent = '⚡ Testar Chave';
         }
-        setModalFeedback('fail', `<strong>❌ Falha no Servidor Local:</strong> ${escapeHtml(e.message)}<br><small>Certifique-se de que o backend está ativo na porta 3000.</small>`);
-        showError('Servidor local não respondeu: ' + e.message);
+        if (statusLed) {
+          statusLed.style.background = '#ef4444';
+          statusLed.style.boxShadow = '0 0 8px #ef4444';
+        }
+        const isStaticWeb = window.location.protocol === 'file:' || window.location.hostname.includes('github.io');
+        const failMsg = isStaticWeb
+          ? `<strong>⚠️ Modo Web Preview (GitHub Pages):</strong><br>Esta página web estática não executa o servidor Node.js local. Para inferência completa, execute o app desktop localmente na porta 3000 via <code>npm start</code> ou <code>START CLAUTRON.bat</code>.`
+          : `<strong>❌ Falha no Servidor Local:</strong> ${escapeHtml(e.message)}<br><small>Certifique-se de que o backend está ativo na porta 3000 (execute <code>npm start</code>).</small>`;
+        setModalFeedback('fail', failMsg);
+        showError(isStaticWeb ? 'Ambiente Web Preview: requer backend local' : 'Servidor local não respondeu na porta 3000');
+        if (!fromModal && !document.getElementById('settingsModal').classList.contains('aberto')) {
+          openSettingsModal();
+        }
         setTimeout(() => { if (btn) btn.className = 'btn-ping'; if (label) label.textContent = 'Diagnóstico'; }, 6000);
         return;
       }
@@ -5593,8 +5637,19 @@
       try {
         const modalKey = document.getElementById('modalKeyInput')?.value?.trim();
         const userKey = modalKey || getStoredApiKey();
+
+        if (!userKey) {
+          if (modalBtn) { modalBtn.disabled = false; modalBtn.textContent = '⚡ Testar Chave'; }
+          if (statusLed) { statusLed.style.background = '#f59e0b'; statusLed.style.boxShadow = '0 0 8px #f59e0b'; }
+          setModalFeedback('fail', '<strong>⚠️ Chave de API ausente:</strong><br>Cole sua chave <code>nvapi-...</code> para validar a conexão com a NVIDIA NIM.');
+          if (!document.getElementById('settingsModal').classList.contains('aberto')) {
+            openSettingsModal();
+          }
+          return;
+        }
+
         const headers = { 'Content-Type': 'application/json' };
-        if (userKey) headers['Authorization'] = 'Bearer ' + userKey;
+        headers['Authorization'] = 'Bearer ' + userKey;
 
         const activePersona = (typeof getActivePersona === 'function') ? getActivePersona() : null;
         const testModelParam = activePersona?.modelId ? `?model=${encodeURIComponent(activePersona.modelId)}` : '';
@@ -5611,6 +5666,10 @@
           if (modalBtn) {
             modalBtn.disabled = false;
             modalBtn.textContent = '✓ Conectado';
+          }
+          if (statusLed) {
+            statusLed.style.background = '#10b981';
+            statusLed.style.boxShadow = '0 0 8px #10b981';
           }
           updateNvidiaStatusLed(true, `NVIDIA NIM: Conectado (${data.model || 'Cluster Operacional'})`);
           setModalFeedback('ok', `<strong>✅ Conexão bem-sucedida!</strong><br>Chave autenticada e nó de inferência <code>${escapeHtml(data.model || 'nemotron-120b')}</code> 100% operacional.`);
@@ -5639,10 +5698,17 @@
             modalBtn.disabled = false;
             modalBtn.textContent = '⚠️ Falha';
           }
+          if (statusLed) {
+            statusLed.style.background = '#ef4444';
+            statusLed.style.boxShadow = '0 0 8px #ef4444';
+          }
           updateNvidiaStatusLed(false, 'NVIDIA NIM: Falha de conexão');
           const errMsg = data.error || 'Erro desconhecido ao conectar com a NVIDIA.';
           setModalFeedback('fail', `<strong>❌ Falha no Diagnóstico [${escapeHtml(data.step || '?')}]:</strong><br>${escapeHtml(errMsg)}`);
           showError('Diagnóstico [' + (data.step || '?') + ']: ' + errMsg);
+          if (!fromModal && !document.getElementById('settingsModal').classList.contains('aberto')) {
+            openSettingsModal();
+          }
           setTimeout(() => {
             if (btn) btn.className = 'btn-ping';
             if (label) label.textContent = 'Diagnóstico';
@@ -5659,8 +5725,15 @@
           modalBtn.disabled = false;
           modalBtn.textContent = '⚡ Testar Chave';
         }
+        if (statusLed) {
+          statusLed.style.background = '#ef4444';
+          statusLed.style.boxShadow = '0 0 8px #ef4444';
+        }
         setModalFeedback('fail', `<strong>❌ Erro:</strong> ${escapeHtml(e.message)}`);
         showError('Falha no diagnóstico: ' + e.message);
+        if (!fromModal && !document.getElementById('settingsModal').classList.contains('aberto')) {
+          openSettingsModal();
+        }
         setTimeout(() => {
           if (btn) btn.className = 'btn-ping';
           if (label) label.textContent = 'Diagnóstico';
@@ -5670,7 +5743,7 @@
     }
 
 
-    const FALLBACK_VERSION = "1.2.0";
+    const FALLBACK_VERSION = "1.2.1";
     const GITHUB_REPO = "felipeptxa/clautron";
     let latestReleaseInfo = null;
 
@@ -5695,14 +5768,18 @@
 
     // ── Status LED NVIDIA NIM Controller ──────────────────────────────────────
     function updateNvidiaStatusLed(connected, tooltip) {
-      const led = document.getElementById('headerStatusLed');
+      const led = document.getElementById('headerStatusLed') || document.getElementById('headerStatusDot');
       if (!led) return;
       if (connected) {
         led.classList.remove('disconnected');
-        led.title = tooltip || 'NVIDIA NIM: Conectado';
+        led.style.background = '#10b981';
+        led.style.boxShadow = '0 0 6px #10b981';
+        led.title = tooltip || 'NVIDIA NIM: Conectado (Clique para testar conexão)';
       } else {
         led.classList.add('disconnected');
-        led.title = tooltip || 'NVIDIA NIM: Sem chave de API / Desconectado';
+        led.style.background = '#ef4444';
+        led.style.boxShadow = '0 0 6px #ef4444';
+        led.title = tooltip || 'NVIDIA NIM: Sem chave de API / Desconectado (Clique para configurar)';
       }
     }
 
@@ -5805,6 +5882,7 @@
         syncEffortUI();
         renderActiveChat();
       }
+      syncTopbarPresetChips('high');
 
       if (!getStoredApiKey()) {
         setTimeout(openSettingsModal, 400);

@@ -1,8 +1,17 @@
 /**
- * Cloudtron OneClick — Electron Main Process
+ * Cloudtron OneClick — Electron Main Process (v1.2.1)
  * Author: Felipe Monroe
  * License: MIT
  */
+
+// Captura erros de rede/porta para reutilizar servidor existente sem quebrar a UI
+process.on('uncaughtException', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.warn('[ELECTRON] Porta 3000 já está em uso por uma instância ativa do Cloudtron; reutilizando serviço local.');
+    return;
+  }
+  console.error('[ELECTRON] Exceção não tratada:', err);
+});
 
 // Prioriza IPv4 para evitar timeouts de DNS/Dual-Stack no Windows
 const dns = require('dns');
@@ -28,7 +37,7 @@ function createWindow() {
     height: 800,
     minWidth: 900,
     minHeight: 600,
-    title: 'Cloudtron OneClick',
+    title: 'Cloudtron OneClick v1.2.1',
     backgroundColor: '#131314',
     autoHideMenuBar: true, // Oculta a barra de menu padrão do Windows
     webPreferences: {
