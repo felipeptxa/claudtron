@@ -1,4 +1,4 @@
-# Robots.txt for CLAUTRON OneClick Official Landing Page
+# Robots.txt for Cloudtron OneClick Official Landing Page
 User-agent: *
 Allow: /
 

@@ -1,6 +1,6 @@
 /**
- * CLAUTRON OneClick - Interactive Scripts
- * Ultra performant, zero dependencies, vanilla JS.
+ * Cloudtron OneClick - Interactive Scripts v1.2.0
+ * Zero dependencies, vanilla JS, high performance.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * 1. Collapsible Thinking Box (<thinking>)
+ * Micro-interação no cabeçalho roxo com animação suave de chevron e altura
  */
 function initThinkingToggle() {
   const thinkingBox = document.getElementById('thinkingBox');
@@ -25,13 +26,15 @@ function initThinkingToggle() {
 
   if (thinkingBox && thinkingHeader) {
     thinkingHeader.addEventListener('click', () => {
-      thinkingBox.classList.toggle('expanded');
+      const isExpanded = thinkingBox.classList.toggle('expanded');
+      thinkingHeader.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
     });
   }
 }
 
 /**
- * 2. Mockup View Tabs (Chat vs Live Sandbox)
+ * 2. Mockup View Tabs (Chat & Código vs Live Sandbox Preview)
+ * Alternância suave entre visualização de chat/código e renderização ao vivo do componente
  */
 function initMockupTabs() {
   const tabChat = document.getElementById('tabChat');
@@ -44,16 +47,22 @@ function initMockupTabs() {
     tabChat.addEventListener('click', () => {
       tabChat.classList.add('active');
       tabSandbox.classList.remove('active');
+      tabChat.setAttribute('aria-selected', 'true');
+      tabSandbox.setAttribute('aria-selected', 'false');
+      
       chatMessages.classList.remove('hidden-view');
-      chatInputBar.classList.remove('hidden-view');
+      if (chatInputBar) chatInputBar.classList.remove('hidden-view');
       sandboxView.classList.remove('active-view');
     });
 
     tabSandbox.addEventListener('click', () => {
       tabSandbox.classList.add('active');
       tabChat.classList.remove('active');
+      tabSandbox.setAttribute('aria-selected', 'true');
+      tabChat.setAttribute('aria-selected', 'false');
+
       chatMessages.classList.add('hidden-view');
-      chatInputBar.classList.add('hidden-view');
+      if (chatInputBar) chatInputBar.classList.add('hidden-view');
       sandboxView.classList.add('active-view');
     });
   }
@@ -61,26 +70,68 @@ function initMockupTabs() {
 
 /**
  * 3. Heuristic Preset Chips in Window Header
+ * Alterna borda neon ciano e atualiza texto explicativo de telemetria abaixo
  */
+const PRESET_DATA = {
+  'Profundo': {
+    title: 'Profundo (CoT)',
+    desc: '<strong>Profundo (CoT):</strong> Raciocínio estendido (Chain-of-Thought) habilitado com alta densidade lógica para arquitetura e refatoração complexa.',
+    temp: '0.20',
+    topP: '0.95',
+    mode: 'Chain-of-Thought Ativo'
+  },
+  'Código': {
+    title: 'Código',
+    desc: '<strong>Código:</strong> Geração determinística e precisa, sem alucinações, com foco em testes unitários e TypeScript estrito.',
+    temp: '0.10',
+    topP: '0.90',
+    mode: 'Determinístico (Seed Fixa)'
+  },
+  'Criativo': {
+    title: 'Criativo',
+    desc: '<strong>Criativo:</strong> Ampla exploração heurística e ideação adaptativa para design de interfaces e copywriting técnico.',
+    temp: '0.85',
+    topP: '0.98',
+    mode: 'Temperatura Dinâmica'
+  },
+  'Rápido': {
+    title: 'Rápido',
+    desc: '<strong>Rápido:</strong> Máxima fluidez e menor latência de streaming via cluster NVIDIA NIM para respostas ágeis.',
+    temp: '0.50',
+    topP: '0.90',
+    mode: 'Streaming Express'
+  }
+};
+
 function initPresetChips() {
   const chips = document.querySelectorAll('.preset-chip');
-  const presetDisplay = document.getElementById('activePresetIndicator');
+  const presetIndicator = document.getElementById('activePresetIndicator');
+  const presetDescription = document.getElementById('activePresetDescription');
 
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
       chips.forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
-      const presetName = chip.dataset.preset;
-      if (presetDisplay) {
-        presetDisplay.textContent = presetName;
+
+      const presetKey = chip.dataset.preset;
+      const data = PRESET_DATA[presetKey];
+
+      if (data) {
+        if (presetIndicator) {
+          presetIndicator.textContent = data.title;
+        }
+        if (presetDescription) {
+          presetDescription.innerHTML = data.desc;
+        }
+        showToast(`Motor Heurístico ajustado para: ${data.title}`);
       }
-      showToast(`Motor Heurístico ajustado para: ${presetName}`);
     });
   });
 }
 
 /**
  * 4. Interactive Diagnostic Simulator
+ * Simula a verificação em tempo real da chave NVIDIA NIM e endpoint do modelo Nemotron
  */
 function initDiagnosticSimulator() {
   const runBtn = document.getElementById('runDiagBtn');
@@ -94,31 +145,31 @@ function initDiagnosticSimulator() {
 
     consoleOutput.innerHTML = `
       <div class="diag-log-line running">
-        <span>⚡</span> [1/3] Validando formato da API Key da NVIDIA (nvapi-...)...
+        <span>⚡</span> [1/3] Validando formato da API Key NVIDIA NIM (nvapi-...)...
       </div>
     `;
 
     await wait(600);
     consoleOutput.innerHTML += `
       <div class="diag-log-line success">
-        <span>✓</span> Chave NVAPI válida e autenticada via NVIDIA NIM.
+        <span>✓</span> Chave NVAPI válida e autenticada com sucesso no gateway NVIDIA.
       </div>
       <div class="diag-log-line running">
-        <span>⚡</span> [2/3] Pingando nó de inferência Nemotron 120B Super VL...
+        <span>⚡</span> [2/3] Pingando nó de inferência Nemotron 3.5 Super VL 120B...
       </div>
     `;
 
     await wait(700);
     consoleOutput.innerHTML += `
       <div class="diag-log-line success">
-        <span>✓</span> Conexão estabelecida com sucesso. Latência: 118ms.
+        <span>✓</span> Conexão ativa estabelecida. Latência de primeiro token (TTFT): 112ms.
       </div>
       <div class="diag-log-line running">
-        <span>⚡</span> [3/3] Checando capacidades de CoT e Visão Multimodal...
+        <span>⚡</span> [3/3] Checando capacidades de CoT, NeMo Guardrails e Context Bridge...
       </div>
     `;
 
-    await wait(600);
+    await wait(650);
     consoleOutput.innerHTML += `
       <div class="diag-log-line success" style="font-weight: bold; color: var(--neon-cyan);">
         <span>✨</span> DIAGNÓSTICO CONCLUÍDO: Todos os serviços operacionais. NVIDIA OK ✓
@@ -127,7 +178,7 @@ function initDiagnosticSimulator() {
 
     runBtn.disabled = false;
     runBtn.textContent = 'Repetir Diagnóstico';
-    showToast('Diagnóstico em 2 Passos concluído com sucesso: NVIDIA OK ✓');
+    showToast('Diagnóstico concluído com sucesso: Cluster NVIDIA NIM 100% Operacional ✓');
   });
 }
 
@@ -154,17 +205,17 @@ function initCopyButtons() {
       if (textToCopy) {
         try {
           await navigator.clipboard.writeText(textToCopy);
-          const originalText = btn.innerHTML;
+          const originalHTML = btn.innerHTML;
           btn.innerHTML = `
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12"></polyline>
-            </svg> Copiado!
+            </svg> <span>Copiado!</span>
           `;
-          btn.style.color = 'var(--neon-green)';
+          btn.style.color = 'var(--neon-teal)';
           showToast('Código copiado para a área de transferência!');
 
           setTimeout(() => {
-            btn.innerHTML = originalText;
+            btn.innerHTML = originalHTML;
             btn.style.color = '';
           }, 2000);
         } catch (err) {
@@ -183,7 +234,7 @@ function initDownloadFeedback() {
 
   downloadBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      showToast('🚀 Iniciando download de CLAUTRON-OneClick-Setup-1.1.0.exe...');
+      showToast('🚀 Iniciando download do instalador Cloudtron-OneClick-Setup-1.2.0.exe...');
     });
   });
 }
@@ -192,7 +243,7 @@ function initDownloadFeedback() {
  * 7. Mouse Glow Follow on Cards
  */
 function initCardMouseGlow() {
-  const cards = document.querySelectorAll('.feature-card, .window-frame');
+  const cards = document.querySelectorAll('.feature-card, .window-frame, .step-card, .cta-banner');
 
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -248,7 +299,7 @@ function initBackToTop() {
 }
 
 /**
- * 10. Interactive Sandbox Demo Buttons
+ * 10. Interactive Sandbox Demo Simulation
  */
 function initInteractiveSandbox() {
   const simTweakBtn = document.getElementById('sandboxTweakBtn');
@@ -256,11 +307,18 @@ function initInteractiveSandbox() {
   const latVal = document.getElementById('sandboxLatVal');
 
   if (simTweakBtn && arrVal && latVal) {
+    let toggled = false;
     simTweakBtn.addEventListener('click', () => {
-      const currentLat = parseInt(latVal.textContent) || 124;
-      const newLat = currentLat === 124 ? 98 : 124;
-      latVal.textContent = `${newLat} ms`;
-      showToast(`Sandbox atualizado em tempo real! Nova latência: ${newLat}ms`);
+      toggled = !toggled;
+      if (toggled) {
+        latVal.textContent = '94 ms';
+        arrVal.textContent = 'R$ 2.45M';
+        showToast('Sandbox re-renderizado com hot-reload! Latência NIM: 94ms');
+      } else {
+        latVal.textContent = '124 ms';
+        arrVal.textContent = 'R$ 1.84M';
+        showToast('Sandbox re-renderizado! Latência NIM: 124ms');
+      }
     });
   }
 }

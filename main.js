@@ -1,5 +1,5 @@
 /**
- * CLAUTRON OneClick — Electron Main Process
+ * Cloudtron OneClick — Electron Main Process
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -13,7 +13,7 @@ if (dns.setDefaultResultOrder) {
 const { app, BrowserWindow, shell, globalShortcut } = require('electron');
 const path = require('path');
 
-// 1. Inicializa o servidor proxy local do CLAUTRON em segundo plano
+// 1. Inicializa o servidor proxy local do Cloudtron em segundo plano
 require('./server.js');
 
 let mainWindow;
@@ -24,7 +24,7 @@ function createWindow() {
     height: 800,
     minWidth: 900,
     minHeight: 600,
-    title: 'CLAUTRON OneClick',
+    title: 'Cloudtron OneClick',
     backgroundColor: '#131314',
     autoHideMenuBar: true, // Oculta a barra de menu padrão do Windows
     webPreferences: {

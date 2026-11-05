@@ -1,5 +1,5 @@
 /**
- * CLAUTRON OneClick — Local Web UI & Proxy Server (v1.2 Complete)
+ * Cloudtron OneClick — Local Web UI & Proxy Server (v1.2.0)
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 3000;
 const NVIDIA_ENDPOINT = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const DEFAULT_MODEL = 'nvidia/nemotron-3.5-super-vl-120b-a12b';
 
-// ── Diretório de Dados e Avaliação (Clautron NeMo Core & Eval Engine) ─────────
+// ── Diretório de Dados e Avaliação (Cloudtron NeMo Core & Eval Engine) ─────────
 const DATA_DIR = path.join(__dirname, 'data');
 const INTERACTIONS_FILE = path.join(DATA_DIR, 'interactions.jsonl');
 const FEEDBACK_FILE = path.join(DATA_DIR, 'feedback.jsonl');
@@ -201,7 +201,7 @@ const server = http.createServer((req, res) => {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
-            'User-Agent': 'CLAUTRON-OneClick/1.1.1'
+            'User-Agent': 'Cloudtron-OneClick/1.2.0'
           }
         }, 15000);
       } catch (e) {
@@ -248,7 +248,7 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'CLAUTRON-OneClick/1.1.1'
+            'User-Agent': 'Cloudtron-OneClick/1.2.0'
           },
           body: JSON.stringify({
             model: DEFAULT_MODEL,
@@ -354,7 +354,7 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'CLAUTRON-NeMo-Evaluator/1.1.1'
+            'User-Agent': 'Cloudtron-NeMo-Evaluator/1.2.0'
           },
           body: JSON.stringify(judgePayload)
         }, 30000);
@@ -755,7 +755,7 @@ const server = http.createServer((req, res) => {
               'Authorization': `Bearer ${apiKey}`,
               'Content-Type': 'application/json',
               'Accept': 'text/event-stream',
-              'User-Agent': 'CLAUTRON-OneClick/1.1.1'
+              'User-Agent': 'Cloudtron-OneClick/1.2.0'
             },
             body: JSON.stringify(nvidiaPayload),
             signal: abortCtrl.signal
@@ -925,7 +925,7 @@ const server = http.createServer((req, res) => {
   // ── Servidor de Arquivos Estáticos ────────────────────────────────────────
   const appHtmlPath = path.join(__dirname, 'app.html');
   const defaultPage = fs.existsSync(appHtmlPath) ? '/app.html' : '/index.html';
-  let safePath = req.url === '/' ? defaultPage : req.url;
+  let safePath = (req.url === '/' || req.url === '/index.html') ? defaultPage : req.url;
   safePath = path.normalize(safePath).replace(/^(\.\.[\\/])+/, '');
   const filePath = path.join(__dirname, safePath);
 
@@ -961,10 +961,10 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`===============================================`);
-  console.log(` ⚡ CLAUTRON OneClick - Local Server Ativo`);
+  console.log(` ⚡ Cloudtron OneClick - Local Server Ativo`);
   console.log(` 🚀 Interface: http://localhost:${PORT}`);
   console.log(` 📡 Streaming de Baixa Latência Ativo`);
   console.log(` 🧠 Modelo: ${DEFAULT_MODEL}`);
-  console.log(` 🛡️ Clautron NeMo Core & Eval Engine Ativo`);
+  console.log(` 🛡️ Cloudtron NeMo Core & Eval Engine Ativo`);
   console.log(`===============================================`);
 });

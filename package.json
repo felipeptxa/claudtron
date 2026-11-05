@@ -1,7 +1,7 @@
 {
-  "name": "clautron-oneclick",
+  "name": "cloudtron-oneclick",
   "version": "1.2.0",
-  "description": "CLAUTRON OneClick - Nemotron Local Desktop App",
+  "description": "Cloudtron Desktop AI Engine com NVIDIA NIM",
   "main": "main.js",
   "repository": {
     "type": "git",
@@ -13,8 +13,8 @@
     "dist": "electron-builder --win"
   },
   "build": {
-    "appId": "com.felipemonroe.clautron",
-    "productName": "CLAUTRON OneClick",
+    "appId": "com.felipemonroe.cloudtron",
+    "productName": "Cloudtron OneClick",
     "directories": {
       "output": "dist"
     },
@@ -33,7 +33,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "CLAUTRON OneClick"
+      "shortcutName": "Cloudtron OneClick"
     }
   },
   "keywords": [
