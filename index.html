@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Primary SEO Meta Tags -->
-  <title>CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.1.0)</title>
-  <meta name="title" content="CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.1.0)">
-  <meta name="description" content="CLAUTRON OneClick é a estação desktop ultra leve em Electron e Node.js para inferência direta do NVIDIA Nemotron 3.5 Super VL 120B no Windows x64. Deep Thinking (CoT), visão multimodal nativa, zero CUDA/Python local.">
-  <meta name="keywords" content="CLAUTRON, CLAUTRON OneClick, NVIDIA Nemotron 120B, Nemotron 3.5 Super VL, deep thinking, chain of thought, electron windows ai, felipe monroe, clautron github, felipeptxa, ia desktop windows">
+  <title>CLOUDTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.0)</title>
+  <meta name="title" content="CLOUDTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.0)">
+  <meta name="description" content="CLOUDTRON OneClick é a estação desktop ultra leve em Electron e Node.js para inferência direta do NVIDIA Nemotron 3.5 Super VL 120B no Windows x64. Deep Thinking (CoT), visão multimodal nativa, zero CUDA/Python local.">
+  <meta name="keywords" content="CLOUDTRON, CLOUDTRON OneClick, CLAUTRON, NVIDIA Nemotron 120B, Nemotron 3.5 Super VL, deep thinking, chain of thought, electron windows ai, felipe monroe, cloudtron github, felipeptxa, ia desktop windows">
   <meta name="author" content="Felipe Monroe">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://felipeptxa.github.io/claudtron/">
@@ -19,15 +19,15 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://felipeptxa.github.io/claudtron/">
-  <meta property="og:site_name" content="CLAUTRON OneClick">
-  <meta property="og:title" content="CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
+  <meta property="og:site_name" content="CLOUDTRON OneClick">
+  <meta property="og:title" content="CLOUDTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
   <meta property="og:description" content="Raciocínio Profundo &amp; Multimodalidade na Sua Área de Trabalho. Em Um Clique. Windows x64 nativo.">
   <meta property="og:image" content="https://felipeptxa.github.io/claudtron/og-preview.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://felipeptxa.github.io/claudtron/">
-  <meta name="twitter:title" content="CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
+  <meta name="twitter:title" content="CLOUDTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
   <meta name="twitter:description" content="Raciocínio Profundo &amp; Multimodalidade na Sua Área de Trabalho. Em Um Clique. Windows x64 nativo.">
   <meta name="twitter:image" content="https://felipeptxa.github.io/claudtron/og-preview.png">
 
@@ -77,7 +77,6 @@
 
   <!-- Custom Styles for Cyber Grid, Glow & Glassmorphism -->
   <style>
-    /* Base Reset & Variables */
     :root {
       --bg-dark: #0B0D13;
       --card-dark: #161B26;
@@ -178,17 +177,17 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "CLAUTRON OneClick",
+    "name": "CLOUDTRON OneClick",
     "operatingSystem": "Windows 10, Windows 11 (x64)",
     "applicationCategory": "DeveloperApplication",
-    "softwareVersion": "1.1.0",
+    "softwareVersion": "1.2.0",
     "description": "Estação desktop ultra leve em Electron e Node.js para inferência direta do Nemotron 120B com Chain-of-Thought e visão multimodal nativa.",
     "author": {
       "@type": "Person",
       "name": "Felipe Monroe",
       "url": "https://github.com/felipeptxa"
     },
-    "downloadUrl": "https://github.com/felipeptxa/clautron/releases",
+    "downloadUrl": "https://github.com/felipeptxa/claudtron/releases",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -207,7 +206,7 @@
     <div class="absolute bottom-20 left-1/3 w-[550px] h-[550px] bg-neonGreen/10 rounded-full blur-[150px]"></div>
   </div>
 
-  <!-- 1. Header / Navbar Minimalista (Fixo com backdrop-blur) -->
+  <!-- 1. Header / Navbar Minimalista -->
   <header class="sticky top-0 z-50 w-full bg-cyberBg/85 backdrop-blur-md border-b border-cyberBorder transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3.5">
       
@@ -219,30 +218,20 @@
           </svg>
         </div>
         <div class="flex items-center gap-2">
-          <span class="font-display font-extrabold text-lg tracking-tight text-white group-hover:text-neonCyan transition-colors">CLAUTRON</span>
+          <span class="font-display font-extrabold text-lg tracking-tight text-white group-hover:text-neonCyan transition-colors">CLOUDTRON</span>
           <span class="font-display font-extrabold text-lg tracking-tight text-neonCyan">OneClick</span>
-          <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded-full bg-cyberBorder/80 border border-cyberBorder text-mutedText ml-1">v1.1.0</span>
+          <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded-full bg-cyberBorder/80 border border-cyberBorder text-mutedText ml-1">v1.2.0</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation Links -->
+      <!-- Desktop Navigation Links (Limpo sem duplicação de botão) -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-mutedText">
         <a href="#recursos" class="hover:text-neonCyan transition-colors">Recursos</a>
         <a href="#arquitetura" class="hover:text-neonCyan transition-colors">Arquitetura</a>
         <a href="#roadmap" class="hover:text-neonCyan transition-colors">Roadmap</a>
-        <a href="#doacao" onclick="openDonationModal(); return false;" class="hover:text-neonGreen transition-colors flex items-center gap-1.5 text-neonGreen/90">
-          <svg class="w-4 h-4 text-neonGreen animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-            <line x1="6" y1="1" x2="6" y2="4"></line>
-            <line x1="10" y1="1" x2="10" y2="4"></line>
-            <line x1="14" y1="1" x2="14" y2="4"></line>
-          </svg>
-          Apoiar Projeto
-        </a>
       </nav>
 
-      <!-- Top Right Actions -->
+      <!-- Top Right Actions (Único botão de apoiar no Header ao lado do GitHub) -->
       <div class="flex items-center gap-3">
         <!-- Support / Buy Me A Coffee Button -->
         <button onclick="openDonationModal()" type="button" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-cyberCard border border-neonGreen/40 text-neonGreen text-xs font-semibold hover:bg-neonGreen/10 hover:border-neonGreen hover:shadow-[0_0_15px_rgba(0,255,163,0.25)] transition-all">
@@ -257,7 +246,7 @@
         </button>
 
         <!-- GitHub Repo Button -->
-        <a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/5 border border-cyberBorder text-white text-xs font-semibold hover:border-neonCyan hover:bg-white/10 transition-all" title="Ver código-fonte no GitHub">
+        <a href="https://github.com/felipeptxa/claudtron" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/5 border border-cyberBorder text-white text-xs font-semibold hover:border-neonCyan hover:bg-white/10 transition-all" title="Ver código-fonte no GitHub">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
           </svg>
@@ -307,25 +296,39 @@
       </p>
 
       <!-- Botões de Ação Principais -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-5">
         <!-- CTA Primário (Windows Download) -->
-        <a href="https://github.com/felipeptxa/clautron/releases/download/v1.1.0/CLAUTRON-OneClick-Setup-1.1.0.exe" class="btn-download-pulse w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 rounded-xl text-black font-sans font-bold text-base transition-all group" id="heroDownloadBtn">
+        <a href="https://github.com/felipeptxa/claudtron/releases/download/v1.2.0/CLAUTRON-OneClick-Setup-1.2.0.exe" class="btn-download-pulse w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 rounded-xl text-black font-sans font-bold text-base transition-all group" id="heroDownloadBtn">
           <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
             <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.751"/>
           </svg>
           <div class="text-left">
             <div class="text-sm font-extrabold tracking-tight">Baixar para Windows (x64)</div>
-            <div class="text-[11px] font-mono opacity-80 font-normal">CLAUTRON OneClick Setup 1.1.0.exe (NSIS)</div>
+            <div class="text-[11px] font-mono opacity-80 font-normal">CLOUDTRON OneClick Setup 1.2.0.exe (NSIS)</div>
           </div>
         </a>
 
         <!-- CTA Secundário (GitHub) -->
-        <a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-cyberCard border border-cyberBorder text-white font-medium text-base hover:border-neonCyan/50 hover:bg-cyberCard/90 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all">
+        <a href="https://github.com/felipeptxa/claudtron" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-cyberCard border border-cyberBorder text-white font-medium text-base hover:border-neonCyan/50 hover:bg-cyberCard/90 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all">
           <svg class="w-5 h-5 text-neonCyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
           </svg>
           <span>Ver no GitHub (MIT)</span>
         </a>
+      </div>
+
+      <!-- Botão de Apoio no Hero (Abaixo / Centro dos botões de ação) -->
+      <div class="flex justify-center mb-10">
+        <button onclick="openDonationModal()" type="button" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-neonGreen/10 border border-neonGreen/40 text-neonGreen text-xs font-mono font-semibold hover:bg-neonGreen hover:text-black hover:shadow-[0_0_25px_rgba(0,255,163,0.35)] transition-all">
+          <svg class="w-4 h-4 text-neonGreen animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+          <span>☕ Apoiar Projeto (Buy me a Coffee / N26)</span>
+        </button>
       </div>
 
       <!-- Trust Strip Badges -->
@@ -345,7 +348,7 @@
               <span class="w-3 h-3 rounded-full bg-[#FF5F56] inline-block"></span>
               <span class="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block"></span>
               <span class="w-3 h-3 rounded-full bg-[#27C93F] inline-block"></span>
-              <span class="text-xs font-mono text-mutedText ml-3">CLAUTRON OneClick • nemotron-3.5-vl-120b</span>
+              <span class="text-xs font-mono text-mutedText ml-3">CLOUDTRON OneClick • nemotron-3.5-vl-120b</span>
             </div>
             <div class="flex items-center gap-3">
               <!-- Topbar Heuristic Preset Indicator -->
@@ -412,7 +415,7 @@
                   <pre class="p-4 text-xs font-mono overflow-x-auto text-lightText leading-relaxed"><code><span class="text-neonPurple font-bold">export async function</span> <span class="text-neonCyan">dispatchTokenStream</span>(payload: <span class="text-neonGreen">StreamPayload</span>): <span class="text-neonGreen">Promise</span>&lt;<span class="text-neonCyan">void</span>&gt; {
   <span class="text-mutedText">// Inicializa canal de eventos com proteção contra null pointer</span>
   <span class="text-neonPurple font-bold">if</span> (!payload.tokenStream) {
-    <span class="text-neonPurple font-bold">throw new</span> <span class="text-neonCyan">StreamInitializationError</span>(<span class="text-neonGreen">'[CLAUTRON] Stream não alocado.'</span>);
+    <span class="text-neonPurple font-bold">throw new</span> <span class="text-neonCyan">StreamInitializationError</span>(<span class="text-neonGreen">'[CLOUDTRON] Stream não alocado.'</span>);
   }
   <span class="text-neonPurple font-bold">await</span> payload.tokenStream.pipeThrough(<span class="text-neonPurple font-bold">new</span> <span class="text-neonCyan">TextDecoderStream</span>());
 }</code></pre>
@@ -434,7 +437,7 @@
           Arquitetado para Performance Extrema. <span class="text-gradient-cyan-purple">Sem Atalhos.</span>
         </h2>
         <p class="text-mutedText text-base sm:text-lg">
-          O CLAUTRON OneClick reúne em um único executável tudo o que engenheiros exigem para operar modelos de 120B de parâmetros na rotina de código.
+          O CLOUDTRON OneClick reúne em um único executável tudo o que engenheiros exigem para operar modelos de 120B de parâmetros na rotina de código.
         </p>
       </div>
 
@@ -568,7 +571,7 @@
       <div class="text-center max-w-3xl mx-auto mb-16">
         <span class="text-neonPurple font-mono text-xs font-semibold tracking-wider uppercase mb-3 block">Topologia de Engenharia</span>
         <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-          Como o <span class="text-gradient-cyan-purple">CLAUTRON OneClick</span> Funciona
+          Como o <span class="text-gradient-cyan-purple">CLOUDTRON OneClick</span> Funciona
         </h2>
         <p class="text-mutedText text-base sm:text-lg">
           Uma arquitetura híbrida de alto desempenho que transfere o peso computacional de 120 bilhões de parâmetros para a nuvem da NVIDIA, mantendo a experiência local ultrarrápida.
@@ -621,7 +624,7 @@
       <div class="text-center max-w-3xl mx-auto mb-16">
         <span class="text-neonCyan font-mono text-xs font-semibold tracking-wider uppercase mb-3 block">Linha do Tempo</span>
         <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-          Evolução Contínua do <span class="text-gradient-cyan-purple">CLAUTRON</span>
+          Evolução Contínua do <span class="text-gradient-cyan-purple">CLOUDTRON</span>
         </h2>
         <p class="text-mutedText text-base sm:text-lg">
           Acompanhe os marcos consolidados e os próximos desenvolvimentos planejados para o ecossistema.
@@ -642,27 +645,27 @@
           </p>
         </div>
 
-        <!-- v1.1.0 (Current) -->
-        <div class="glass-card p-6 rounded-2xl border-neonCyan/40 shadow-[0_0_20px_rgba(0,240,255,0.1)]">
+        <!-- v1.1.0 -->
+        <div class="glass-card p-6 rounded-2xl border-cyberBorder">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-mono font-bold text-neonCyan px-2.5 py-1 rounded bg-neonCyan/10 border border-neonCyan/40">Versão Atual</span>
-            <span class="font-mono text-xs text-neonCyan font-bold">v1.1.0</span>
+            <span class="text-xs font-mono font-bold text-neonGreen px-2.5 py-1 rounded bg-neonGreen/10 border border-neonGreen/30">Lançado</span>
+            <span class="font-mono text-xs text-mutedText">v1.1.0</span>
           </div>
-          <h3 class="font-display font-bold text-lg text-white mb-2">Desktop Electron &amp; Visão</h3>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Desktop &amp; Visão</h3>
           <p class="text-mutedText text-xs leading-relaxed">
             Instalador Windows x64 NSIS, ferramenta de diagnóstico em 2 passos, container retrátil de Chain-of-Thought e captura de imagens via Ctrl+V.
           </p>
         </div>
 
-        <!-- v1.2.0 -->
-        <div class="glass-card p-6 rounded-2xl border-neonPurple/30">
+        <!-- v1.2.0 (Current) -->
+        <div class="glass-card p-6 rounded-2xl border-neonCyan/40 shadow-[0_0_20px_rgba(0,240,255,0.15)]">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-mono font-bold text-neonPurple px-2.5 py-1 rounded bg-neonPurple/10 border border-neonPurple/30">Em Progresso</span>
-            <span class="font-mono text-xs text-mutedText">v1.2.0</span>
+            <span class="text-xs font-mono font-bold text-neonCyan px-2.5 py-1 rounded bg-neonCyan/10 border border-neonCyan/40">Versão Atual</span>
+            <span class="font-mono text-xs text-neonCyan font-bold">v1.2.0</span>
           </div>
-          <h3 class="font-display font-bold text-lg text-white mb-2">Histórico &amp; Exportação</h3>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Context Bridge &amp; Ingestão</h3>
           <p class="text-mutedText text-xs leading-relaxed">
-            Busca global indexada em conversas passadas, exportação estruturada em PDF/Markdown e módulo de ingestão universal de documentos.
+            Importação nativa de contextos de outras IAs (Context Bridge), leitura local em JS de PDF/DOCX/XLSX/ZIP e modo de doação direta.
           </p>
         </div>
 
@@ -672,7 +675,7 @@
             <span class="text-xs font-mono font-bold text-mutedText px-2.5 py-1 rounded bg-white/5 border border-cyberBorder">Planejado</span>
             <span class="font-mono text-xs text-mutedText">v1.3.0+</span>
           </div>
-          <h3 class="font-display font-bold text-lg text-white mb-2">Multi-Modelos &amp; Auto-Update</h3>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Multi-Modelos &amp; Voice Live</h3>
           <p class="text-mutedText text-xs leading-relaxed">
             Seletor dinâmico de personas NIM (Llama, DeepSeek, Qwen), atalhos globais de sistema no Windows e auto-updater nativo em background.
           </p>
@@ -689,7 +692,7 @@
             <svg class="w-4 h-4 text-neonGreen animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
             Apoie o Projeto Independente
           </div>
-          <h3 class="text-white font-display font-bold text-lg">Gostou do CLAUTRON OneClick?</h3>
+          <h3 class="text-white font-display font-bold text-lg">Gostou do CLOUDTRON OneClick?</h3>
           <p class="text-mutedText text-sm">Ajude a manter as releases ativas e novas integrações com uma contribuição via PayPal ou N26.</p>
         </div>
         <button onclick="openDonationModal()" type="button" class="shrink-0 px-6 py-3 rounded-xl bg-neonGreen/10 border border-neonGreen text-neonGreen font-bold text-sm hover:bg-neonGreen hover:text-black transition-all shadow-[0_0_20px_rgba(0,255,163,0.2)]">
@@ -719,7 +722,7 @@
             </svg>
           </div>
           <div>
-            <h3 id="modalTitle" class="font-display font-bold text-lg text-white">Apoie o Desenvolvimento do CLAUTRON</h3>
+            <h3 id="modalTitle" class="font-display font-bold text-lg text-white">Apoie o Desenvolvimento do CLOUDTRON</h3>
             <p class="text-xs text-mutedText">Projeto open-source e independente criado por Felipe Monroe.</p>
           </div>
         </div>
@@ -842,8 +845,8 @@
       <!-- Brand & MIT License -->
       <div class="space-y-1 text-center md:text-left">
         <div class="flex items-center justify-center md:justify-start gap-2">
-          <span class="font-display font-extrabold text-white">⚡ CLAUTRON OneClick</span>
-          <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyberCard border border-cyberBorder text-neonCyan">v1.1.0</span>
+          <span class="font-display font-extrabold text-white">⚡ CLOUDTRON OneClick</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyberCard border border-cyberBorder text-neonCyan">v1.2.0</span>
         </div>
         <p class="text-xs">
           Desenvolvido por <a href="https://github.com/felipeptxa" target="_blank" rel="noopener noreferrer" class="text-white hover:text-neonCyan font-semibold underline">Felipe Monroe</a> sob licença open-source MIT.
@@ -855,8 +858,8 @@
         <a href="#hero" class="hover:text-neonCyan transition-colors">Voltar ao Topo</a>
         <a href="#recursos" class="hover:text-neonCyan transition-colors">Recursos</a>
         <a href="#arquitetura" class="hover:text-neonCyan transition-colors">Arquitetura</a>
-        <a href="https://github.com/felipeptxa/clautron/releases" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Releases</a>
-        <a href="https://github.com/felipeptxa/clautron/issues" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Reportar Issue</a>
+        <a href="https://github.com/felipeptxa/claudtron/releases" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Releases</a>
+        <a href="https://github.com/felipeptxa/claudtron/issues" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Reportar Issue</a>
         <button onclick="openDonationModal()" type="button" class="text-neonGreen hover:underline font-semibold flex items-center gap-1">
           <span>☕ Apoiar com um café / Doação</span>
         </button>
@@ -864,7 +867,7 @@
 
       <!-- Copyright -->
       <div class="text-xs font-mono text-center md:text-right text-mutedText/80">
-        &copy; 2026 CLAUTRON Project.<br>Windows x64 Native.
+        &copy; 2026 CLOUDTRON Project.<br>Windows x64 Native.
       </div>
 
     </div>
@@ -970,7 +973,7 @@
     const heroDownloadBtn = document.getElementById('heroDownloadBtn');
     if (heroDownloadBtn) {
       heroDownloadBtn.addEventListener('click', () => {
-        showToast('Iniciando download do instalador CLAUTRON OneClick v1.1.0...');
+        showToast('Iniciando download do instalador CLOUDTRON OneClick v1.2.0...');
       });
     }
   </script>
