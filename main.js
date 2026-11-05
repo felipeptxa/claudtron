@@ -14,7 +14,11 @@ const { app, BrowserWindow, shell, globalShortcut } = require('electron');
 const path = require('path');
 
 // 1. Inicializa o servidor proxy local do Cloudtron em segundo plano
-require('./server.js');
+try {
+  require('./server.js');
+} catch (err) {
+  console.warn('[ELECTRON] Servidor proxy já ativo ou iniciado externamente:', err.message);
+}
 
 let mainWindow;
 
@@ -33,8 +37,18 @@ function createWindow() {
     }
   });
 
-  // Carrega a interface servida pelo proxy local
-  mainWindow.loadURL('http://localhost:3000');
+  // Carrega a interface servida pelo proxy local com retry resiliente
+  const loadApp = () => {
+    mainWindow.loadURL('http://localhost:3000').catch((err) => {
+      console.warn('[ELECTRON] Servidor local ainda inicializando, tentando em 350ms...', err.message);
+      setTimeout(() => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.loadURL('http://localhost:3000').catch(() => {});
+        }
+      }, 350);
+    });
+  };
+  loadApp();
 
   // Força links externos a abrirem no navegador padrão do sistema
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {

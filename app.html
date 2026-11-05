@@ -2862,17 +2862,25 @@
       <div class="info-card-body" style="gap: 16px;">
         <!-- Seção 1: Chave de API -->
         <div class="settings-section">
-          <div class="settings-section-title">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <span>Autenticação NVIDIA NIM</span>
+          <div class="settings-section-title" style="justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Autenticação NVIDIA NIM</span>
+            </div>
+            <button type="button" class="btn-preview-ctrl" id="btnTestKeyModal" onclick="runPingTest(true)" style="padding: 4px 12px; font-size: 11px; color: #38bdf8; border-color: rgba(56,189,248,0.35); background: rgba(56,189,248,0.08); border-radius: 6px; font-weight: 500; cursor: pointer; white-space: nowrap;">
+              ⚡ Testar Chave
+            </button>
           </div>
           <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
             Chave pessoal da NVIDIA (iniciada com <code>nvapi-...</code>). Obtenha em <a href="https://build.nvidia.com" target="_blank" style="color: #60a5fa; text-decoration: none;">build.nvidia.com</a>.
           </p>
-          <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." autocomplete="off" spellcheck="false" />
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." autocomplete="off" spellcheck="false" style="flex: 1;" />
+          </div>
+          <div id="modalTestResult" style="display: none; margin-top: 8px; font-size: 11.5px; padding: 7px 12px; border-radius: 6px; line-height: 1.4;"></div>
         </div>
 
         <!-- Seção 2: Custom System Prompt -->
@@ -3786,6 +3794,17 @@
       if (jsonCheck) jsonCheck.checked = !!s.jsonMode;
       const nemoCheck = document.getElementById('checkNemoAutoEval');
       if (nemoCheck) nemoCheck.checked = (s.nemoAutoEval !== false);
+
+      const testRes = document.getElementById('modalTestResult');
+      if (testRes) {
+        testRes.style.display = 'none';
+        testRes.innerHTML = '';
+      }
+      const testBtn = document.getElementById('btnTestKeyModal');
+      if (testBtn) {
+        testBtn.disabled = false;
+        testBtn.textContent = '⚡ Testar Chave';
+      }
 
       document.getElementById('settingsModal').classList.add('aberto');
     }
@@ -5509,58 +5528,144 @@
       return String(string).replace(/[&<>"']/g, s => entityMap[s]);
     }
 
-    async function runPingTest() {
+    async function runPingTest(fromModal = false) {
       const btn = document.getElementById('btnPing');
       const label = document.getElementById('pingLabel');
-      btn.className = 'btn-ping';
-      btn.disabled = true;
-      label.textContent = '1/2 Servidor...';
+      const modalBtn = document.getElementById('btnTestKeyModal');
+      const modalResult = document.getElementById('modalTestResult');
+      const statusLed = document.getElementById('headerStatusLed');
+
+      const setModalFeedback = (status, text) => {
+        if (!modalResult) return;
+        modalResult.style.display = 'block';
+        if (status === 'testing') {
+          modalResult.style.background = 'rgba(56, 189, 248, 0.1)';
+          modalResult.style.border = '1px solid rgba(56, 189, 248, 0.3)';
+          modalResult.style.color = '#38bdf8';
+        } else if (status === 'ok') {
+          modalResult.style.background = 'rgba(16, 185, 129, 0.12)';
+          modalResult.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+          modalResult.style.color = '#34d399';
+        } else {
+          modalResult.style.background = 'rgba(239, 68, 68, 0.12)';
+          modalResult.style.border = '1px solid rgba(239, 68, 68, 0.35)';
+          modalResult.style.color = '#fca5a5';
+        }
+        modalResult.innerHTML = text;
+      };
+
+      if (btn) {
+        btn.className = 'btn-ping';
+        btn.disabled = true;
+      }
+      if (label) label.textContent = '1/2 Servidor...';
+      if (modalBtn) {
+        modalBtn.disabled = true;
+        modalBtn.textContent = 'Testando...';
+      }
+      setModalFeedback('testing', '<span>⏳ [1/2] Testando resposta do servidor proxy local...</span>');
 
       // Passo 1: testa servidor local
       try {
         const r = await fetch('/api/ping');
         const data = await r.json();
-        if (!data.ok) throw new Error('resposta inesperada');
+        if (!data.ok) throw new Error('Servidor local retornou resposta inválida.');
       } catch (e) {
-        btn.className = 'btn-ping fail';
-        btn.disabled = false;
-        label.textContent = 'Servidor FAIL';
+        if (btn) {
+          btn.className = 'btn-ping fail';
+          btn.disabled = false;
+        }
+        if (label) label.textContent = 'Servidor FAIL';
+        if (modalBtn) {
+          modalBtn.disabled = false;
+          modalBtn.textContent = '⚡ Testar Chave';
+        }
+        setModalFeedback('fail', `<strong>❌ Falha no Servidor Local:</strong> ${escapeHtml(e.message)}<br><small>Certifique-se de que o backend está ativo na porta 3000.</small>`);
         showError('Servidor local não respondeu: ' + e.message);
-        setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 6000);
+        setTimeout(() => { if (btn) btn.className = 'btn-ping'; if (label) label.textContent = 'Diagnóstico'; }, 6000);
         return;
       }
 
-      // Passo 2: testa conexão com NVIDIA
-      label.textContent = '2/2 NVIDIA...';
+      // Passo 2: testa conexão e inferência com NVIDIA
+      if (label) label.textContent = '2/2 NVIDIA...';
+      setModalFeedback('testing', '<span>⚡ [2/2] Autenticando chave e testando nó de inferência na NVIDIA NIM...</span>');
+
       try {
-        const userKey = getStoredApiKey();
+        const modalKey = document.getElementById('modalKeyInput')?.value?.trim();
+        const userKey = modalKey || getStoredApiKey();
         const headers = { 'Content-Type': 'application/json' };
         if (userKey) headers['Authorization'] = 'Bearer ' + userKey;
 
-        const r = await fetch('/api/test-nvidia', { headers });
+        const activePersona = (typeof getActivePersona === 'function') ? getActivePersona() : null;
+        const testModelParam = activePersona?.modelId ? `?model=${encodeURIComponent(activePersona.modelId)}` : '';
+
+        const r = await fetch('/api/test-nvidia' + testModelParam, { headers });
         const data = await r.json();
 
         if (data.ok) {
-          btn.className = 'btn-ping ok';
-          btn.disabled = false;
-          label.textContent = 'NVIDIA OK ✓';
-          updateNvidiaStatusLed(true, 'NVIDIA NIM: Conectado');
+          if (btn) {
+            btn.className = 'btn-ping ok';
+            btn.disabled = false;
+          }
+          if (label) label.textContent = 'NVIDIA OK ✓';
+          if (modalBtn) {
+            modalBtn.disabled = false;
+            modalBtn.textContent = '✓ Conectado';
+          }
+          updateNvidiaStatusLed(true, `NVIDIA NIM: Conectado (${data.model || 'Cluster Operacional'})`);
+          setModalFeedback('ok', `<strong>✅ Conexão bem-sucedida!</strong><br>Chave autenticada e nó de inferência <code>${escapeHtml(data.model || 'nemotron-120b')}</code> 100% operacional.`);
           clearError();
-          setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 4000);
+
+          // Se a chave veio do input da modal, salva-a no localStorage imediatamente
+          if (modalKey && modalKey !== getStoredApiKey()) {
+            localStorage.setItem(API_KEY_STORAGE, modalKey);
+            const curSettings = getGlobalSettings();
+            curSettings.apiKey = modalKey;
+            localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(curSettings));
+          }
+
+          setTimeout(() => {
+            if (btn) btn.className = 'btn-ping';
+            if (label) label.textContent = 'Diagnóstico';
+            if (modalBtn) modalBtn.textContent = '⚡ Testar Chave';
+          }, 5000);
         } else {
-          btn.className = 'btn-ping fail';
-          btn.disabled = false;
-          label.textContent = 'NVIDIA FAIL';
+          if (btn) {
+            btn.className = 'btn-ping fail';
+            btn.disabled = false;
+          }
+          if (label) label.textContent = 'NVIDIA FAIL';
+          if (modalBtn) {
+            modalBtn.disabled = false;
+            modalBtn.textContent = '⚠️ Falha';
+          }
           updateNvidiaStatusLed(false, 'NVIDIA NIM: Falha de conexão');
-          showError('Diagnóstico [' + (data.step || '?') + ']: ' + (data.error || 'erro desconhecido'));
-          setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 10000);
+          const errMsg = data.error || 'Erro desconhecido ao conectar com a NVIDIA.';
+          setModalFeedback('fail', `<strong>❌ Falha no Diagnóstico [${escapeHtml(data.step || '?')}]:</strong><br>${escapeHtml(errMsg)}`);
+          showError('Diagnóstico [' + (data.step || '?') + ']: ' + errMsg);
+          setTimeout(() => {
+            if (btn) btn.className = 'btn-ping';
+            if (label) label.textContent = 'Diagnóstico';
+            if (modalBtn) modalBtn.textContent = '⚡ Testar Chave';
+          }, 8000);
         }
       } catch (e) {
-        btn.className = 'btn-ping fail';
-        btn.disabled = false;
-        label.textContent = 'Erro';
+        if (btn) {
+          btn.className = 'btn-ping fail';
+          btn.disabled = false;
+        }
+        if (label) label.textContent = 'Erro';
+        if (modalBtn) {
+          modalBtn.disabled = false;
+          modalBtn.textContent = '⚡ Testar Chave';
+        }
+        setModalFeedback('fail', `<strong>❌ Erro:</strong> ${escapeHtml(e.message)}`);
         showError('Falha no diagnóstico: ' + e.message);
-        setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 6000);
+        setTimeout(() => {
+          if (btn) btn.className = 'btn-ping';
+          if (label) label.textContent = 'Diagnóstico';
+          if (modalBtn) modalBtn.textContent = '⚡ Testar Chave';
+        }, 6000);
       }
     }
 

@@ -179,20 +179,28 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url.startsWith('/api/test-nvidia')) {
     const authHeader = req.headers['authorization'] || '';
     const clientKey = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
-    const apiKey = clientKey || getEnvApiKey();
+    let queryKey = '';
+    let queryModel = '';
+    try {
+      const parsedUrl = new URL(req.url, 'http://localhost');
+      queryKey = parsedUrl.searchParams.get('key') || '';
+      queryModel = parsedUrl.searchParams.get('model') || '';
+    } catch (_) {}
+    const apiKey = clientKey || queryKey || getEnvApiKey();
+    const modelToTest = queryModel || DEFAULT_MODEL;
 
     if (!apiKey) {
       res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({
         ok: false,
         step: 'auth',
-        error: 'Nenhuma chave API configurada. Clique em "Configurações" no topo para colar sua chave.'
+        error: 'Nenhuma chave API configurada. Cole sua chave nvapi-... no campo de configurações.'
       }));
       return;
     }
 
     (async () => {
-      console.log('[DIAGNÓSTICO] Iniciando teste de conexão com NVIDIA...');
+      console.log(`[DIAGNÓSTICO] Iniciando teste de conexão com NVIDIA (modelo: ${modelToTest})...`);
 
       // Passo 1: Testa autenticação e rede via /v1/models (rápido e sem custo de inferência)
       let modelsRes;
@@ -212,7 +220,7 @@ const server = http.createServer((req, res) => {
           ok: false,
           step: 'network',
           error: isTimeout
-            ? 'TIMEOUT DE REDE: Falha ao alcançar integrate.api.nvidia.com em 15s. Verifique firewall, proxy ou internet.'
+            ? 'TIMEOUT DE REDE: Falha ao alcançar integrate.api.nvidia.com em 15s. Verifique firewall, proxy ou conexão à internet.'
             : `FALHA DE REDE: ${e.message}`
         }));
         return;
@@ -229,7 +237,7 @@ const server = http.createServer((req, res) => {
 
         console.error(`[DIAGNÓSTICO] Falha no Passo 1 (auth): HTTP ${modelsRes.status} - ${errDetail}`);
         const userMsg = modelsRes.status === 401
-          ? 'CHAVE INVÁLIDA: A chave nvapi informada foi rejeitada pela NVIDIA (HTTP 401). Verifique sua chave.'
+          ? 'CHAVE INVÁLIDA: A chave nvapi informada foi rejeitada pela NVIDIA (HTTP 401). Verifique se foi copiada corretamente.'
           : modelsRes.status === 403
           ? 'ACESSO NEGADO: Sua conta NVIDIA não tem permissão para esta API (HTTP 403).'
           : `ERRO NVIDIA (HTTP ${modelsRes.status}): ${errDetail}`;
@@ -241,7 +249,7 @@ const server = http.createServer((req, res) => {
 
       console.log('[DIAGNÓSTICO] Passo 1 OK (chave autenticada). Testando Passo 2 (inferência simples)...');
 
-      // Passo 2: Teste de inferência real de 1 token (sem stream) com timeout de 20s
+      // Passo 2: Teste de inferência real de 1 token com timeout de 20s
       try {
         const testRes = await fetchWithTimeout(NVIDIA_ENDPOINT, {
           method: 'POST',
@@ -251,7 +259,7 @@ const server = http.createServer((req, res) => {
             'User-Agent': 'Cloudtron-OneClick/1.2.0'
           },
           body: JSON.stringify({
-            model: DEFAULT_MODEL,
+            model: modelToTest,
             messages: [{ role: 'user', content: 'hi' }],
             max_tokens: 2,
             stream: false,
@@ -282,8 +290,8 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(JSON.stringify({
           ok: true,
-          model: DEFAULT_MODEL,
-          message: 'Conexão e inferência NVIDIA OK!'
+          model: modelToTest,
+          message: 'Conexão e nó de inferência NVIDIA 100% OK!'
         }));
 
       } catch (e) {
@@ -294,7 +302,7 @@ const server = http.createServer((req, res) => {
           ok: false,
           step: 'inference',
           error: isTimeout
-            ? 'TIMEOUT NA INFERÊNCIA: NVIDIA autenticou, mas o modelo demorou mais de 20s para gerar 1 token.'
+            ? 'TIMEOUT NA INFERÊNCIA: NVIDIA autenticou, mas o nó demorou mais de 20s para responder.'
             : `ERRO DE INFERÊNCIA: ${e.message}`
         }));
       }
@@ -727,8 +735,12 @@ const server = http.createServer((req, res) => {
           ? clientData.seed
           : null;
 
+        const modelToUse = (typeof clientData.model === 'string' && clientData.model.trim())
+          ? clientData.model.trim()
+          : DEFAULT_MODEL;
+
         const nvidiaPayload = {
-          model: DEFAULT_MODEL,
+          model: modelToUse,
           messages: sanitizedMessages,
           temperature: temperature,
           top_p: top_p,
@@ -745,7 +757,7 @@ const server = http.createServer((req, res) => {
           nvidiaPayload.response_format = clientData.response_format;
         }
 
-        console.log(`[PROXY] -> Enviando para NVIDIA (${DEFAULT_MODEL} | thinking: ${isThinking} | temp: ${temperature} | top_p: ${top_p} | tokens: ${max_tokens} | seed: ${seed} | msgs: ${sanitizedMessages.length})...`);
+        console.log(`[PROXY] -> Enviando para NVIDIA (${modelToUse} | thinking: ${isThinking} | temp: ${temperature} | top_p: ${top_p} | tokens: ${max_tokens} | seed: ${seed} | msgs: ${sanitizedMessages.length})...`);
 
         let nvidiaRes;
         try {
@@ -866,7 +878,7 @@ const server = http.createServer((req, res) => {
             logInteraction({
               id: interactionId,
               timestamp: new Date().toISOString(),
-              model: DEFAULT_MODEL,
+              model: modelToUse,
               effort: clientData.effort || 'auto',
               profile: clientData.profile || 'Auto',
               temperature: temperature,
@@ -966,6 +978,15 @@ const server = http.createServer((req, res) => {
       }
     });
   });
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.warn(`[SERVER] ⚠️ Porta ${PORT} já está em uso por uma instância ativa do Cloudtron.`);
+    console.warn(`[SERVER] ✅ Conectando e reutilizando o serviço existente em http://localhost:${PORT}`);
+  } else {
+    console.error('[SERVER ERRO]:', err);
+  }
 });
 
 server.listen(PORT, () => {
