@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLAUTRON OneClick</title>
+  <title>Cloudtron OneClick</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1405,7 +1405,7 @@
 
     .persona-dropdown, .model-dropdown, .persona-popover {
       position: absolute;
-      bottom: calc(100% + 10px);
+      top: calc(100% + 8px);
       left: 0;
       width: 340px;
       background: #0b1222;
@@ -2018,7 +2018,474 @@
       color: #ffffff;
     }
 
-  </style>
+  
+    /* ─── Mockup Inspired Topbar & Window Controls ─── */
+    .window-controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-right: 6px;
+    }
+
+    .control-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      cursor: default;
+      transition: opacity 0.15s;
+    }
+
+    .control-close { background-color: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+    .control-min { background-color: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+    .control-max { background-color: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.4); }
+
+    .brand-top-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quantum-logo-mini {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 6px;
+    }
+
+    /* Model Pill no Topo com Chevron */
+    .model-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 6px;
+      padding: 4px 10px;
+      color: #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .model-pill-btn:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .model-pill-chevron {
+      color: #94a3b8;
+      transition: transform 0.2s;
+    }
+
+    /* Chips de Preset na Titlebar */
+    .titlebar-presets {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 3px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.14);
+    }
+
+    .preset-chip {
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 4px 9px;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+
+    .preset-chip.active {
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.14);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+      font-weight: 600;
+    }
+
+    .preset-chip:hover:not(.active) {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Status Badge Live (Direita do Topo) */
+    .status-badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: var(--accent-teal);
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      box-shadow: 0 0 10px rgba(45, 212, 191, 0.18);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .status-badge-live:hover {
+      background: rgba(45, 212, 191, 0.22);
+      box-shadow: 0 0 14px rgba(45, 212, 191, 0.3);
+    }
+
+    .status-badge-live .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent-teal);
+      border-radius: 50%;
+      box-shadow: 0 0 7px var(--accent-teal);
+      animation: pulse-dot-anim 2s infinite;
+    }
+
+    .status-badge-live.error {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .status-badge-live.error .pulse-dot {
+      background: #ef4444;
+      box-shadow: 0 0 7px #ef4444;
+    }
+
+    @keyframes pulse-dot-anim {
+      0% { opacity: 0.6; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0.6; transform: scale(0.9); }
+    }
+
+    /* ─── Sub-header de Navegação (Abas Chat vs Live Sandbox) ─── */
+    .sub-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: #080d1a;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      height: 40px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .sub-nav-tabs {
+      display: flex;
+      height: 100%;
+      gap: 4px;
+    }
+
+    .sub-nav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+      height: 100%;
+    }
+
+    .sub-nav-tab.active {
+      color: var(--accent-cyan);
+      border-bottom-color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.06);
+    }
+
+    .sub-nav-tab:hover:not(.active) {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-badge-interactive {
+      font-size: 9.5px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(45, 212, 191, 0.18);
+      color: var(--accent-teal);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .sub-nav-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    /* ─── Sidebar Import Bridge Button ─── */
+    .btn-sidebar-import {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 14px;
+      margin-top: 6px;
+      border-radius: 8px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #c084fc;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .btn-sidebar-import:hover {
+      background: rgba(168, 85, 247, 0.18);
+      border-color: #c084fc;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Sidebar Diagnostic Boxes (Telemetria no Rodapé) ─── */
+    .sidebar-diagnostic-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 10px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(6, 9, 19, 0.4);
+      flex-shrink: 0;
+    }
+
+    .sidebar-diagnostic-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .diag-label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+    }
+
+    .diag-val {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-teal);
+      font-weight: 700;
+    }
+
+    /* ─── Thinking Box (Violeta Estilizada) ─── */
+    .thinking-box {
+      background: #16112f !important;
+      border: 1px solid rgba(124, 58, 237, 0.4) !important;
+      border-radius: 8px !important;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .thinking-box summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(168, 85, 247, 0.12);
+      color: #c084fc;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+      list-style: none;
+      transition: background 0.15s ease;
+    }
+
+    .thinking-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .thinking-box summary:hover {
+      background: rgba(168, 85, 247, 0.2);
+    }
+
+    .thinking-title-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .thinking-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .thinking-timer {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: #94a3b8;
+    }
+
+    .thinking-chevron {
+      transition: transform 0.2s;
+    }
+
+    details[open] .thinking-chevron {
+      transform: rotate(180deg);
+    }
+
+    .thinking-content {
+      padding: 10px 14px;
+      font-size: 12px;
+      line-height: 1.55;
+      color: #cbd5e1;
+      font-family: 'JetBrains Mono', monospace;
+      border-top: 1px solid rgba(124, 58, 237, 0.25);
+      background: rgba(8, 13, 26, 0.7);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ─── Embedded Live Sandbox View Container ─── */
+    .sandbox-view-container {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+      background: #060913;
+      overflow: hidden;
+    }
+
+    .sandbox-view-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: #0a1020;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sandbox-view-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    .sandbox-view-iframe {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* ─── Context Bridge Dropzone e Modal Styles ─── */
+    .bridge-file-dropzone {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px dashed rgba(45, 212, 191, 0.4);
+      background: rgba(45, 212, 191, 0.05);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bridge-file-dropzone:hover {
+      background: rgba(45, 212, 191, 0.12);
+      border-color: #2dd4bf;
+    }
+
+    .bridge-select {
+      width: 100%;
+      background: #131c35;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 8px;
+      color: #f8fafc;
+      font-size: 12px;
+      padding: 9px 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .bridge-select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .btn-bridge-confirm {
+      background: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #3b82f6 !important;
+      font-weight: 600 !important;
+    }
+
+    .btn-bridge-confirm:hover {
+      background: #1d4ed8 !important;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.4) !important;
+    }
+
+    .bridge-success-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      margin: 10px 0 14px 0;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 10px;
+      animation: fadeInCard 0.25s ease-out;
+    }
+
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bridge-success-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .bridge-success-body strong {
+      display: block;
+      color: #6ee7b7;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .bridge-success-body p {
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+</style>
 </head>
 <body>
 
@@ -2067,7 +2534,7 @@
         </div>
         <div class="sidebar-brand-text">
           <div class="sidebar-brand-name">
-            <span class="brand-clautron">CLAUTRON</span>
+            <span class="brand-clautron">Cloudtron</span>
             <span class="brand-oneclick">OneClick</span>
           </div>
           <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.0</span>
@@ -2080,6 +2547,16 @@
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
         Nova conversa
+      </button>
+
+      <!-- Botão Secundário de Importação de Contexto (Context Bridge) -->
+      <button class="btn-sidebar-import" onclick="openContextBridgeModal()" title="Importar contexto e histórico do Claude, ChatGPT, Cursor...">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>📥 Importar Contexto</span>
       </button>
 
       <!-- Campo de Busca Instantânea no Histórico -->
@@ -2098,8 +2575,21 @@
     </div>
     <div class="chat-list" id="chatList"></div>
 
+    <!-- Cards de Telemetria e Diagnóstico no Rodapé da Sidebar -->
+    <div class="sidebar-diagnostic-panel">
+      <div class="sidebar-diagnostic-box">
+        <span class="diag-label">Motor Heurístico</span>
+        <span class="diag-val" id="activePresetIndicator">Profundo (CoT)</span>
+      </div>
+      <div class="sidebar-diagnostic-box">
+        <span class="diag-label">Latência NIM</span>
+        <span class="diag-val" id="telemetryLatencyIndicator">124ms</span>
+      </div>
+    </div>
+
     <!-- Rodapé da Sidebar com Botão de Configurações Minimalista -->
     <div class="sidebar-footer">
+      <div style="display: flex; align-items: center; gap: 8px;">
       <button class="btn-settings-sidebar" onclick="openSettingsModal()" title="Configurações Globais">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"></circle>
@@ -2107,9 +2597,13 @@
         </svg>
       </button>
       <div class="sidebar-footer-info">
-        <span class="sidebar-app-name">CLAUTRON OneClick</span>
+        <span class="sidebar-app-name">Cloudtron OneClick</span>
         <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.0</span>
+        </div>
       </div>
+      <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver a nova versão">
+        <span>🚀 Atualização v... disponível</span>
+      </button>
     </div>
 
     <div class="sidebar-resizer" id="sidebarResizer" title="Arraste para redimensionar"></div>
@@ -2117,29 +2611,58 @@
 
   <!-- Janela Principal -->
   <div class="app-main">
-    <header>
-      <div class="header-left">
+    <header class="app-topbar">
+      <div class="titlebar-left">
+        <!-- Controles Decorativos da Janela (Traffic Lights) -->
+        <div class="window-controls">
+          <div class="control-dot control-close" title="Fechar"></div>
+          <div class="control-dot control-min" title="Minimizar"></div>
+          <div class="control-dot control-max" title="Maximizar"></div>
+        </div>
+
         <button class="btn-toggle-sidebar" id="btnToggleSidebar" onclick="toggleSidebar()" title="Ocultar / Mostrar Barra Lateral">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="9" y1="3" x2="9" y2="21"></line>
           </svg>
         </button>
-        <div class="brand-logo-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
+
+        <div class="brand-top-group">
+          <div class="quantum-logo-mini">
+            <svg width="16" height="16" viewBox="0 0 40 40" fill="none">
+              <polygon points="20,2 35,11 35,29 20,38 5,29 5,11" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(8, 13, 26, 0.6)" />
+              <circle cx="20" cy="20" r="4" fill="#2dd4bf" />
+            </svg>
+          </div>
+          <span class="app-brand-title"><strong>Cloudtron</strong> <span style="font-weight: 300;">OneClick</span></span>
         </div>
-        <h1 class="app-brand-title">CLAUTRON OneClick</h1>
-        <span class="app-brand-version" id="headerVersionBadge">v1.2.0</span>
+
+        <!-- Seletor de Modelo / Persona com Chevron ▾ -->
+        <div class="persona-selector-container">
+          <button class="model-pill-btn" id="btnPersonaSelector" onclick="togglePersonaDropdown(event)" title="Selecionar Modelo / Persona">
+            <span id="activePersonaIcon">🧠</span>
+            <span id="activePersonaName">Cloudtron Omni</span>
+            <svg class="model-pill-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="persona-dropdown" id="personaDropdown"></div>
+        </div>
       </div>
 
-      <div class="header-right">
-        <div class="header-status-pill" id="headerStatusPill" title="Status da Conexão com NVIDIA NIM">
-          <span class="status-indicator-dot"></span>
-          <span id="headerStatusText">NVIDIA OK</span>
+      <!-- Presets em Pílula Centralizados (Fiel ao Mockup) -->
+      <div class="titlebar-presets" id="topbarPresets">
+        <button type="button" class="preset-chip active" id="chipDeep" onclick="setContextPreset('high')">Profundo (CoT)</button>
+        <button type="button" class="preset-chip" id="chipCode" onclick="setContextPreset('code')">Código</button>
+        <button type="button" class="preset-chip" id="chipCreative" onclick="setContextPreset('creative')">Criativo</button>
+        <button type="button" class="preset-chip" id="chipFast" onclick="setContextPreset('low')">Rápido</button>
+        <button type="button" class="preset-chip" id="chipAuto" onclick="setContextPreset('auto')">Auto</button>
+      </div>
+
+      <div class="titlebar-right">
+        <div class="status-badge-live" id="headerStatusPill" onclick="runPingTest()" title="Diagnóstico de Conexão com NVIDIA NIM">
+          <span class="pulse-dot" id="headerStatusDot"></span>
+          <span id="headerStatusText">NVIDIA OK ✓</span>
         </div>
-        <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Clique para ver os detalhes da nova versão">
+        <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Nova versão disponível">
           <span class="update-pulse-dot"></span>
           <span>🟢 Atualização Disponível</span>
           <span class="update-ver-tag" id="updateVerTag">v...</span>
@@ -2147,9 +2670,48 @@
       </div>
     </header>
 
+    <!-- Sub-header de Navegação com Abas Chat vs Live Sandbox -->
+    <div class="sub-navbar">
+      <div class="sub-nav-tabs">
+        <button class="sub-nav-tab active" id="tabChatView" onclick="switchMainView('chat')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>💬 Chat &amp; Código</span>
+        </button>
+        <button class="sub-nav-tab" id="tabSandboxView" onclick="switchMainView('sandbox')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>▷ Live Sandbox Preview</span>
+          <span class="tab-badge-interactive">Interativo</span>
+        </button>
+      </div>
+      <div class="sub-nav-meta mono" id="subHeaderModelTag">
+        NVIDIA Super VL 120B
+      </div>
+    </div>
+
     <main id="chatWindow">
       <div class="placeholder-msg" id="placeholder">Nova conversa iniciada. Em que posso te ajudar hoje?</div>
     </main>
+
+    <!-- Visualizador Live Sandbox Embutido -->
+    <div class="sandbox-view-container" id="sandboxContainer">
+      <div class="sandbox-view-header">
+        <div class="sandbox-view-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Live Sandbox Preview Container</span>
+          <span class="tab-badge-interactive" style="margin-left: 6px;">Hot-Reload Ativo</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-preview-ctrl" onclick="reloadEmbeddedSandbox()" title="Recarregar Sandbox">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+            Recarregar
+          </button>
+          <button class="btn-preview-ctrl" onclick="switchMainView('chat')" title="Voltar ao Chat">
+            ✕ Fechar Preview
+          </button>
+        </div>
+      </div>
+      <iframe class="sandbox-view-iframe" id="embeddedSandboxIframe" sandbox="allow-scripts allow-modals"></iframe>
+    </div>
 
     <footer>
       <div class="input-container-wrapper">
@@ -2224,6 +2786,64 @@
       </div>
       <div class="error-banner" id="errorBanner"></div>
     </footer>
+  </div>
+
+  <!-- Modal Importar Contexto de Outra IA (Context Bridge) -->
+  <div class="info-modal" id="contextBridgeModal">
+    <div class="info-card" style="max-width: 620px;">
+      <div class="info-card-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">📥</span>
+          <strong style="font-size: 15px; color: #f1f3f4;">Importar Contexto de Outra IA (Context Bridge)</strong>
+        </div>
+        <button class="btn-item-action" onclick="closeContextBridgeModal()">✕</button>
+      </div>
+      <div class="info-card-body" style="gap: 14px;">
+        <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin: 0;">
+          Migre seu projeto instantaneamente. Cole um resumo ou anexe arquivos exportados do <strong>Claude</strong>, <strong>ChatGPT</strong> ou <strong>Cursor</strong> para que o Cloudtron assuma a liderança técnica a partir do ponto de parada com sincronização total.
+        </p>
+
+        <!-- Opção A: Colar texto / resumo -->
+        <div>
+          <label style="display: block; font-size: 11px; text-transform: uppercase; color: #38bdf8; font-weight: 700; margin-bottom: 6px;">
+            Opção A: Cole o Histórico ou Resumo Estruturado
+          </label>
+          <textarea id="bridgeContextText" class="settings-textarea" style="min-height: 130px; font-size: 12px; line-height: 1.5;" placeholder="Cole aqui o histórico de conversa, resumo técnico de tarefas concluídas, pendências ou logs do Claude, ChatGPT, Cursor..."></textarea>
+        </div>
+
+        <!-- Opção B: Arquivo Anexado -->
+        <div>
+          <label style="display: block; font-size: 11px; text-transform: uppercase; color: #2dd4bf; font-weight: 700; margin-bottom: 6px;">
+            Opção B: Ou Anexe um Arquivo Exportado (.md, .txt, .json, .pdf, .docx, .zip)
+          </label>
+          <div class="bridge-file-dropzone" onclick="document.getElementById('bridgeFileInput').click()">
+            <input type="file" id="bridgeFileInput" accept=".md,.txt,.json,.pdf,.docx,.zip,.py,.js,.ts,.html,.sql" style="display: none;" onchange="handleBridgeFileSelect(event)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <span id="bridgeFileLabel" style="font-size: 12px; color: #cbd5e1;">Clique ou arraste um arquivo de exportação</span>
+          </div>
+        </div>
+
+        <!-- Seleção de Modelo Destino -->
+        <div>
+          <label style="display: block; font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 6px;">
+            Modelo Cloudtron de Destino:
+          </label>
+          <select id="bridgeTargetModel" class="bridge-select">
+            <option value="omni">🧠 Cloudtron Omni (Nemotron 3.5 VL 120B — Raciocínio &amp; Visão)</option>
+            <option value="coder">💻 Cloudtron Coder (Qwen 2.5 Coder 32B — Especialista em Código)</option>
+            <option value="logic">🔬 Cloudtron Lógica (DeepSeek R1 — Raciocínio Algorítmico)</option>
+            <option value="writer">⚡ Cloudtron Redator (Llama 3.3 70B — Síntese &amp; Velocidade)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="info-card-footer" style="justify-content: flex-end; gap: 10px;">
+        <button class="btn-preview-ctrl" onclick="closeContextBridgeModal()">Cancelar</button>
+        <button class="btn-preview-ctrl btn-bridge-confirm" onclick="submitContextBridge()" id="btnSubmitBridge">
+          🚀 Inicializar Sessão e Continuar
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="info-modal" id="settingsModal">
@@ -2509,6 +3129,252 @@
 
   <script>
     const API_URL = "/api/messages";
+
+    // ── Context Bridge & Migração de Projetos (v1.2) ─────────────────────────
+    let bridgeSelectedFile = null;
+
+    function openContextBridgeModal() {
+      bridgeSelectedFile = null;
+      const textEl = document.getElementById('bridgeContextText');
+      if (textEl) textEl.value = '';
+      const fileInput = document.getElementById('bridgeFileInput');
+      if (fileInput) fileInput.value = '';
+      const fileLabel = document.getElementById('bridgeFileLabel');
+      if (fileLabel) fileLabel.textContent = 'Clique ou arraste um arquivo de exportação';
+      
+      const btn = document.getElementById('btnSubmitBridge');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '🚀 Inicializar Sessão e Continuar';
+      }
+
+      const active = getActivePersona();
+      const modelSelect = document.getElementById('bridgeTargetModel');
+      if (modelSelect && active) {
+        modelSelect.value = active.id;
+      }
+
+      const modal = document.getElementById('contextBridgeModal');
+      if (modal) modal.classList.add('aberto');
+    }
+
+    function closeContextBridgeModal() {
+      const modal = document.getElementById('contextBridgeModal');
+      if (modal) modal.classList.remove('aberto');
+    }
+
+    function handleBridgeFileSelect(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      bridgeSelectedFile = file;
+      const fileLabel = document.getElementById('bridgeFileLabel');
+      if (fileLabel) {
+        fileLabel.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+      }
+    }
+
+    async function submitContextBridge() {
+      const text = (document.getElementById('bridgeContextText')?.value || '').trim();
+      const file = bridgeSelectedFile;
+      const targetModelId = document.getElementById('bridgeTargetModel')?.value || 'omni';
+
+      if (!text && !file) {
+        showError('Por favor, cole um histórico/resumo estruturado ou anexe um arquivo exportado (.md, .txt, .json, .pdf).');
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitBridge');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-att" style="margin-right: 6px;"></span> Importando e processando contexto...';
+      }
+
+      let extractedText = '';
+      let sourceName = 'Texto Colado';
+
+      try {
+        if (file) {
+          sourceName = file.name;
+          const ext = file.name.split('.').pop().toLowerCase();
+          
+          if (['txt', 'md', 'json', 'py', 'js', 'ts', 'html', 'sql', 'csv'].includes(ext)) {
+            extractedText = await file.text();
+          } else {
+            // Documentos complexos (.pdf, .docx, .xlsx, .zip) enviados a /api/parse-file
+            const base64 = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                const res = reader.result;
+                const b64 = res.split(',')[1] || res;
+                resolve(b64);
+              };
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            });
+
+            const res = await fetch('/api/parse-file', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ filename: file.name, base64 })
+            });
+
+            if (res.ok) {
+              const data = await res.json();
+              if (data.success) {
+                extractedText = data.content || data.extractedText || '';
+              } else {
+                throw new Error(data.error || 'Falha na extração do arquivo pelo backend.');
+              }
+            } else {
+              throw new Error(`HTTP ${res.status} ao extrair documento.`);
+            }
+          }
+        }
+
+        let fullContext = '';
+        if (text && extractedText) {
+          fullContext = `${text}\n\n--- [Arquivo Anexo Importado: ${sourceName}] ---\n${extractedText}`;
+        } else if (extractedText) {
+          fullContext = extractedText;
+        } else {
+          fullContext = text;
+        }
+
+        // Seleciona Persona de destino
+        selectPersona(targetModelId);
+        const activePersona = getActivePersona();
+
+        // Cria nova sessão nomeada
+        const newId = 'chat_' + Date.now();
+        const snippet = (file ? file.name : text).trim().substring(0, 24);
+        const sessionTitle = `📌 Projeto Migrado: ${snippet}`;
+
+        const newSession = {
+          id: newId,
+          title: sessionTitle,
+          messages: [],
+          effort: 'auto',
+          personaId: activePersona.id,
+          modelId: activePersona.modelId,
+          createdAt: Date.now()
+        };
+
+        sessions.unshift(newSession);
+        currentSessionId = newId;
+        saveStorage();
+        renderSidebar();
+        renderActiveChat();
+        closeContextBridgeModal();
+
+        // Renderiza cartão de confirmação visual
+        const chat = document.getElementById('chatWindow');
+        if (chat) {
+          const confirmCard = document.createElement('div');
+          confirmCard.className = 'bridge-success-card';
+          confirmCard.innerHTML = `
+            <div class="bridge-success-icon">✅</div>
+            <div class="bridge-success-body">
+              <strong>Contexto importado com sucesso!</strong>
+              <p>O Cloudtron está sincronizado com o histórico do <em>${escapeHtml(sourceName)}</em> e pronto para assumir a liderança técnica com <strong>${escapeHtml(activePersona.name)}</strong>.</p>
+            </div>
+          `;
+          chat.appendChild(confirmCard);
+        }
+
+        // Prompt de liderança técnica estruturado
+        const promptPayload = `Você recebeu um contexto importado de outra IA. Analise as tarefas concluídas, as pendências imediatas e assuma a liderança técnica a partir do ponto de interrupção.\n\n--- [CONTEXT BRIDGE • HISTÓRICO IMPORTADO DE OUTRA IA] ---\n${fullContext}\n--- [FIM DO HISTÓRICO IMPORTADO] ---\n\nDiretrizes de Continuidade:\n1. Apresente um resumo executivo ultra-objetivo do estado atual do projeto;\n2. Identifique as pendências imediatas e prioridades de implementação;\n3. Diga como podemos prosseguir agora com o Cloudtron OneClick.`;
+
+        const input = document.getElementById('promptInput');
+        if (input) {
+          input.value = promptPayload;
+          sendMessage();
+        }
+
+      } catch (err) {
+        console.error('[CONTEXT BRIDGE] Erro:', err);
+        showError('Erro ao importar contexto: ' + err.message);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '🚀 Inicializar Sessão e Continuar';
+        }
+      }
+    }
+
+    // ── Alternador de Visão Principal (Chat vs Live Sandbox) ──────────────────
+    let currentMainView = 'chat';
+
+    function switchMainView(view) {
+      currentMainView = view;
+      const tabChat = document.getElementById('tabChatView');
+      const tabSandbox = document.getElementById('tabSandboxView');
+      const chatWin = document.getElementById('chatWindow');
+      const footerEl = document.querySelector('footer');
+      const sandboxContainer = document.getElementById('sandboxContainer');
+
+      if (view === 'sandbox') {
+        if (tabChat) tabChat.classList.remove('active');
+        if (tabSandbox) tabSandbox.classList.add('active');
+        if (chatWin) chatWin.style.display = 'none';
+        if (footerEl) footerEl.style.display = 'none';
+        if (sandboxContainer) {
+          sandboxContainer.style.display = 'flex';
+          const iframe = document.getElementById('embeddedSandboxIframe');
+          if (iframe && currentLiveHTML) {
+            iframe.srcdoc = currentLiveHTML;
+          }
+        }
+      } else {
+        if (tabChat) tabChat.classList.add('active');
+        if (tabSandbox) tabSandbox.classList.remove('active');
+        if (chatWin) chatWin.style.display = 'flex';
+        if (footerEl) footerEl.style.display = 'block';
+        if (sandboxContainer) sandboxContainer.style.display = 'none';
+      }
+    }
+
+    function reloadEmbeddedSandbox() {
+      const iframe = document.getElementById('embeddedSandboxIframe');
+      if (iframe && currentLiveHTML) {
+        iframe.srcdoc = '';
+        setTimeout(() => { iframe.srcdoc = currentLiveHTML; }, 50);
+      }
+    }
+
+    // ── Sincronização de Telemetria e Chips de Preset do Topo ─────────────────
+    function syncTopbarPresetChips(presetMode) {
+      const chips = document.querySelectorAll('#topbarPresets .preset-chip');
+      chips.forEach(c => c.classList.remove('active'));
+
+      if (presetMode === 'high') {
+        document.getElementById('chipDeep')?.classList.add('active');
+        updateTelemetryIndicators(null, 'Profundo (CoT)');
+      } else if (presetMode === 'code') {
+        document.getElementById('chipCode')?.classList.add('active');
+        updateTelemetryIndicators(null, 'Código');
+      } else if (presetMode === 'creative') {
+        document.getElementById('chipCreative')?.classList.add('active');
+        updateTelemetryIndicators(null, 'Criativo');
+      } else if (presetMode === 'low') {
+        document.getElementById('chipFast')?.classList.add('active');
+        updateTelemetryIndicators(null, 'Rápido');
+      } else {
+        document.getElementById('chipAuto')?.classList.add('active');
+        updateTelemetryIndicators(null, 'Auto');
+      }
+    }
+
+    function updateTelemetryIndicators(ttft = null, presetMode = null) {
+      if (typeof ttft === 'number') {
+        const latEl = document.getElementById('telemetryLatencyIndicator');
+        if (latEl) latEl.textContent = `${Math.round(ttft)}ms`;
+      }
+      if (presetMode) {
+        const presEl = document.getElementById('activePresetIndicator');
+        if (presEl) presEl.textContent = presetMode;
+      }
+    }
+
     
     // ── Catálogo Oficial de Personas & Multi-Modelos (v1.2) ───────────────────
     const PERSONAS_STORAGE_KEY = "clautron_persona_id";
@@ -2516,7 +3382,7 @@
     const PERSONAS = [
       {
         id: "omni",
-        name: "CLAUTRON Omni",
+        name: "Cloudtron Omni",
         icon: "🧠",
         modelId: "nvidia/nemotron-3.5-super-vl-120b-a12b",
         subtitle: "Visão computacional, raciocínio profundo (Thinking) e tarefas complexas.",
@@ -2526,7 +3392,7 @@
       },
       {
         id: "coder",
-        name: "CLAUTRON Coder",
+        name: "Cloudtron Coder",
         icon: "💻",
         modelId: "qwen/qwen2.5-coder-32b-instruct",
         subtitle: "Especialista puro em programação, refatoração, scripts e debugging.",
@@ -2535,7 +3401,7 @@
       },
       {
         id: "logic",
-        name: "CLAUTRON Lógica",
+        name: "Cloudtron Lógica",
         icon: "🔬",
         modelId: "deepseek-ai/deepseek-r1",
         subtitle: "Raciocínio lógico estrito, algoritmos densos e dedução passo a passo.",
@@ -2544,7 +3410,7 @@
       },
       {
         id: "writer",
-        name: "CLAUTRON Redator",
+        name: "Cloudtron Redator",
         icon: "⚡",
         modelId: "meta/llama-3.3-70b-instruct",
         subtitle: "Redação fluida, síntese, relatórios e respostas ultrarrápidas.",
@@ -2553,7 +3419,7 @@
       },
       {
         id: "vision_lite",
-        name: "CLAUTRON Vision Lite",
+        name: "Cloudtron Vision Lite",
         icon: "👁️",
         modelId: "meta/llama-3.2-11b-vision-instruct",
         subtitle: "OCR veloz, leitura de prints de tela e diagramas leves.",
@@ -2599,6 +3465,8 @@
       const nameEl = document.getElementById('activePersonaName');
       if (iconEl) iconEl.textContent = persona.icon;
       if (nameEl) nameEl.textContent = persona.name;
+      const subTag = document.getElementById('subHeaderModelTag');
+      if (subTag) subTag.textContent = persona.modelId || 'NVIDIA Super VL 120B';
 
       document.querySelectorAll('.persona-option').forEach(el => {
         el.classList.toggle('active', el.dataset.personaId === persona.id);
@@ -3040,6 +3908,7 @@
       }
       saveStorage();
       syncContextPills();
+      syncTopbarPresetChips(mode);
     }
 
     function syncContextPills() {
@@ -3966,6 +4835,7 @@
         const finalTime = getTimestamp();
 
         streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId, null, activePersona.name);
+        if (ttft) updateTelemetryIndicators(ttft, effortTagToDisplay);
 
         session.messages.push({
           role: 'assistant',
@@ -4172,7 +5042,7 @@
           const meta = document.createElement('div');
           meta.className = 'meta-tag';
           meta.innerHTML = `
-            <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'CLAUTRON')} · ${time || getTimestamp()}</span>
+            <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'Cloudtron')} · ${time || getTimestamp()}</span>
             <span class="badge-effort">Effort: ${effortUsed}</span>
             ${telemetryHtml}
             ${nemoHtml}
@@ -4421,7 +5291,7 @@
       const meta = document.createElement('div');
       meta.className = 'meta-tag';
       meta.innerHTML = `
-        <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'CLAUTRON')} · ${time || getTimestamp()}</span>
+        <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'Cloudtron')} · ${time || getTimestamp()}</span>
         <span class="badge-effort">Effort: ${effortUsed}</span>
         ${telemetryHtml}
         ${nemoHtml}

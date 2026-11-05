@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ CLAUTRON OneClick (v1.2.0)
+# ⚡ Cloudtron OneClick (v1.2.0)
 ### Desktop Nativo & Web UI para NVIDIA Nemotron 3.5 Super VL 120B
 
 [![Website](https://img.shields.io/badge/%F0%9F%8C%90_Website_Oficial-felipeptxa.github.io%2Fclautron-00F0FF?style=for-the-badge&logo=googlechrome&logoColor=black)](https://felipeptxa.github.io/clautron/)
@@ -15,7 +15,7 @@
 
 Aplicativo Desktop nativo para Windows (Electron) e Web UI local projetado para interagir com o modelo multimodal de raciocínio profundo **NVIDIA Nemotron 3.5 Super VL 120B** sem configurações complexas de ambiente.
 
-Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.2.0.exe` (NSIS x64).
+Distribuição pronta via instalador executável: `Cloudtron OneClick Setup 1.2.0.exe` (NSIS x64).
 
 ---
 
@@ -36,11 +36,11 @@ Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.2.0
 
 * 🎭 **Seletor Multi-Modelos com Personas Especializadas:**
   * Menu popover flutuante no cabeçalho com seleção instantânea e salvamento persistente por sessão e global:
-    1. **🧠 CLAUTRON Omni** (`nvidia/nemotron-3.5-super-vl-120b-a12b`): Visão multimodal e raciocínio profundo (*Thinking / CoT*).
-    2. **💻 CLAUTRON Coder** (`qwen/qwen2.5-coder-32b-instruct`): Especialista absoluto em código, algoritmos e refatoração.
-    3. **🔬 CLAUTRON Lógica** (`deepseek-ai/deepseek-r1`): Raciocínio matemático denso e dedução passo a passo.
-    4. **⚡ CLAUTRON Redator** (`meta/llama-3.3-70b-instruct`): Respostas ultrarrápidas, síntese, relatórios e textos fluidos.
-    5. **👁️ CLAUTRON Vision Lite** (`meta/llama-3.2-11b-vision-instruct`): OCR ágil e leitura de prints leves.
+    1. **🧠 Cloudtron Omni** (`nvidia/nemotron-3.5-super-vl-120b-a12b`): Visão multimodal e raciocínio profundo (*Thinking / CoT*).
+    2. **💻 Cloudtron Coder** (`qwen/qwen2.5-coder-32b-instruct`): Especialista absoluto em código, algoritmos e refatoração.
+    3. **🔬 Cloudtron Lógica** (`deepseek-ai/deepseek-r1`): Raciocínio matemático denso e dedução passo a passo.
+    4. **⚡ Cloudtron Redator** (`meta/llama-3.3-70b-instruct`): Respostas ultrarrápidas, síntese, relatórios e textos fluidos.
+    5. **👁️ Cloudtron Vision Lite** (`meta/llama-3.2-11b-vision-instruct`): OCR ágil e leitura de prints leves.
   * **Bloqueio Inteligente de Imagem:** Validação automática que impede o envio de imagens para modelos exclusivamente de texto, alertando amigavelmente o usuário para alternar para personas com visão.
 
 * 🛡️ **Clautron NeMo Core & Guardrails:**
@@ -89,7 +89,7 @@ Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.2.0
 
 #### Opção 1: Instalador Desktop Windows (Recomendado para usuários finais)
 1. Acesse a pasta `dist/` do projeto.
-2. Execute o instalador `CLAUTRON OneClick Setup 1.1.0.exe`.
+2. Execute o instalador `Cloudtron OneClick Setup 1.1.0.exe`.
 3. Siga o assistente de instalação (ele criará atalho na Área de Trabalho e no Menu Iniciar).
 4. Abra o aplicativo, clique em **Chave API** no canto superior direito, insira sua chave da NVIDIA (`nvapi-...`) e comece a conversar!
 
