@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nemotron Chat Local</title>
+  <title>CLAUTRON OneClick</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -51,7 +51,6 @@
       user-select: none;
     }
 
-    /* Barra Lateral */
     aside {
       width: 280px;
       min-width: 180px;
@@ -234,7 +233,6 @@
       color: #f28b82;
     }
 
-    /* Janela Principal */
     .app-main {
       flex: 1;
       min-width: 0;
@@ -354,6 +352,26 @@
     .effort-select option {
       background: #18191a;
       color: #e3e3e3;
+    }
+
+    .btn-settings-header {
+      background: #18191a;
+      border: 1px solid #282a2c;
+      color: #c4c7c5;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-settings-header:hover {
+      background: #282a2c;
+      border-color: #3c4043;
+      color: #ffffff;
     }
 
     main {
@@ -975,6 +993,42 @@
       display: none;
       text-align: center;
     }
+
+    .key-input-field {
+      width: 100%;
+      background: #111318;
+      border: 1px solid #3c4043;
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 10px 14px;
+      font-size: 13px;
+      outline: none;
+      font-family: monospace;
+      margin-top: 6px;
+      transition: border-color 0.2s;
+    }
+
+    .key-input-field:focus {
+      border-color: #60a5fa;
+    }
+
+    .btn-ping {
+      background: #18191a;
+      border: 1px solid #282a2c;
+      color: #8e918f;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      transition: all 0.15s ease;
+    }
+    .btn-ping:hover { background: #282a2c; border-color: #3c4043; color: #fff; }
+    .btn-ping.ok { color: #81c995; border-color: rgba(129,201,149,0.4); }
+    .btn-ping.fail { color: #f28b82; border-color: rgba(242,139,130,0.4); }
+    .btn-ping:disabled { opacity: 0.6; cursor: wait; }
   </style>
 </head>
 <body>
@@ -1008,12 +1062,11 @@
           </svg>
         </button>
         <div class="status-dot"></div>
-        <h1>Nemotron Local</h1>
+        <h1>CLAUTRON OneClick</h1>
         <span class="model-badge">Nemotron 3.5 Super VL 120B</span>
       </div>
 
       <div class="header-right">
-        <!-- Controle de Effort por Conversa -->
         <div class="effort-container" title="Nível de raciocínio memorizado individualmente nesta conversa">
           <span class="effort-label">Effort:</span>
           <select id="effortSelect" class="effort-select" onchange="handleEffortChange()">
@@ -1022,6 +1075,21 @@
             <option value="high">Alto (Profundo / CoT)</option>
           </select>
         </div>
+
+        <button class="btn-ping" id="btnPing" onclick="runPingTest()" title="Testar conexão com o servidor">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+          <span id="pingLabel">Diagnóstico</span>
+        </button>
+
+        <button class="btn-settings-header" onclick="openKeyModal()" title="Configurar API Key">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Chave API</span>
+        </button>
       </div>
     </header>
 
@@ -1058,7 +1126,28 @@
     </footer>
   </div>
 
-  <!-- Modal de Live Preview -->
+  <div class="info-modal" id="keyModal">
+    <div class="info-card" style="max-width: 500px;">
+      <div class="info-card-header">
+        <strong style="font-size: 14px; color: #f1f3f4;">Configurar API Key NVIDIA</strong>
+        <button class="btn-item-action" onclick="closeKeyModal()">✕</button>
+      </div>
+      <div class="info-card-body">
+        <p style="font-size: 13px; color: #c4c7c5;">
+          Insira sua chave de API pessoal da NVIDIA NIM (iniciada com <code>nvapi-...</code>). Ela fica gravada com segurança no seu computador.
+        </p>
+        <div>
+          <label style="font-size: 11px; text-transform: uppercase; color: #8e918f; font-weight: 600;">NVIDIA_API_KEY:</label>
+          <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." />
+        </div>
+      </div>
+      <div class="info-card-footer">
+        <button class="btn-preview-ctrl" onclick="saveKeyModal()" style="background: #3b82f6; color: #fff; border-color: #2563eb;">Salvar Chave</button>
+        <button class="btn-preview-ctrl" onclick="closeKeyModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <div class="preview-modal" id="previewModal">
     <div class="preview-window">
       <div class="preview-header">
@@ -1090,7 +1179,6 @@
     </div>
   </div>
 
-  <!-- Modal de Informações da Conversa -->
   <div class="info-modal" id="infoModal">
     <div class="info-card">
       <div class="info-card-header">
@@ -1134,8 +1222,9 @@
 
   <script>
     const API_URL = "/api/messages";
-    const MODEL_ID = "nvidia_nim/nvidia/nemotron-3.5-super-vl-120b-a12b";
+    const MODEL_ID = "nvidia/nemotron-3.5-super-vl-120b-a12b";
     const STORAGE_KEY = "nemotron_chat_sessions_v1";
+    const API_KEY_STORAGE = "clautron_nvidia_api_key";
     const SIDEBAR_WIDTH_KEY = "nemotron_sidebar_width";
 
     let sessions = [];
@@ -1155,6 +1244,31 @@
       },
       breaks: true
     });
+
+    function getStoredApiKey() {
+      return localStorage.getItem(API_KEY_STORAGE) || '';
+    }
+
+    function openKeyModal() {
+      const input = document.getElementById('modalKeyInput');
+      input.value = getStoredApiKey();
+      document.getElementById('keyModal').classList.add('aberto');
+      input.focus();
+    }
+
+    function closeKeyModal() {
+      document.getElementById('keyModal').classList.remove('aberto');
+    }
+
+    function saveKeyModal() {
+      const val = document.getElementById('modalKeyInput').value.trim();
+      if (val) {
+        localStorage.setItem(API_KEY_STORAGE, val);
+      } else {
+        localStorage.removeItem(API_KEY_STORAGE);
+      }
+      closeKeyModal();
+    }
 
     function getTimestamp() {
       const now = new Date();
@@ -1189,7 +1303,6 @@
       return sessions.find(s => s.id === currentSessionId);
     }
 
-    // Gerenciamento de Effort por Conversa
     function syncEffortUI() {
       const session = getActiveSession();
       const el = document.getElementById('effortSelect');
@@ -1218,16 +1331,14 @@
           return {
             modeName: 'Rápido',
             max_tokens: 2048,
-            thinking: null,
-            max_continues: 0,
+            effortMode: 'low',
             systemPrompt: "Você está operando no modo de esforço RÁPIDO. Seja direto, conciso e objetivo. Forneça o código ou a resposta solicitada sem raciocínios longos, divagações ou introduções desnecessárias."
           };
         case 'high':
           return {
             modeName: 'Alto',
             max_tokens: 8192,
-            thinking: { type: "enabled", budget_tokens: 6144 },
-            max_continues: 4,
+            effortMode: 'high',
             systemPrompt: "Você está operando no modo de esforço ALTO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
           };
         case 'medium':
@@ -1235,8 +1346,7 @@
           return {
             modeName: 'Médio',
             max_tokens: 4096,
-            thinking: { type: "enabled", budget_tokens: 2048 },
-            max_continues: 2,
+            effortMode: 'medium',
             systemPrompt: "Você está operando no modo de esforço MÉDIO. Mantenha equilíbrio ideal entre explicações concisas e código de alta qualidade técnica."
           };
       }
@@ -1702,6 +1812,8 @@
       
       if (!text && pendingAttachments.length === 0) return;
 
+      const userKey = getStoredApiKey();
+
       let session = getActiveSession();
       if (!session) {
         createNewChatSession();
@@ -1737,11 +1849,9 @@
         apiContentPayload = [];
         imageFiles.forEach(img => {
           apiContentPayload.push({
-            type: "image",
-            source: {
-              type: "base64",
-              media_type: img.mediaType,
-              data: img.base64
+            type: "image_url",
+            image_url: {
+              url: `data:${img.mediaType || 'image/png'};base64,${img.base64}`
             }
           });
         });
@@ -1772,121 +1882,164 @@
       });
       saveStorage();
 
-      const assistantRow = appendTempAssistantBubble('Pensando...');
+      const effortConfig = getEffortSettings();
+      const streamingBubbleObj = createStreamingAssistantBubble();
       currentAbortController = new AbortController();
 
-      const effortConfig = getEffortSettings();
-      let totalReplyText = '';
-      let totalThinkingText = '';
-      let continueCount = 0;
-      let shouldRequestAgain = true;
+      let accumulatedRaw = '';
+      let accumulatedThinking = '';
+      let accumulatedAnswer = '';
 
       try {
-        while (shouldRequestAgain) {
-          let payloadMessages = session.messages.map(m => ({ role: m.role, content: m.content }));
-          
-          if (continueCount > 0) {
-            payloadMessages.push({ role: 'assistant', content: totalReplyText });
-            payloadMessages.push({ role: 'user', content: 'continue exatamente de onde você parou, sem introduções e sem repetir o que já foi gerado.' });
-            updateTempAssistantBubbleText(assistantRow, `Continuando resposta automaticamente (${continueCount}/${effortConfig.max_continues})...`);
+        const payloadMessages = session.messages.map(m => ({ role: m.role, content: m.content }));
+
+        const requestBody = {
+          model: MODEL_ID,
+          max_tokens: effortConfig.max_tokens,
+          effort: effortConfig.effortMode,
+          messages: payloadMessages,
+          system: effortConfig.systemPrompt
+        };
+
+        const headers = {
+          "Content-Type": "application/json"
+        };
+
+        if (userKey) {
+          headers["Authorization"] = `Bearer ${userKey}`;
+        }
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(requestBody),
+          signal: currentAbortController.signal
+        });
+
+        if (!response.ok) {
+          let errMsg = `HTTP ${response.status}: ${response.statusText}`;
+          try {
+            const errData = await response.json();
+            errMsg = errData.error || errData.message || errData.detail || errMsg;
+          } catch (_) {
+            const errText = await response.text().catch(() => '');
+            if (errText) errMsg = errText.substring(0, 200);
           }
+          if (response.status === 401) openKeyModal();
+          throw new Error(errMsg);
+        }
 
-          const requestBody = {
-            model: MODEL_ID,
-            max_tokens: effortConfig.max_tokens,
-            messages: payloadMessages,
-            system: effortConfig.systemPrompt
-          };
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
 
-          if (effortConfig.thinking) {
-            requestBody.thinking = effortConfig.thinking;
+        // Timeout de 90s caso o primeiro token nunca chegue
+        let firstTokenReceived = false;
+        const clientTimeoutId = setTimeout(() => {
+          if (!firstTokenReceived) {
+            reader.cancel();
+            showError('Timeout: nenhum token recebido em 120s. Verifique sua chave de API e conexao com a internet.');
+            streamingBubbleObj.remove();
+            setGeneratingState(false);
           }
+        }, 120000);
 
-          const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestBody),
-            signal: currentAbortController.signal
-          });
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
 
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-          }
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
 
-          const data = await response.json();
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed || trimmed === 'data: [DONE]') continue;
 
-          let chunkThinking = '';
-          let chunkText = '';
+              if (trimmed.startsWith('data: ')) {
+                try {
+                  const parsed = JSON.parse(trimmed.slice(6));
 
-          if (Array.isArray(data.content)) {
-            for (const block of data.content) {
-              if (block.type === 'thinking') {
-                chunkThinking += block.thinking;
-              } else if (block.type === 'text') {
-                chunkText += block.text;
+                  // Evento de erro inline do proxy
+                  if (parsed.__clautron_error) {
+                    throw new Error(parsed.__clautron_error);
+                  }
+
+                  const delta = parsed.choices?.[0]?.delta || {};
+                  const reasoningDelta = delta.reasoning_content || '';
+                  const contentDelta = delta.content || '';
+
+                  if (reasoningDelta || contentDelta) firstTokenReceived = true;
+
+                  if (reasoningDelta) {
+                    accumulatedThinking += reasoningDelta;
+                    streamingBubbleObj.updateThinking(accumulatedThinking);
+                  }
+
+                  if (contentDelta) {
+                    accumulatedRaw += contentDelta;
+
+                    if (accumulatedRaw.includes('<thought>') && !accumulatedRaw.includes('</thought>')) {
+                      const parts = accumulatedRaw.split('<thought>');
+                      accumulatedThinking = parts[1] || '';
+                      streamingBubbleObj.updateThinking(accumulatedThinking);
+                    } else if (accumulatedRaw.includes('</thought>')) {
+                      const parts = accumulatedRaw.split('</thought>');
+                      accumulatedThinking = parts[0].replace('<thought>', '').trim();
+                      streamingBubbleObj.updateThinking(accumulatedThinking);
+                      accumulatedAnswer = parts.slice(1).join('</thought>');
+                      streamingBubbleObj.updateAnswer(accumulatedAnswer);
+                    } else {
+                      accumulatedAnswer = accumulatedRaw;
+                      streamingBubbleObj.updateAnswer(accumulatedAnswer);
+                    }
+                  }
+                } catch (parseOrProxyErr) {
+                  // Se for um erro real (nao apenas JSON invalido de chunk parcial), re-lanca
+                  if (parseOrProxyErr.message && !parseOrProxyErr.message.startsWith('JSON') &&
+                      !parseOrProxyErr.message.includes('Unexpected token') &&
+                      !parseOrProxyErr.message.includes('Unexpected end')) {
+                    clearTimeout(clientTimeoutId);
+                    throw parseOrProxyErr;
+                  }
+                  // JSON invalido (fragmento de chunk) — ignora silenciosamente
+                }
               }
             }
           }
-
-          totalThinkingText += chunkThinking;
-          totalReplyText += chunkText;
-
-          const isMaxTokens = data.stop_reason === 'max_tokens';
-
-          if (isMaxTokens && continueCount < effortConfig.max_continues) {
-            continueCount++;
-            shouldRequestAgain = true;
-          } else {
-            shouldRequestAgain = false;
-          }
+        } finally {
+          clearTimeout(clientTimeoutId);
         }
 
-        if (!totalReplyText && totalThinkingText) {
-          totalReplyText = "*(O modelo consumiu a cota de tokens no raciocínio.)*";
-        } else if (!totalReplyText) {
-          totalReplyText = "Nenhuma resposta retornada pelo modelo.";
-        }
+        const finalAnswer = accumulatedAnswer.trim() || accumulatedRaw.trim() || 'Nenhuma resposta retornada.';
+        const finalTime = getTimestamp();
 
-        const resTime = getTimestamp();
-        if (assistantRow && assistantRow.parentNode) {
-          assistantRow.remove();
-        }
-
-        appendAssistantBubble(totalReplyText, totalThinkingText, resTime, effortConfig.modeName);
+        streamingBubbleObj.finalize(finalAnswer, finalTime, effortConfig.modeName);
 
         session.messages.push({
           role: 'assistant',
-          content: totalReplyText,
-          thinking: totalThinkingText,
+          content: finalAnswer,
+          thinking: accumulatedThinking.trim(),
           effortUsed: effortConfig.modeName,
-          time: resTime
+          time: finalTime
         });
         saveStorage();
 
       } catch (err) {
-        if (assistantRow && assistantRow.parentNode) {
-          assistantRow.remove();
-        }
         if (err.name === 'AbortError') {
-          if (totalReplyText) {
-            const stopTime = getTimestamp();
-            appendAssistantBubble(totalReplyText + "\n\n*(Resposta interrompida por você)*", totalThinkingText, stopTime, effortConfig.modeName);
-            session.messages.push({
-              role: 'assistant',
-              content: totalReplyText,
-              thinking: totalThinkingText,
-              effortUsed: effortConfig.modeName,
-              time: stopTime
-            });
-            saveStorage();
-          } else {
-            session.messages.pop();
-            saveStorage();
-            renderActiveChat();
-          }
+          const finalAnswer = (accumulatedAnswer.trim() || accumulatedRaw.trim()) + '\n\n*(Resposta interrompida por você)*';
+          const finalTime = getTimestamp();
+          streamingBubbleObj.finalize(finalAnswer, finalTime, effortConfig.modeName);
+
+          session.messages.push({
+            role: 'assistant',
+            content: finalAnswer,
+            thinking: accumulatedThinking.trim(),
+            effortUsed: effortConfig.modeName,
+            time: finalTime
+          });
+          saveStorage();
         } else {
+          streamingBubbleObj.remove();
           showError("Falha na comunicação: " + err.message);
         }
       } finally {
@@ -1958,41 +2111,74 @@
       return row;
     }
 
-    function appendTempAssistantBubble(text) {
+    function createStreamingAssistantBubble() {
       const chat = document.getElementById('chatWindow');
       const row = document.createElement('div');
       row.className = 'message-row assistant';
 
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
-      bubble.innerHTML = `<span style="color: #8e918f;">${text}</span>`;
 
-      const meta = document.createElement('div');
-      meta.className = 'meta-tag';
-      meta.innerText = `Nemotron · ${getTimestamp()}`;
+      const thinkingBox = document.createElement('details');
+      thinkingBox.className = 'thinking-box';
+      thinkingBox.style.display = 'none';
+      thinkingBox.open = true;
+      thinkingBox.innerHTML = `
+        <summary>Processo de Raciocínio (Thinking)</summary>
+        <div class="thinking-content"></div>
+      `;
+      bubble.appendChild(thinkingBox);
+
+      const textDiv = document.createElement('div');
+      textDiv.innerHTML = '<span style="color: #8e918f;">Conectando e gerando resposta...</span>';
+      bubble.appendChild(textDiv);
 
       row.appendChild(bubble);
-      row.appendChild(meta);
       chat.appendChild(row);
-
       chat.scrollTop = chat.scrollHeight;
-      return row;
-    }
 
-    function updateTempAssistantBubbleText(row, text) {
-      if (!row) return;
-      const bubble = row.querySelector('.bubble');
-      if (bubble) {
-        bubble.innerHTML = `
-          <span style="color: #a8c7fa; display: inline-flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
-              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-            </svg>
-            ${text}
-          </span>
-          <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
-        `;
-      }
+      const thinkingContent = thinkingBox.querySelector('.thinking-content');
+
+      return {
+        updateThinking(thinkingText) {
+          if (thinkingText) {
+            thinkingBox.style.display = 'block';
+            thinkingContent.textContent = thinkingText;
+            chat.scrollTop = chat.scrollHeight;
+          }
+        },
+        updateAnswer(answerText) {
+          if (answerText) {
+            textDiv.innerHTML = marked.parse(answerText);
+            enhanceCodeBlocks(textDiv);
+            chat.scrollTop = chat.scrollHeight;
+          }
+        },
+        finalize(finalText, time, effortUsed) {
+          bubble.dataset.rawText = finalText;
+          textDiv.innerHTML = marked.parse(finalText);
+          enhanceCodeBlocks(textDiv);
+
+          const meta = document.createElement('div');
+          meta.className = 'meta-tag';
+          meta.innerHTML = `
+            <span>Nemotron · ${time || getTimestamp()}</span>
+            <span class="badge-effort">Effort: ${effortUsed}</span>
+            <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copiar</span>
+            </button>
+          `;
+          row.appendChild(meta);
+          chat.scrollTop = chat.scrollHeight;
+        },
+        remove() {
+          row.remove();
+        }
+      };
     }
 
     function appendAssistantBubble(replyText, thinkingText, time, effortUsed = 'Médio') {
@@ -2042,8 +2228,9 @@
     }
 
     function enhanceCodeBlocks(container) {
-      const preElements = container.querySelectorAll('pre');
+      const preElements = container.querySelectorAll('pre:not(.enhanced)');
       preElements.forEach(pre => {
+        pre.classList.add('enhanced');
         const code = pre.querySelector('code');
         if (!code) return;
 
@@ -2231,6 +2418,59 @@
       return String(string).replace(/[&<>"']/g, s => entityMap[s]);
     }
 
+    async function runPingTest() {
+      const btn = document.getElementById('btnPing');
+      const label = document.getElementById('pingLabel');
+      btn.className = 'btn-ping';
+      btn.disabled = true;
+      label.textContent = '1/2 Servidor...';
+
+      // Passo 1: testa servidor local
+      try {
+        const r = await fetch('/api/ping');
+        const data = await r.json();
+        if (!data.ok) throw new Error('resposta inesperada');
+      } catch (e) {
+        btn.className = 'btn-ping fail';
+        btn.disabled = false;
+        label.textContent = 'Servidor FAIL';
+        showError('Servidor local não respondeu: ' + e.message);
+        setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 6000);
+        return;
+      }
+
+      // Passo 2: testa conexão com NVIDIA
+      label.textContent = '2/2 NVIDIA...';
+      try {
+        const userKey = getStoredApiKey();
+        const headers = { 'Content-Type': 'application/json' };
+        if (userKey) headers['Authorization'] = 'Bearer ' + userKey;
+
+        const r = await fetch('/api/test-nvidia', { headers });
+        const data = await r.json();
+
+        if (data.ok) {
+          btn.className = 'btn-ping ok';
+          btn.disabled = false;
+          label.textContent = 'NVIDIA OK ✓';
+          clearError();
+          setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 4000);
+        } else {
+          btn.className = 'btn-ping fail';
+          btn.disabled = false;
+          label.textContent = 'NVIDIA FAIL';
+          showError('Diagnóstico [' + (data.step || '?') + ']: ' + (data.error || 'erro desconhecido'));
+          setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 10000);
+        }
+      } catch (e) {
+        btn.className = 'btn-ping fail';
+        btn.disabled = false;
+        label.textContent = 'Erro';
+        showError('Falha no diagnóstico: ' + e.message);
+        setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 6000);
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       loadStorage();
       initSidebarResizer();
@@ -2243,6 +2483,10 @@
         renderSidebar();
         syncEffortUI();
         renderActiveChat();
+      }
+
+      if (!getStoredApiKey()) {
+        setTimeout(openKeyModal, 400);
       }
     });
   </script>

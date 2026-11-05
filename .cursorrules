@@ -1,0 +1,6 @@
+# Diretrizes de Desenvolvimento — CLAUTRON OneClick
+
+- **Código 100% Completo:** Sempre forneça o código integral do arquivo manipulado, pronto para substituição total, sem reticências ou comentários como `// ... restante do código`.
+- **Idioma e Terminologia:** Respostas e comentários estritamente em Português do Brasil (pt-BR). Manter termos de SO, hardware e bibliotecas em inglês.
+- **Preservação de UI:** Não simplificar nem remover recursos existentes da interface (barra lateral redimensionável, Live Preview HTML, histórico, temas).
+- **Escopo do Projeto:** Aplicativo desktop Electron conectado diretamente ao endpoint NVIDIA NIM (`nvidia/nemotron-3.5-super-vl-120b-a12b`) via streaming SSE nativo com fetch.

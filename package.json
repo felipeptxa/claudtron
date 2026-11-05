@@ -1,0 +1,44 @@
+{
+  "name": "clautron-oneclick",
+  "version": "1.1.0",
+  "description": "CLAUTRON OneClick - Nemotron Local Desktop App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.felipemonroe.clautron",
+    "productName": "CLAUTRON OneClick",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CLAUTRON OneClick"
+    }
+  },
+  "keywords": [
+    "nvidia",
+    "nemotron",
+    "desktop",
+    "ai"
+  ],
+  "author": "Felipe Monroe",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^40.8.0",
+    "electron-builder": "^26.0.2"
+  }
+}
