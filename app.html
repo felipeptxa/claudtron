@@ -12,15 +12,16 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
   :root {
-      --bg-main: #080d1a;
-      --bg-sidebar: #0b1329;
+      --bg-main: #060913;
+      --bg-sidebar: #090e1a;
       --bg-card: #0f172a;
-      --bg-input: #131c35;
+      --bg-hover: #1e293b;
+      --bg-input: #0f172a;
       --accent-cyan: #38bdf8;
       --accent-teal: #2dd4bf;
       --accent-purple: #a855f7;
-      --border-subtle: rgba(56, 189, 248, 0.14);
-      --border-card: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(56, 189, 248, 0.08);
+      --border-card: rgba(255, 255, 255, 0.06);
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -103,16 +104,54 @@
       display: none;
     }
 
-    /* Rodapé da Sidebar com Botão de Configurações Minimalista */
+    /* Rodapé da Sidebar com Botão de Configurações Minimalista e Pill de Update */
     .sidebar-footer {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 10px;
       padding: 12px 14px;
       border-top: 1px solid var(--border-subtle);
-      background: rgba(11, 19, 41, 0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(9, 14, 26, 0.85);
+      backdrop-filter: blur(10px);
       flex-shrink: 0;
+    }
+
+    .sidebar-update-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: #2dd4bf;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.2);
+      animation: pulsePillGlow 2.4s infinite;
+    }
+
+    .sidebar-update-pill:hover {
+      background: rgba(45, 212, 191, 0.22);
+      border-color: #2dd4bf;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(45, 212, 191, 0.4);
+    }
+
+    @keyframes pulsePillGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(45, 212, 191, 0.15); }
+      50% { box-shadow: 0 0 18px rgba(45, 212, 191, 0.45); }
+    }
+
+    .sidebar-footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .btn-settings-sidebar {
@@ -126,37 +165,26 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       flex-shrink: 0;
     }
 
     .btn-settings-sidebar:hover {
-      background: #131c35;
+      background: #1e293b;
       border-color: var(--accent-cyan);
       color: var(--accent-cyan);
       transform: rotate(30deg);
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
     }
 
-    .sidebar-footer-info {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .sidebar-app-name {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-app-ver {
-      font-size: 10px;
+    .sidebar-version-tag {
+      font-size: 10.5px;
       color: var(--text-muted);
       font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid var(--border-card);
     }
 
     .sidebar-resizer {
@@ -178,6 +206,90 @@
     .sidebar-resizer:hover,
     .sidebar-resizer.resizing {
       background: rgba(96, 165, 250, 0.4);
+    }
+
+    /* Quantum Neural Core Logo & Sidebar Branding */
+    .sidebar-brand-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 2px 14px 2px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 4px;
+    }
+
+    .quantum-logo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .quantum-logo-wrapper:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.35);
+      transform: scale(1.04);
+    }
+
+    @keyframes quantumPulse {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.22); opacity: 1; }
+    }
+
+    .quantum-core-pulse {
+      transform-origin: 20px 20px;
+      animation: quantumPulse 2.8s ease-in-out infinite;
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-brand-name {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .brand-clautron {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 14.5px;
+      letter-spacing: -0.3px;
+      color: #f8fafc;
+    }
+
+    .brand-oneclick {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13.5px;
+      color: #38bdf8;
+      letter-spacing: -0.2px;
+    }
+
+    .sidebar-brand-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.14);
+      padding: 1px 6px;
+      border-radius: 6px;
+      width: fit-content;
+      letter-spacing: 0.2px;
     }
 
     .sidebar-header {
@@ -205,25 +317,26 @@
     }
 
     .btn-sidebar-new {
-      background: #212225;
-      border: 1px solid #3c4043;
-      color: #e3e3e3;
-      padding: 10px 16px;
-      border-radius: 20px;
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 9px 14px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 13px;
       font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       transition: all 0.2s ease;
       white-space: nowrap;
     }
 
     .btn-sidebar-new:hover {
-      background: #2c2d30;
-      border-color: #5e6165;
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.25);
       color: #ffffff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
     }
 
     .chat-list {
@@ -241,10 +354,10 @@
       align-items: center;
       justify-content: space-between;
       padding: 8px 10px;
-      border-radius: 10px;
-      color: #c4c7c5;
+      border-radius: 8px;
+      color: var(--text-secondary);
       cursor: pointer;
-      font-size: 13px;
+      font-size: 12.5px;
       transition: all 0.15s ease;
       border: 1px solid transparent;
       position: relative;
@@ -252,12 +365,13 @@
     }
 
     .chat-item:hover {
-      background: #212225;
-      color: #f1f3f4;
+      background: #1e293b;
+      color: var(--text-primary);
     }
 
     .chat-item.active {
-      background: #282a2c;
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.25);
       color: #ffffff;
       font-weight: 500;
     }
@@ -332,10 +446,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 24px;
-      border-bottom: 1px solid #1f2022;
-      background: #131314;
-      gap: 16px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-main);
       user-select: none;
       flex-shrink: 0;
       width: 100%;
@@ -345,27 +458,47 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .btn-toggle-sidebar {
-      background: #18191a;
-      border: 1px solid #282a2c;
-      color: #c4c7c5;
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
       padding: 7px 10px;
       border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s ease;
+      transition: all 0.2s ease;
       flex-shrink: 0;
     }
 
     .btn-toggle-sidebar:hover {
-      background: #282a2c;
-      border-color: #3c4043;
-      color: #ffffff;
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan);
+    }
+
+    .header-status-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.8), 0 0 2px #10b981;
+      transition: all 0.3s ease;
+      cursor: help;
+    }
+
+    .header-status-led.disconnected {
+      background: #ef4444;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.8), 0 0 2px #ef4444;
     }
 
     .status-dot {
@@ -927,7 +1060,7 @@
 
     footer {
       padding: 12px 24px 20px 24px;
-      background: #131314;
+      background: var(--bg-main);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -935,12 +1068,17 @@
       user-select: none;
       flex-shrink: 0;
       width: 100%;
-      overflow-x: hidden;
+      overflow: visible !important;
+      position: relative;
+      z-index: 100;
     }
 
     .input-container-wrapper {
       max-width: 820px;
       width: 100%;
+      position: relative;
+      z-index: 105;
+      overflow: visible !important;
     }
 
     .attachments-preview-bar {
@@ -997,6 +1135,9 @@
       gap: 8px;
       padding: 4px 6px 8px 6px;
       margin-bottom: 2px;
+      position: relative;
+      z-index: 110;
+      overflow: visible !important;
     }
 
     .context-bar-left {
@@ -1004,6 +1145,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      overflow: visible !important;
     }
 
     .context-bar-right {
@@ -1022,37 +1164,37 @@
     .preset-pills {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .btn-preset-pill {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-secondary);
       font-size: 11.5px;
       font-weight: 500;
-      padding: 3px 9px;
-      border-radius: 12px;
+      padding: 4px 10px;
+      border-radius: 9999px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       user-select: none;
     }
 
     .btn-preset-pill:hover {
-      background: var(--bg-input);
-      border-color: var(--accent-cyan);
-      color: var(--text-primary);
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #ffffff;
     }
 
     .btn-preset-pill.active {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.12);
+      border-color: #38bdf8;
+      color: #38bdf8;
       font-weight: 600;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
     }
 
     .btn-context-benchmark, .btn-ping {
@@ -1094,17 +1236,18 @@
       display: flex;
       align-items: flex-end;
       gap: 10px;
-      background: #1e1f20;
-      border: 1px solid #3c4043;
-      border-radius: 28px;
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.14);
+      border-radius: 16px;
       padding: 8px 14px 8px 14px;
       transition: all 0.2s ease;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .input-container:focus-within {
       border-color: var(--accent-cyan);
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+      background: #131c35;
     }
 
     .btn-attach {
@@ -1233,50 +1376,54 @@
       position: relative;
       display: inline-flex;
       align-items: center;
+      z-index: 99999;
+      overflow: visible !important;
     }
 
     .btn-persona-selector {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #111318;
-      border: 1px solid #3c4043;
+      background: #0f172a;
+      border: 1px solid var(--border-subtle);
       border-radius: 12px;
-      padding: 4px 10px;
+      padding: 5px 11px;
       font-size: 12px;
       font-weight: 600;
-      color: #e3e3e3;
+      color: var(--text-primary);
       cursor: pointer;
       transition: all 0.2s ease;
       user-select: none;
     }
 
     .btn-persona-selector:hover {
-      background: #1e1f20;
-      border-color: #60a5fa;
+      background: #1e293b;
+      border-color: var(--accent-cyan);
       color: #ffffff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
     }
 
-    .persona-dropdown {
+    .persona-dropdown, .model-dropdown, .persona-popover {
       position: absolute;
-      bottom: calc(100% + 8px);
+      bottom: calc(100% + 10px);
       left: 0;
-      width: 330px;
-      background: #0f172a;
-      border: 1px solid var(--border-subtle);
+      width: 340px;
+      background: #0b1222;
+      border: 1px solid rgba(56, 189, 248, 0.2);
       border-radius: 12px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
-      padding: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.1);
+      padding: 8px;
       display: none;
       flex-direction: column;
       gap: 4px;
-      z-index: 1000;
+      z-index: 99999;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .persona-dropdown.open {
       display: flex;
-      animation: fadeInDropdown 0.15s ease-out;
+      animation: fadeInDropdown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes fadeInDropdown {
@@ -1767,52 +1914,39 @@
       letter-spacing: 0.2px;
       user-select: none;
       cursor: help;
-      transition: all 0.2s ease;
-    }
-    .badge-nemo.nemo-evaluating {
-      background: rgba(245, 158, 11, 0.12);
-      border-color: rgba(245, 158, 11, 0.35);
-      color: #fbbf24;
-    }
-    .badge-nemo.nemo-pass {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.4);
-      color: #34d399;
-    }
-    .badge-nemo.nemo-fail {
-      background: rgba(239, 68, 68, 0.15);
+    <!-- Rodapé da Sidebar com Botão de Configurações Minimalista e Pill de Update -->
+    <div class="sidebar-footer">
+      <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver o changelog e baixar a atualização">
+        <span class="update-pulse-dot"></span>
+        <span id="sidebarUpdateText">🚀 Atualização v... disponível</span>
+      </button>
+
+      <div class="sidebar-footer-bottom">
+        <button class="btn-settings-sidebar" onclick="openSettingsModal()" title="Configurações Globais">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+        <span class="sidebar-version-tag" id="sidebarVersionLabel">v1.2.0</span>
+      </div>
+    </div>
       border-color: rgba(239, 68, 68, 0.4);
       color: #f87171;
-    }
+    <header>
+      <div class="header-left">
+        <button class="btn-toggle-sidebar" id="btnToggleSidebar" onclick="toggleSidebar()" title="Ocultar / Mostrar Barra Lateral (Ctrl+B)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+          </svg>
+        </button>
+      </div>
 
-    /* Botões de Feedback (NeMo Eval Engine) */
-    .feedback-actions {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      position: relative;
-    }
-
-    .btn-feedback {
-      padding: 3px 7px;
-      border-radius: 6px;
-      font-size: 11px;
-      gap: 4px;
-      transition: all 0.18s ease;
-    }
-
-    .btn-feedback:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-    }
-
-    .btn-feedback-good.active-good {
-      background: rgba(34, 197, 94, 0.16) !important;
-      border-color: rgba(34, 197, 94, 0.45) !important;
-      color: #86efac !important;
-      font-weight: 600;
-    }
-
+      <div class="header-right">
+        <div class="header-status-led" id="headerStatusLed" title="NVIDIA NIM: Conectado"></div>
+      </div>
+    </header>
     .btn-feedback-good.active-good svg {
       stroke: #86efac;
       fill: rgba(34, 197, 94, 0.25);
@@ -1891,9 +2025,55 @@
   <!-- Barra Lateral -->
   <aside id="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-title-row">
-        <span class="sidebar-title">Conversas Recentes</span>
+      <!-- Novo Branding com Quantum Neural Core Logo -->
+      <div class="sidebar-brand-box">
+        <div class="quantum-logo-wrapper">
+          <svg class="quantum-neural-logo" width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="quantumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="50%" stop-color="#2dd4bf" />
+                <stop offset="100%" stop-color="#a855f7" />
+              </linearGradient>
+              <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
+              </radialGradient>
+              <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="1.5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <!-- Hexágono Externo -->
+            <polygon points="20,2 35,11 35,29 20,38 5,29 5,11" stroke="url(#quantumGrad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="rgba(8, 13, 26, 0.6)" />
+            <!-- Linhas Neurais Convergentes -->
+            <line x1="20" y1="2" x2="20" y2="16" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="35" y1="11" x2="23.5" y2="18" stroke="#2dd4bf" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="35" y1="29" x2="23.5" y2="22" stroke="#2dd4bf" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="20" y1="38" x2="20" y2="24" stroke="#a855f7" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="5" y1="29" x2="16.5" y2="22" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7" />
+            <line x1="5" y1="11" x2="16.5" y2="18" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7" />
+            <!-- Nós Neurais -->
+            <circle cx="20" cy="2" r="1.8" fill="#38bdf8" />
+            <circle cx="35" cy="11" r="1.8" fill="#2dd4bf" />
+            <circle cx="35" cy="29" r="1.8" fill="#2dd4bf" />
+            <circle cx="20" cy="38" r="1.8" fill="#a855f7" />
+            <circle cx="5" cy="29" r="1.8" fill="#38bdf8" />
+            <circle cx="5" cy="11" r="1.8" fill="#38bdf8" />
+            <!-- Núcleo Quântico Pulsante -->
+            <circle class="quantum-core-pulse" cx="20" cy="20" r="4.5" fill="url(#coreGlow)" filter="url(#neonGlow)" />
+            <circle cx="20" cy="20" r="2" fill="#ffffff" />
+          </svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-name">
+            <span class="brand-clautron">CLAUTRON</span>
+            <span class="brand-oneclick">OneClick</span>
+          </div>
+          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.0</span>
+        </div>
       </div>
+
       <button class="btn-sidebar-new" onclick="createNewChatSession()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -1910,6 +2090,10 @@
         </svg>
         <input type="text" id="sidebarSearchInput" class="sidebar-search-input" placeholder="Buscar conversas..." oninput="handleSidebarSearch(this.value)" autocomplete="off" spellcheck="false" />
         <button type="button" id="sidebarSearchClear" class="sidebar-search-clear" onclick="clearSidebarSearch()" style="display: none;" title="Limpar busca">✕</button>
+      </div>
+
+      <div class="sidebar-title-row">
+        <span class="sidebar-title">Conversas Recentes</span>
       </div>
     </div>
     <div class="chat-list" id="chatList"></div>
@@ -2795,6 +2979,7 @@
         console.error("Falha ao salvar configurações:", e);
       }
 
+      updateNvidiaStatusLed(!!apiKeyVal, apiKeyVal ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
       closeSettingsModal();
     }
 
@@ -4476,12 +4661,14 @@
           btn.className = 'btn-ping ok';
           btn.disabled = false;
           label.textContent = 'NVIDIA OK ✓';
+          updateNvidiaStatusLed(true, 'NVIDIA NIM: Conectado');
           clearError();
           setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 4000);
         } else {
           btn.className = 'btn-ping fail';
           btn.disabled = false;
           label.textContent = 'NVIDIA FAIL';
+          updateNvidiaStatusLed(false, 'NVIDIA NIM: Falha de conexão');
           showError('Diagnóstico [' + (data.step || '?') + ']: ' + (data.error || 'erro desconhecido'));
           setTimeout(() => { btn.className = 'btn-ping'; label.textContent = 'Diagnóstico'; }, 10000);
         }
@@ -4516,6 +4703,19 @@
       if (lMin > cMin) return true;
       if (lMin < cMin) return false;
       return lPat > cPat;
+    }
+
+    // ── Status LED NVIDIA NIM Controller ──────────────────────────────────────
+    function updateNvidiaStatusLed(connected, tooltip) {
+      const led = document.getElementById('headerStatusLed');
+      if (!led) return;
+      if (connected) {
+        led.classList.remove('disconnected');
+        led.title = tooltip || 'NVIDIA NIM: Conectado';
+      } else {
+        led.classList.add('disconnected');
+        led.title = tooltip || 'NVIDIA NIM: Sem chave de API / Desconectado';
+      }
     }
 
     async function checkForUpdates() {
@@ -4561,14 +4761,14 @@
             body: release.body || 'Nenhuma nota de versão fornecida.'
           };
 
-          const badge = document.getElementById('btnUpdateBadge');
-          const tag = document.getElementById('updateVerTag');
-          if (badge && tag) {
-            tag.textContent = 'v' + latestReleaseInfo.latestVersion;
-            badge.style.display = 'inline-flex';
+          const pill = document.getElementById('sidebarUpdatePill');
+          const pillText = document.getElementById('sidebarUpdateText');
+          if (pill && pillText) {
+            pillText.textContent = '🚀 Atualização v' + latestReleaseInfo.latestVersion + ' disponível';
+            pill.style.display = 'inline-flex';
           }
-          const hBadge = document.getElementById('headerVersionBadge');
-          if (hBadge) hBadge.textContent = 'v' + currentVer;
+          const brandTag = document.getElementById('sidebarBrandVersionTag');
+          if (brandTag) brandTag.textContent = 'v' + currentVer;
           const sBadge = document.getElementById('sidebarVersionLabel');
           if (sBadge) sBadge.textContent = 'v' + currentVer;
         }
@@ -4621,6 +4821,10 @@
       if (!getStoredApiKey()) {
         setTimeout(openSettingsModal, 400);
       }
+
+      // Inicializa LED de status de conexão com base na chave de API
+      const initialKey = getStoredApiKey();
+      updateNvidiaStatusLed(!!initialKey, initialKey ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
 
       // Verificação não-intrusiva de atualizações no GitHub Releases
       checkForUpdates();
