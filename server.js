@@ -923,13 +923,15 @@ const server = http.createServer((req, res) => {
   }
 
   // ── Servidor de Arquivos Estáticos ────────────────────────────────────────
-  let safePath = req.url === '/' ? '/index.html' : req.url;
+  const appHtmlPath = path.join(__dirname, 'app.html');
+  const defaultPage = fs.existsSync(appHtmlPath) ? '/app.html' : '/index.html';
+  let safePath = req.url === '/' ? defaultPage : req.url;
   safePath = path.normalize(safePath).replace(/^(\.\.[\\/])+/, '');
   const filePath = path.join(__dirname, safePath);
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      const fallbackIndex = path.join(__dirname, 'index.html');
+      const fallbackIndex = fs.existsSync(appHtmlPath) ? appHtmlPath : path.join(__dirname, 'index.html');
       fs.readFile(fallbackIndex, (readErr, content) => {
         if (readErr) {
           res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
