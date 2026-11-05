@@ -1,58 +1,59 @@
-{
-  "name": "cloudtron-oneclick",
-  "version": "1.2.1",
-  "description": "Cloudtron Desktop AI Engine com NVIDIA NIM",
-  "main": "main.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/felipeptxa/clautron.git"
-  },
-  "githubRepo": "felipeptxa/clautron",
-  "scripts": {
-    "start": "electron .",
-    "dist": "electron-builder --win"
-  },
-  "build": {
-    "appId": "com.felipemonroe.cloudtron",
-    "productName": "Cloudtron OneClick",
-    "directories": {
-      "output": "dist"
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "Cloudtron OneClick"
-    }
-  },
-  "keywords": [
-    "nvidia",
-    "nemotron",
-    "desktop",
-    "ai"
-  ],
-  "author": "Felipe Monroe",
-  "license": "MIT",
-  "devDependencies": {
-    "electron": "^45.2.3",
-    "electron-builder": "^26.0.2"
-  },
-  "dependencies": {
-    "adm-zip": "^0.6.1",
-    "mammoth": "^1.13.0",
-    "officeparser": "^8.5.0",
-    "pdf-parse": "^2.4.5",
-    "xlsx": "^0.18.5"
-  }
+﻿{
+    "name":  "cloudtron-oneclick",
+    "version":  "1.2.1",
+    "description":  "Cloudtron Desktop AI Engine com NVIDIA NIM",
+    "main":  "main.js",
+    "repository":  {
+                       "type":  "git",
+                       "url":  "https://github.com/felipeptxa/cloudtron.git"
+                   },
+    "githubRepo":  "felipeptxa/cloudtron",
+    "scripts":  {
+                    "start":  "electron .",
+                    "dist":  "electron-builder --win",
+                    "test":  "node test/suite.js"
+                },
+    "build":  {
+                  "appId":  "com.felipemonroe.cloudtron",
+                  "productName":  "Cloudtron OneClick",
+                  "directories":  {
+                                      "output":  "dist"
+                                  },
+                  "win":  {
+                              "target":  [
+                                             {
+                                                 "target":  "nsis",
+                                                 "arch":  [
+                                                              "x64"
+                                                          ]
+                                             }
+                                         ]
+                          },
+                  "nsis":  {
+                               "oneClick":  false,
+                               "allowToChangeInstallationDirectory":  true,
+                               "createDesktopShortcut":  true,
+                               "createStartMenuShortcut":  true,
+                               "shortcutName":  "Cloudtron OneClick"
+                           }
+              },
+    "keywords":  [
+                     "nvidia",
+                     "nemotron",
+                     "desktop",
+                     "ai"
+                 ],
+    "author":  "Felipe Monroe",
+    "license":  "MIT",
+    "devDependencies":  {
+                            "electron":  "^45.2.3",
+                            "electron-builder":  "^26.0.2"
+                        },
+    "dependencies":  {
+                         "adm-zip":  "^0.6.1",
+                         "mammoth":  "^1.13.0",
+                         "officeparser":  "^8.5.0",
+                         "pdf-parse":  "^2.4.5",
+                         "xlsx":  "^0.18.5"
+                     }
 }
