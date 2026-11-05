@@ -1,864 +1,978 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Primary SEO Meta Tags -->
-  <title>Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.0)</title>
-  <meta name="title" content="Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.0)">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <meta name="description" content="Cloudtron OneClick é a estação desktop definitiva para Windows x64 feita para rodar o modelo NVIDIA Nemotron 3.5 Super VL 120B com Deep Thinking (CoT), visão multimodal nativa, ingestão universal de arquivos, Context Bridge e setup em um clique.">
-  <meta name="keywords" content="Cloudtron, Cloudtron OneClick, Cloudtron, Cloudtron IA, Cloudtron desktop, NVIDIA Nemotron 120B, Nemotron 3.5 Super VL, deep thinking, chain of thought, electron windows ai, felipe monroe, cloudtron github, felipeptxa, ia para programadores, ia multimodal desktop, context bridge, nemo guardrails">
+  <title>CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.1.0)</title>
+  <meta name="title" content="CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.1.0)">
+  <meta name="description" content="CLAUTRON OneClick é a estação desktop ultra leve em Electron e Node.js para inferência direta do NVIDIA Nemotron 3.5 Super VL 120B no Windows x64. Deep Thinking (CoT), visão multimodal nativa, zero CUDA/Python local.">
+  <meta name="keywords" content="CLAUTRON, CLAUTRON OneClick, NVIDIA Nemotron 120B, Nemotron 3.5 Super VL, deep thinking, chain of thought, electron windows ai, felipe monroe, clautron github, felipeptxa, ia desktop windows">
   <meta name="author" content="Felipe Monroe">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow">
-  <link rel="canonical" href="https://felipeptxa.github.io/clautron/">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://felipeptxa.github.io/claudtron/">
 
   <!-- Google Search Console Verification Meta Tag -->
   <meta name="google-site-verification" content="google25d8a6801921c7bf">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://felipeptxa.github.io/clautron/">
-  <meta property="og:site_name" content="Cloudtron OneClick">
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:title" content="Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
-  <meta property="og:description" content="Raciocínio Profundo &amp; Multimodalidade no Desktop. Sem Python, sem compilações CUDA e sem complexidade. Leve, rápido e com setup em um clique.">
-  <meta property="og:image" content="https://felipeptxa.github.io/clautron/og-preview.png">
+  <meta property="og:url" content="https://felipeptxa.github.io/claudtron/">
+  <meta property="og:site_name" content="CLAUTRON OneClick">
+  <meta property="og:title" content="CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
+  <meta property="og:description" content="Raciocínio Profundo &amp; Multimodalidade na Sua Área de Trabalho. Em Um Clique. Windows x64 nativo.">
+  <meta property="og:image" content="https://felipeptxa.github.io/claudtron/og-preview.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://felipeptxa.github.io/clautron/">
-  <meta name="twitter:title" content="Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
-  <meta name="twitter:description" content="Raciocínio Profundo &amp; Multimodalidade no Desktop. Sem Python, sem compilações CUDA e sem complexidade. Leve, rápido e com setup em um clique.">
-  <meta name="twitter:image" content="https://felipeptxa.github.io/clautron/og-preview.png">
+  <meta name="twitter:url" content="https://felipeptxa.github.io/claudtron/">
+  <meta name="twitter:title" content="CLAUTRON OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B">
+  <meta name="twitter:description" content="Raciocínio Profundo &amp; Multimodalidade na Sua Área de Trabalho. Em Um Clique. Windows x64 nativo.">
+  <meta name="twitter:image" content="https://felipeptxa.github.io/claudtron/og-preview.png">
 
-  <!-- Theme Color & Mobile App Capable -->
-  <meta name="theme-color" content="#080d1a">
-  <meta name="color-scheme" content="dark">
-  <meta name="application-name" content="Cloudtron OneClick">
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#0B0D13">
 
   <!-- Favicon SVG Inline -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300F0FF'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/%3E%3C/svg%3E">
 
-  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <!-- Google Fonts: Inter, Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=1.2.0">
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyberBg: '#0B0D13',
+            cyberSurface: '#121620',
+            cyberCard: '#161B26',
+            cyberBorder: '#1F293D',
+            neonCyan: '#00F0FF',
+            neonGreen: '#00FFA3',
+            neonPurple: '#7928CA',
+            lightText: '#EDEDED',
+            mutedText: '#94A3B8'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            'neon-cyan': '0 0 25px rgba(0, 240, 255, 0.35)',
+            'neon-green': '0 0 25px rgba(0, 255, 163, 0.35)',
+            'neon-purple': '0 0 30px rgba(121, 40, 202, 0.4)'
+          }
+        }
+      }
+    }
+  </script>
 
-  <!-- Schema.org Structured Data (JSON-LD) for Google Search Engine Optimization -->
+  <!-- Custom Styles for Cyber Grid, Glow & Glassmorphism -->
+  <style>
+    /* Base Reset & Variables */
+    :root {
+      --bg-dark: #0B0D13;
+      --card-dark: #161B26;
+      --border-dark: #1F293D;
+      --neon-cyan: #00F0FF;
+      --neon-green: #00FFA3;
+      --neon-purple: #7928CA;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #EDEDED;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Cyber Background Grid */
+    .cyber-grid-pattern {
+      background-image: 
+        linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0) 80%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0) 80%);
+    }
+
+    /* Glassmorphic Cards */
+    .glass-card {
+      background: rgba(22, 27, 38, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid #1F293D;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.12);
+    }
+
+    /* Pulsing Neon Download Button */
+    .btn-download-pulse {
+      position: relative;
+      background: linear-gradient(135deg, #00F0FF 0%, #00FFA3 100%);
+      color: #07090E;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.45);
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+    .btn-download-pulse:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 45px rgba(0, 240, 255, 0.7), 0 0 25px rgba(0, 255, 163, 0.5);
+    }
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 10px rgba(0, 255, 163, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(0, 240, 255, 0.65), 0 0 20px rgba(0, 255, 163, 0.4);
+      }
+    }
+
+    /* Text Gradient */
+    .text-gradient-cyan-purple {
+      background: linear-gradient(135deg, #00F0FF 0%, #00FFA3 45%, #C084FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0D13;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1F293D;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00F0FF;
+    }
+
+    /* Chain-of-Thought Details Styling */
+    details.thinking-details summary::-webkit-details-marker {
+      display: none;
+    }
+    details.thinking-details[open] .thinking-chevron {
+      transform: rotate(180deg);
+    }
+  </style>
+
+  <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://felipeptxa.github.io/clautron/#software",
-        "name": "Cloudtron OneClick",
-        "alternateName": "Cloudtron",
-        "applicationCategory": "DeveloperApplication, BusinessApplication",
-        "operatingSystem": "Windows 10, Windows 11 (x64)",
-        "softwareVersion": "1.2.0",
-        "license": "https://opensource.org/licenses/MIT",
-        "description": "Estação desktop nativa para Windows x64 com NVIDIA Nemotron 3.5 Super VL 120B, Chain-of-Thought, visão multimodal nativa, Ingestão Universal de Arquivos e Context Bridge.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Felipe Monroe",
-          "url": "https://github.com/felipeptxa"
-        },
-        "downloadUrl": "https://github.com/felipeptxa/clautron/releases",
-        "fileSize": "Ready",
-        "screenshot": "https://felipeptxa.github.io/clautron/og-preview.png"
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://felipeptxa.github.io/clautron/#website",
-        "url": "https://felipeptxa.github.io/clautron/",
-        "name": "Cloudtron OneClick",
-        "description": "Landing Page Oficial do Cloudtron OneClick",
-        "publisher": {
-          "@type": "Person",
-          "name": "Felipe Monroe"
-        },
-        "inLanguage": "pt-BR"
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://felipeptxa.github.io/clautron/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Preciso de GPU dedicada ou placa NVIDIA local?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Não. O processamento pesado dos 120 bilhões de parâmetros ocorre nos nós de alta densidade do NVIDIA NIM na nuvem. Seu PC só precisa rodar a interface Electron com fluidez no Windows 10/11."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como obtenho minha chave de API (nvapi-...)?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Basta criar uma conta gratuita no portal build.nvidia.com e acessar o modelo Nemotron 3.5 Super VL. A NVIDIA disponibiliza créditos gratuitos para desenvolvedores."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Meus dados e conversas são salvos onde?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Seu histórico de conversas e preferências ficam armazenados 100% localmente no seu computador em arquivos criptografados. Nada além da inferência oficial da NVIDIA transita na nuvem."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "O que é o Context Bridge do Cloudtron?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O Context Bridge permite importar históricos de trabalho e resumos de outras IAs (como Claude, ChatGPT e Cursor) em formato Markdown, TXT ou JSON, continuando seus projetos sem perda de memória."
-            }
-          }
-        ]
-      }
-    ]
+    "@type": "SoftwareApplication",
+    "name": "CLAUTRON OneClick",
+    "operatingSystem": "Windows 10, Windows 11 (x64)",
+    "applicationCategory": "DeveloperApplication",
+    "softwareVersion": "1.1.0",
+    "description": "Estação desktop ultra leve em Electron e Node.js para inferência direta do Nemotron 120B com Chain-of-Thought e visão multimodal nativa.",
+    "author": {
+      "@type": "Person",
+      "name": "Felipe Monroe",
+      "url": "https://github.com/felipeptxa"
+    },
+    "downloadUrl": "https://github.com/felipeptxa/clautron/releases",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
   }
   </script>
 </head>
-<body>
+<body class="bg-cyberBg text-lightText antialiased selection:bg-neonCyan selection:text-black">
 
-  <!-- Ambient Glow & Cyber Grid -->
-  <div class="cyber-background" aria-hidden="true">
-    <div class="cyber-grid"></div>
-    <div class="cyber-glow glow-cyan" style="top: 8%; left: 20%; width: 500px; height: 500px;"></div>
-    <div class="cyber-glow glow-purple" style="top: 40%; right: 15%; width: 600px; height: 600px;"></div>
-    <div class="cyber-glow glow-cyan" style="bottom: 10%; left: 30%; width: 550px; height: 550px;"></div>
+  <!-- Ambient Cyber Grid Background & Glow Orbs -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+    <div class="absolute inset-0 cyber-grid-pattern opacity-70"></div>
+    <div class="absolute top-10 left-1/4 w-[500px] h-[500px] bg-neonCyan/10 rounded-full blur-[140px]"></div>
+    <div class="absolute top-1/3 right-10 w-[600px] h-[600px] bg-neonPurple/15 rounded-full blur-[160px]"></div>
+    <div class="absolute bottom-20 left-1/3 w-[550px] h-[550px] bg-neonGreen/10 rounded-full blur-[150px]"></div>
   </div>
 
-  <!-- Header Navigation -->
-  <header class="site-header" id="header">
-    <div class="container nav-container">
+  <!-- 1. Header / Navbar Minimalista (Fixo com backdrop-blur) -->
+  <header class="sticky top-0 z-50 w-full bg-cyberBg/85 backdrop-blur-md border-b border-cyberBorder transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3.5">
+      
       <!-- Brand Logo -->
-      <a href="#hero" class="brand-link" aria-label="Cloudtron OneClick Home">
-        <div class="brand-icon-wrapper">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <a href="#hero" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-neonCyan/20 to-neonPurple/25 border border-neonCyan/40 flex items-center justify-center text-neonCyan shadow-[0_0_15px_rgba(0,240,255,0.3)] group-hover:scale-105 transition-transform">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg>
         </div>
-        <div class="brand-text">
-          <span>Cloudtron</span>
-          <span class="text-cyan">OneClick</span>
-          <span class="brand-badge mono">v1.2.0</span>
+        <div class="flex items-center gap-2">
+          <span class="font-display font-extrabold text-lg tracking-tight text-white group-hover:text-neonCyan transition-colors">CLAUTRON</span>
+          <span class="font-display font-extrabold text-lg tracking-tight text-neonCyan">OneClick</span>
+          <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded-full bg-cyberBorder/80 border border-cyberBorder text-mutedText ml-1">v1.1.0</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation Menu -->
-      <nav aria-label="Navegação Principal">
-        <ul class="nav-links">
-          <li class="nav-item"><a href="#recursos">Recursos</a></li>
-          <li class="nav-item"><a href="#como-funciona">Como Funciona</a></li>
-          <li class="nav-item"><a href="#diagnostico">Diagnóstico</a></li>
-          <li class="nav-item"><a href="#faq">FAQ</a></li>
-          <li class="nav-item"><a href="#roadmap">Roadmap</a></li>
-        </ul>
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-mutedText">
+        <a href="#recursos" class="hover:text-neonCyan transition-colors">Recursos</a>
+        <a href="#arquitetura" class="hover:text-neonCyan transition-colors">Arquitetura</a>
+        <a href="#roadmap" class="hover:text-neonCyan transition-colors">Roadmap</a>
+        <a href="#doacao" onclick="openDonationModal(); return false;" class="hover:text-neonGreen transition-colors flex items-center gap-1.5 text-neonGreen/90">
+          <svg class="w-4 h-4 text-neonGreen animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+          Apoiar Projeto
+        </a>
       </nav>
 
-      <!-- Nav Actions & Mobile Toggle -->
-      <div class="nav-actions">
-        <a href="https://github.com/felipeptxa/claudtron" target="_blank" rel="noopener noreferrer" class="btn-github-nav" title="Ver repositório oficial no GitHub">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <!-- Top Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Support / Buy Me A Coffee Button -->
+        <button onclick="openDonationModal()" type="button" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-cyberCard border border-neonGreen/40 text-neonGreen text-xs font-semibold hover:bg-neonGreen/10 hover:border-neonGreen hover:shadow-[0_0_15px_rgba(0,255,163,0.25)] transition-all">
+          <svg class="w-3.5 h-3.5 text-neonGreen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+          <span>Buy me a Coffee</span>
+        </button>
+
+        <!-- GitHub Repo Button -->
+        <a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/5 border border-cyberBorder text-white text-xs font-semibold hover:border-neonCyan hover:bg-white/10 transition-all" title="Ver código-fonte no GitHub">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
           </svg>
-          <span>Ver no GitHub</span>
+          <span class="hidden sm:inline">GitHub</span>
         </a>
 
-        <!-- Mobile Menu Hamburger Button -->
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu de navegação" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuBtn" type="button" class="md:hidden p-2 rounded-lg bg-cyberCard border border-cyberBorder text-mutedText hover:text-white" aria-label="Abrir menu de navegação">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Navigation Drawer -->
-    <div class="mobile-nav-drawer" id="mobileNavDrawer">
-      <a href="#recursos" class="mobile-nav-link">Recursos</a>
-      <a href="#como-funciona" class="mobile-nav-link">Como Funciona</a>
-      <a href="#diagnostico" class="mobile-nav-link">Diagnóstico</a>
-      <a href="#faq" class="mobile-nav-link">FAQ</a>
-      <a href="#roadmap" class="mobile-nav-link">Roadmap</a>
-      <a href="https://github.com/felipeptxa/claudtron" target="_blank" rel="noopener noreferrer" class="text-cyan">Ver no GitHub →</a>
+    <!-- Mobile Drawer -->
+    <div id="mobileDrawer" class="hidden md:hidden border-b border-cyberBorder bg-cyberSurface/95 px-4 pt-3 pb-4 space-y-2">
+      <a href="#recursos" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-mutedText hover:text-neonCyan hover:bg-white/5">Recursos</a>
+      <a href="#arquitetura" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-mutedText hover:text-neonCyan hover:bg-white/5">Arquitetura</a>
+      <a href="#roadmap" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-mutedText hover:text-neonCyan hover:bg-white/5">Roadmap</a>
+      <button onclick="openDonationModal()" type="button" class="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-neonGreen hover:bg-neonGreen/10">
+        <svg class="w-4 h-4 text-neonGreen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+        Apoiar Projeto / Buy me a Coffee
+      </button>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <main>
-    <section class="hero-section" id="hero">
-      <div class="container hero-content">
-        <!-- Hero Neon Badges -->
-        <div class="hero-badges-wrapper">
-          <div class="pill-badge mono">
-            <span class="pill-indicator"></span>
-            <span>🟢 NVIDIA Nemotron 3.5 Super VL 120B • Desktop Nativo</span>
+  <!-- 2. Seção Hero (Impacto Direto) -->
+  <main class="relative z-10">
+    <section id="hero" class="pt-16 pb-20 md:pt-24 md:pb-32 text-center px-4 max-w-6xl mx-auto">
+      
+      <!-- Badge Superior Neon -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyberCard border border-neonCyan/30 text-neonCyan font-mono text-xs sm:text-sm font-medium mb-6 shadow-[0_0_15px_rgba(0,240,255,0.15)]">
+        <span class="w-2 h-2 rounded-full bg-neonGreen animate-ping"></span>
+        <span>NVIDIA Nemotron 3.5 Super VL 120B • Desktop Nativo Windows</span>
+      </div>
+
+      <!-- Título de Alto Impacto -->
+      <h1 class="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.1] mb-6 max-w-4xl mx-auto">
+        Raciocínio Profundo &amp; Multimodalidade na Sua Área de Trabalho.<br>
+        <span class="text-gradient-cyan-purple">Em Um Clique.</span>
+      </h1>
+
+      <!-- Subtítulo Técnico -->
+      <p class="text-mutedText text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
+        Estação desktop ultra leve em Electron e Node.js para inferência direta do Nemotron 120B. Zero compilação local de IA, zero configuração pesada de Python ou drivers CUDA.
+      </p>
+
+      <!-- Botões de Ação Principais -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+        <!-- CTA Primário (Windows Download) -->
+        <a href="https://github.com/felipeptxa/clautron/releases/download/v1.1.0/CLAUTRON-OneClick-Setup-1.1.0.exe" class="btn-download-pulse w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 rounded-xl text-black font-sans font-bold text-base transition-all group" id="heroDownloadBtn">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.751"/>
+          </svg>
+          <div class="text-left">
+            <div class="text-sm font-extrabold tracking-tight">Baixar para Windows (x64)</div>
+            <div class="text-[11px] font-mono opacity-80 font-normal">CLAUTRON OneClick Setup 1.1.0.exe (NSIS)</div>
           </div>
-          <div class="pill-badge pill-badge-version mono">
-            <span class="pill-release-dot"></span>
-            <span>v1.2.0 Disponível</span>
-          </div>
-        </div>
+        </a>
 
-        <!-- Main Hero Title -->
-        <h1 class="hero-title">
-          Raciocínio Profundo &amp; Multimodalidade na Sua Área de Trabalho.<br>
-          <span class="text-gradient-cyan-purple">Sem Complicações.</span>
-        </h1>
+        <!-- CTA Secundário (GitHub) -->
+        <a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-cyberCard border border-cyberBorder text-white font-medium text-base hover:border-neonCyan/50 hover:bg-cyberCard/90 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all">
+          <svg class="w-5 h-5 text-neonCyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Ver no GitHub (MIT)</span>
+        </a>
+      </div>
 
-        <!-- Subtitle -->
-        <p class="hero-subtitle">
-          Raciocínio Profundo &amp; Multimodalidade no Desktop. Sem Python, sem compilações CUDA e sem complexidade. Leve, rápido e com setup em um clique.
-        </p>
+      <!-- Trust Strip Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-mutedText mb-16">
+        <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-neonGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Electron Nativo + Node.js</span>
+        <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-neonGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Zero CUDA / Zero Python Local</span>
+        <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-neonGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Open Source (Licença MIT)</span>
+      </div>
 
-        <!-- Main Actions -->
-        <div class="hero-actions">
-          <a href="https://github.com/felipeptxa/clautron/releases/download/v1.2.0/Cloudtron-OneClick-Setup-1.2.0.exe" class="btn-primary-download btn-download-action" id="heroDownloadBtn">
-            <span class="btn-icon-windows">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.751"/>
-              </svg>
-            </span>
-            <span class="btn-text-group">
-              <span class="btn-main-label">Baixar para Windows (x64)</span>
-              <span class="btn-sub-label">Instalador NSIS • v1.2.0 (Gratuito)</span>
-            </span>
-          </a>
-
-          <a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer" class="btn-secondary-hero">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <span>GitHub (Open-Source)</span>
-          </a>
-        </div>
-
-        <!-- Meta Trust Strip -->
-        <div class="hero-meta-strip">
-          <div class="meta-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Electron Nativo + Node.js</span>
-          </div>
-          <div class="meta-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Zero CUDA / Zero Python Local</span>
-          </div>
-          <div class="meta-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Open Source (Licença MIT)</span>
-          </div>
-        </div>
-
-        <!-- Interactive Desktop App Mockup Window -->
-        <div class="mockup-wrapper">
-          <div class="mockup-glow-ambient" aria-hidden="true"></div>
+      <!-- Preview da UI (Mockup Frameless com Sombra Neon) -->
+      <div class="relative max-w-5xl mx-auto rounded-2xl p-1 bg-gradient-to-b from-neonCyan/30 via-cyberBorder/40 to-neonPurple/20 shadow-[0_0_50px_rgba(0,240,255,0.15)]">
+        <div class="bg-cyberBg rounded-[14px] border border-cyberBorder overflow-hidden text-left font-sans">
           
-          <div class="window-frame">
-            <!-- Frameless Titlebar -->
-            <div class="window-titlebar">
-              <div class="titlebar-left">
-                <div class="window-controls">
-                  <div class="control-dot control-close" title="Fechar"></div>
-                  <div class="control-dot control-min" title="Minimizar"></div>
-                  <div class="control-dot control-max" title="Maximizar"></div>
-                </div>
-                <div class="window-title-text">
-                  <span>Cloudtron OneClick</span>
-                  <span class="model-pill">nvidia/nemotron-3.5-vl-120b</span>
-                </div>
+          <!-- Mockup Window Titlebar -->
+          <div class="h-10 bg-cyberSurface px-4 flex items-center justify-between border-b border-cyberBorder">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-[#FF5F56] inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-[#27C93F] inline-block"></span>
+              <span class="text-xs font-mono text-mutedText ml-3">CLAUTRON OneClick • nemotron-3.5-vl-120b</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <!-- Topbar Heuristic Preset Indicator -->
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-cyberBorder/80 text-neonCyan border border-neonCyan/30">Effort: Auto (Código)</span>
+              <!-- Status Verde NVIDIA OK -->
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-neonGreen/10 border border-neonGreen/30 text-neonGreen text-[11px] font-mono font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-neonGreen"></span>
+                <span>NVIDIA OK ✓</span>
               </div>
+            </div>
+          </div>
 
-              <!-- Heuristic Presets Switcher -->
-              <div class="titlebar-center">
-                <span class="preset-chip active" data-preset="Profundo">Profundo (CoT)</span>
-                <span class="preset-chip" data-preset="Código">Código</span>
-                <span class="preset-chip" data-preset="Criativo">Criativo</span>
-                <span class="preset-chip" data-preset="Rápido">Rápido</span>
-              </div>
-
-              <div class="titlebar-right">
-                <div class="status-badge-live">
-                  <span class="pulse-dot"></span>
-                  <span>NVIDIA OK ✓</span>
+          <!-- Mockup Window Content -->
+          <div class="p-6 md:p-8 space-y-6 bg-gradient-to-b from-cyberCard/40 to-cyberBg">
+            
+            <!-- User Prompt with Image Attachment -->
+            <div class="flex items-start gap-3 bg-cyberCard/70 p-4 rounded-xl border border-cyberBorder/60 max-w-3xl ml-auto">
+              <div class="w-7 h-7 rounded-full bg-neonCyan/20 text-neonCyan flex items-center justify-center font-bold text-xs shrink-0">U</div>
+              <div class="text-sm space-y-2">
+                <p class="text-white">Analise o print do erro de compilação anexo e reescreva a função gerando os testes unitários em TypeScript.</p>
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyberSurface border border-cyberBorder text-xs text-mutedText font-mono">
+                  <svg class="w-4 h-4 text-neonCyan" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                  <span>build_error_trace.png (1920x1080) [Ctrl+V]</span>
                 </div>
               </div>
             </div>
 
-            <!-- Dynamic Heuristic Explanation Bar -->
-            <div class="preset-explanation-bar" id="presetExplanationBar">
-              <span class="preset-explanation-icon">⚙️</span>
-              <span id="activePresetDescription"><strong>Profundo (CoT):</strong> Raciocínio estendido (Chain-of-Thought) habilitado com alta densidade lógica para arquitetura e refatoração complexa.</span>
-            </div>
-
-            <!-- Window Body -->
-            <div class="window-body">
-              <!-- Left Sidebar -->
-              <aside class="mockup-sidebar">
-                <div class="mockup-sidebar-top">
-                  <button class="sidebar-new-chat-btn" type="button">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>Nova Sessão</span>
-                  </button>
-
-                  <button class="sidebar-new-chat-btn" type="button" style="background: rgba(45, 212, 191, 0.08); border-color: rgba(45, 212, 191, 0.3); color: var(--neon-teal); font-size: 0.78rem;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    <span>📥 Importar Contexto</span>
-                  </button>
-
-                  <div>
-                    <div class="sidebar-section-title">Sessões Recentes</div>
-                    <div class="chat-history-list">
-                      <div class="chat-history-item active">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>📌 Projeto Migrado: Refatoração React</span>
-                      </div>
-                      <div class="chat-history-item">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>OCR &amp; Gráfico Financeiro</span>
-                      </div>
-                      <div class="chat-history-item">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <span>Análise de Arquitetura AST</span>
-                      </div>
-                    </div>
-                  </div>
+            <!-- AI Response Box -->
+            <div class="flex items-start gap-3 bg-cyberSurface/90 p-5 rounded-xl border border-neonCyan/20 max-w-4xl mr-auto shadow-lg">
+              <div class="w-7 h-7 rounded-full bg-neonPurple/20 text-neonPurple border border-neonPurple/40 flex items-center justify-center shrink-0">
+                <svg class="w-4 h-4 text-neonCyan" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              </div>
+              <div class="space-y-4 w-full">
+                <div class="flex items-center justify-between text-xs font-mono text-mutedText">
+                  <span class="text-neonCyan font-semibold">Nemotron 3.5 Super VL 120B</span>
+                  <span class="text-[11px] text-mutedText">Latência: 114ms • Streaming Ativo</span>
                 </div>
 
-                <div class="mockup-sidebar-bottom">
-                  <div class="sidebar-diagnostic-box">
-                    <span class="diag-label">Motor Heurístico</span>
-                    <span class="diag-val" id="activePresetIndicator">Profundo (CoT)</span>
-                  </div>
-                  <div class="sidebar-diagnostic-box">
-                    <span class="diag-label">Latência NIM</span>
-                    <span class="diag-val">112ms</span>
-                  </div>
-                </div>
-              </aside>
-
-              <!-- Main Chat / Sandbox Area -->
-              <div class="mockup-main">
-                <!-- Tab Switching Bar -->
-                <div class="mockup-tabbar">
-                  <div class="mockup-tabs" role="tablist">
-                    <button class="mockup-tab-btn active" id="tabChat" type="button" role="tab" aria-selected="true">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                      <span>Chat &amp; Código</span>
-                    </button>
-                    <button class="mockup-tab-btn" id="tabSandbox" type="button" role="tab" aria-selected="false">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                      <span>Live Sandbox Preview</span>
-                      <span class="mockup-tab-badge">Interativo</span>
-                    </button>
-                  </div>
-                  <div class="text-muted mono" style="font-size: 0.72rem;">
-                    NVIDIA Super VL 120B
-                  </div>
-                </div>
-
-                <!-- Messages Stream View -->
-                <div class="mockup-messages" id="mockupChatMessages">
-                  <!-- User Message with Screenshot Attachment -->
-                  <div class="msg-user">
-                    <div>Analise o print desta tela de dashboard anexada e gere o componente em React com TypeScript e Tailwind CSS.</div>
-                    <div class="msg-user-attachment">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                      <span>dashboard_wireframe.png (1920x1080) [Ctrl+V]</span>
+                <!-- Bloco Retrátil de Chain-of-Thought (<details> com thinking box estilizada) -->
+                <details class="thinking-details group bg-cyberCard/90 rounded-lg border border-neonPurple/30 overflow-hidden" open>
+                  <summary class="flex items-center justify-between px-3.5 py-2.5 bg-neonPurple/10 cursor-pointer text-xs font-mono text-neonPurple select-none hover:bg-neonPurple/15 transition-colors">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-4 h-4 text-neonPurple" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                      <span class="font-bold">🔮 Linha de Raciocínio (Chain-of-Thought)</span>
                     </div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] text-mutedText">1.2s de dedução lógica</span>
+                      <svg class="thinking-chevron w-3.5 h-3.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </summary>
+                  <div class="p-3.5 text-xs font-mono text-mutedText/90 space-y-1.5 border-t border-neonPurple/20 bg-cyberBg/60">
+                    <p>&gt; OCR identificou: `TypeError: Cannot read properties of undefined (reading 'tokenStream')`</p>
+                    <p>&gt; Causa-raiz: O handler assíncrono não aguarda a inicialização do socket SSE antes do dispatch.</p>
+                    <p>&gt; Solução: Implementar `Mutex` assíncrono com fallback resiliente e tipagem estrita via `zod`.</p>
                   </div>
+                </details>
 
-                  <!-- AI Message with Deep Thinking & Code -->
-                  <div class="msg-ai">
-                    <div class="ai-header-tag mono">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                      <span>Cloudtron • Nemotron 3.5 VL 120B</span>
-                    </div>
-
-                    <!-- Collapsible Chain-of-Thought (Thinking Container) -->
-                    <div class="thinking-box expanded" id="thinkingBox">
-                      <div class="thinking-header" id="thinkingHeader" title="Clique para recolher/expandir o raciocínio" aria-expanded="true">
-                        <div class="thinking-title-group">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                          <span>Linha de Raciocínio (Chain-of-Thought)</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                          <span class="thinking-timer">1.2s de inferência</span>
-                          <svg class="thinking-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </div>
-                      </div>
-                      <div class="thinking-content" id="thinkingContent">
-                        &gt; Identificada imagem de dashboard contendo métricas analíticas (ARR, Churn, Latência).<br>
-                        &gt; Análise visual: Layout em CSS Grid com colunas responsivas, paleta Deep Midnight e bordas néon.<br>
-                        &gt; Otimização: Aplicar React hooks tipados com framer-motion para micro-interações fluidas.<br>
-                        &gt; Sandbox pronto para execução imediata no iframe isolado com hot-reload.
-                      </div>
-                    </div>
-
-                    <!-- Clean Code Preview Snippet -->
-                    <div class="code-preview-block">
-                      <div class="code-header">
-                        <span class="code-lang-tag">React / TypeScript</span>
-                        <button class="code-action-btn copy-btn" data-copy-target="mockupCodeBlock" type="button">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                          <span>Copiar</span>
-                        </button>
-                      </div>
-                      <div class="code-body" id="mockupCodeBlock">
-                        <span class="c-keyword">export const</span> <span class="c-fn">MetricCard</span>: React.FC&lt;MetricProps&gt; = ({ title, value, change }) =&gt; {<br>
-                        &nbsp;&nbsp;<span class="c-keyword">return</span> (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c-keyword">div</span> className=<span class="c-str">"p-5 rounded-xl bg-slate-900/80 border border-cyan-500/30 backdrop-blur"</span>&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c-keyword">span</span> className=<span class="c-str">"text-xs font-mono text-cyan-400"</span>&gt;{title}&lt;/<span class="c-keyword">span</span>&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c-keyword">h3</span> className=<span class="c-str">"text-2xl font-bold text-white mt-1"</span>&gt;{value}&lt;/<span class="c-keyword">h3</span>&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c-keyword">p</span> className=<span class="c-str">"text-xs text-emerald-400 font-mono mt-2"</span>&gt;↑ {change}% vs mês anterior&lt;/<span class="c-keyword">p</span>&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="c-keyword">div</span>&gt;<br>
-                        &nbsp;&nbsp;);<br>
-                        };
-                      </div>
-                    </div>
+                <!-- Resposta Formatada com Syntax Highlighting -->
+                <div class="rounded-lg bg-cyberBg border border-cyberBorder overflow-hidden">
+                  <div class="flex items-center justify-between px-4 py-1.5 bg-cyberSurface/80 border-b border-cyberBorder text-xs font-mono text-mutedText">
+                    <span>tokenStreamHandler.ts</span>
+                    <span class="text-neonGreen">TypeScript</span>
                   </div>
+                  <pre class="p-4 text-xs font-mono overflow-x-auto text-lightText leading-relaxed"><code><span class="text-neonPurple font-bold">export async function</span> <span class="text-neonCyan">dispatchTokenStream</span>(payload: <span class="text-neonGreen">StreamPayload</span>): <span class="text-neonGreen">Promise</span>&lt;<span class="text-neonCyan">void</span>&gt; {
+  <span class="text-mutedText">// Inicializa canal de eventos com proteção contra null pointer</span>
+  <span class="text-neonPurple font-bold">if</span> (!payload.tokenStream) {
+    <span class="text-neonPurple font-bold">throw new</span> <span class="text-neonCyan">StreamInitializationError</span>(<span class="text-neonGreen">'[CLAUTRON] Stream não alocado.'</span>);
+  }
+  <span class="text-neonPurple font-bold">await</span> payload.tokenStream.pipeThrough(<span class="text-neonPurple font-bold">new</span> <span class="text-neonCyan">TextDecoderStream</span>());
+}</code></pre>
                 </div>
 
-                <!-- Live Sandbox Preview (Tab View) -->
-                <div class="mockup-sandbox-view" id="mockupSandboxView">
-                  <div class="sandbox-frame-content">
-                    <div class="sandbox-live-widget">
-                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <span class="mono text-cyan" style="font-size: 0.8rem; font-weight: 700;">Live Sandbox Container</span>
-                        <span class="mono" style="font-size: 0.72rem; color: var(--neon-green); background: rgba(0, 255, 163, 0.1); padding: 2px 8px; border-radius: 4px;">Executando</span>
-                      </div>
-                      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
-                        <div style="background: #0B0E15; padding: 12px; border-radius: 8px; text-align: left; border: 1px solid rgba(255,255,255,0.06);">
-                          <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">RECEITA ANUAL (ARR)</div>
-                          <div style="font-size: 1.25rem; font-weight: 800; color: #FFF; margin-top: 4px;" id="sandboxArrVal">R$ 1.84M</div>
-                          <div style="font-size: 0.72rem; color: var(--neon-green); font-family: var(--font-mono); margin-top: 2px;">+34.2% ↑</div>
-                        </div>
-                        <div style="background: #0B0E15; padding: 12px; border-radius: 8px; text-align: left; border: 1px solid rgba(255,255,255,0.06);">
-                          <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">LATÊNCIA INFERÊNCIA</div>
-                          <div style="font-size: 1.25rem; font-weight: 800; color: var(--neon-cyan); margin-top: 4px;" id="sandboxLatVal">124 ms</div>
-                          <div style="font-size: 0.72rem; color: var(--neon-cyan); font-family: var(--font-mono); margin-top: 2px;">NVIDIA NIM Cloud</div>
-                        </div>
-                      </div>
-                      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;">
-                        <button class="sandbox-btn-interactive" id="sandboxTweakBtn" type="button">
-                          Simular Variação de Carga
-                        </button>
-                      </div>
-                      <p style="font-size: 0.8rem; color: var(--text-secondary);">
-                        Artefatos HTML, CSS e JavaScript gerados pela IA são executados em um iframe isolado com hot-reload imediato.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Mockup Input Bottom Bar -->
-                <div class="mockup-input-bar" id="mockupInputBar">
-                  <div class="input-pill-container">
-                    <input type="text" placeholder="Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)..." readonly value="Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)...">
-                  </div>
-                  <button class="mockup-send-btn" type="button" aria-label="Enviar comando">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                  </button>
-                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Technical Feature Grid Section (4 Core Pillars) -->
-    <section class="section-wrapper" id="recursos">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag mono">Diferenciais Técnicos</div>
-          <h2 class="section-title">
-            Arquitetado para Desenvolvedores que Exigem <span class="text-gradient-cyan-purple">Poder Máximo</span>
-          </h2>
-          <p class="section-desc">
-            Cada detalhe do Cloudtron OneClick foi lapidado para entregar a potência bruta do modelo de 120 bilhões de parâmetros da NVIDIA em uma interface ergonômica, segura e sem atritos.
-          </p>
-        </div>
-
-        <div class="features-grid">
-          <!-- Card 1: Universal File Ingestion -->
-          <div class="feature-card">
-            <div class="card-icon-container icon-cyan">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            </div>
-            <h3 class="card-title">Universal File Ingestion</h3>
-            <p class="card-body">
-              Leitura e extração local em JS de PDF, DOCX, XLSX, PPTX, IPYNB e ZIP antes do envio à nuvem. Seus arquivos são processados com total privacidade diretamente no runtime desktop.
-            </p>
-            <div class="card-tech-tag">
-              <span>Formatos:</span> PDF, DOCX, XLSX, PPTX, IPYNB, ZIP
-            </div>
-          </div>
-
-          <!-- Card 2: NVIDIA NeMo Engine -->
-          <div class="feature-card">
-            <div class="card-icon-container icon-purple">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            </div>
-            <h3 class="card-title">NVIDIA NeMo Engine</h3>
-            <p class="card-body">
-              Guardrails de segurança, determinismo via seed e avaliação automatizada LLM-as-a-Judge em background. Garante integridade, validação de respostas e controle absoluto de qualidade.
-            </p>
-            <div class="card-tech-tag">
-              <span>Engine:</span> Guardrails • Seeds • LLM-as-a-Judge
-            </div>
-          </div>
-
-          <!-- Card 3: Multi-Model Personas -->
-          <div class="feature-card">
-            <div class="card-icon-container icon-green">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path><circle cx="12" cy="12" r="4"></circle></svg>
-            </div>
-            <h3 class="card-title">Multi-Model Personas</h3>
-            <p class="card-body">
-              Alternância com um clique entre Nemotron 120B, Llama 3.3 70B, Qwen Coder e DeepSeek R1. Escolha a persona ideal para cada desafio de engenharia ou refatoração.
-            </p>
-            <div class="card-tech-tag">
-              <span>Modelos:</span> Nemotron 120B • Llama 3.3 • Qwen • DeepSeek
-            </div>
-          </div>
-
-          <!-- Card 4: Context Bridge -->
-          <div class="feature-card">
-            <div class="card-icon-container icon-cyan">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
-            </div>
-            <h3 class="card-title">Context Bridge</h3>
-            <p class="card-body">
-              Importação instantânea de histórico e contextos de outras IAs (Claude, ChatGPT, Cursor) para continuar projetos sem perda de memória. Inicialize sessões estruturadas em segundos.
-            </p>
-            <div class="card-tech-tag">
-              <span>Migração:</span> Claude, ChatGPT, Cursor (MD, JSON, TXT)
-            </div>
-          </div>
-
-          <!-- Card 5: Diagnóstico em 2 Passos (Interactive Spotlight Card - Centered full-width) -->
-          <div class="diagnostic-spotlight-card" id="diagnostico">
-            <div>
-              <div class="section-tag mono">Simulador Interativo</div>
-              <h3 class="card-title" style="font-size: 1.6rem; margin-bottom: 14px;">Diagnóstico em 2 Passos</h3>
-              <p class="card-body" style="margin-bottom: 24px;">
-                Um verificador integrado no topo da interface valida a autenticidade da sua chave da NVIDIA NIM e afere o tempo de resposta do cluster de inferência em tempo real.
-              </p>
-              <div style="display: flex; gap: 12px; align-items: center;">
-                <button class="diag-run-btn" id="runDiagBtn" type="button" style="padding: 10px 18px; font-size: 0.85rem;">
-                  Executar Teste de Conexão
-                </button>
-                <span class="mono text-muted" style="font-size: 0.74rem;">API: nvapi-***</span>
-              </div>
-            </div>
-
-            <!-- Terminal Simulator View -->
-            <div class="diag-sim-panel">
-              <div class="diag-sim-header">
-                <span class="diag-sim-title mono">cloudtron-diagnostic-agent v1.2.0</span>
-                <span style="color: var(--neon-cyan); font-size: 0.72rem;">NVIDIA NIM</span>
-              </div>
-              <div id="diagLogsContainer">
-                <div class="diag-log-line">
-                  <span>$</span> cloudtron-cli --verify-cluster --key nvapi-active
-                </div>
-                <div class="diag-log-line success">
-                  <span>✓</span> [1/2] Token de autorização validado com sucesso.
-                </div>
-                <div class="diag-log-line success">
-                  <span>✓</span> [2/2] Endpoint Nemotron 3.5 VL 120B respondendo (112ms).
-                </div>
-                <div class="diag-log-line" style="color: var(--neon-green); font-weight: 700; margin-top: 10px;">
-                  Status: PRONTO PARA USO (NVIDIA OK ✓)
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- How to Start (3 Quick Steps) -->
-    <section class="section-wrapper" id="como-funciona" style="background: rgba(11, 19, 41, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag mono">Setup Instantâneo</div>
-          <h2 class="section-title">
-            Pronto para Usar em <span class="text-gradient-cyan-purple">Menos de 2 Minutos</span>
-          </h2>
-          <p class="section-desc">
-            Três passos objetivos para colocar a inteligência artificial mais avançada da NVIDIA para trabalhar no seu fluxo diário.
-          </p>
-        </div>
-
-        <div class="steps-container">
-          <!-- Step 1 -->
-          <div class="step-card">
-            <div class="step-number-badge">1</div>
-            <h3 class="step-title">Baixe o Instalador</h3>
-            <p class="step-desc">
-              Obtenha o arquivo executável NSIS compilado para Windows x64 e realize a instalação com um clique.
-            </p>
-            <div class="step-code-snippet">
-              <span>Cloudtron-OneClick-Setup-1.2.0.exe</span>
-            </div>
-          </div>
-
-          <!-- Step 2 -->
-          <div class="step-card">
-            <div class="step-number-badge">2</div>
-            <h3 class="step-title">Insira sua NVIDIA Key</h3>
-            <p class="step-desc">
-              Gere sua chave gratuita ou corporativa no portal NVIDIA NIM e cole no painel de configurações.
-            </p>
-            <div class="step-code-snippet">
-              <span>nvapi-xxxxxxxxxxxxxxxxxxxxxxxx</span>
-            </div>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="step-card">
-            <div class="step-number-badge">3</div>
-            <h3 class="step-title">Comece a Criar</h3>
-            <p class="step-desc">
-              Alterne entre Deep Thinking e visão computacional para programar, auditar bugs e prototipar telas.
-            </p>
-            <div class="step-code-snippet">
-              <span style="color: var(--neon-teal);">Status: NVIDIA OK ✓ Pronto</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ Section (Search Engine Optimization) -->
-    <section class="section-wrapper" id="faq">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag mono">Tire Suas Dúvidas</div>
-          <h2 class="section-title">
-            Perguntas <span class="text-gradient-cyan-purple">Frequentes</span>
-          </h2>
-          <p class="section-desc">
-            Respostas diretas sobre arquitetura, requisitos de hardware, custos e privacidade no Cloudtron OneClick.
-          </p>
-        </div>
-
-        <div class="faq-grid">
-          <div class="faq-item">
-            <div class="faq-question">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span>Preciso de GPU dedicada ou placa NVIDIA local?</span>
-            </div>
-            <p class="faq-answer">
-              Não. O processamento pesado dos 120 bilhões de parâmetros ocorre nos nós de alta densidade do NVIDIA NIM na nuvem. Seu PC só precisa rodar a interface Electron com fluidez no Windows 10/11.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span>Como obtenho minha chave de API (nvapi-...)?</span>
-            </div>
-            <p class="faq-answer">
-              Basta criar uma conta gratuita no portal build.nvidia.com e acessar a página do modelo Nemotron 3.5 Super VL. A NVIDIA oferece créditos generosos para desenvolvedores testarem os modelos.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span>Meus dados e conversas são salvos onde?</span>
-            </div>
-            <p class="faq-answer">
-              Seu histórico de conversas e configurações ficam salvos 100% localmente no seu computador (em JSONL criptografado localmente). Nada é enviado para servidores de terceiros além da inferência oficial da NVIDIA.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              <span>Como funciona o Context Bridge?</span>
-            </div>
-            <p class="faq-answer">
-              O Context Bridge permite que você cole notas, logs ou exporte chats de outras IAs (Claude, ChatGPT, Cursor). Ele sintetiza o estado das tarefas e instrui o Nemotron a continuar a execução imediatamente.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Roadmap Section -->
-    <section class="section-wrapper" id="roadmap" style="background: rgba(11, 19, 41, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag mono">Evolução Contínua</div>
-          <h2 class="section-title">
-            Roadmap do <span class="text-gradient-cyan-purple">Cloudtron OneClick</span>
-          </h2>
-          <p class="section-desc">
-            Acompanhe os marcos consolidados e as próximas inovações planejadas para as versões futuras do projeto.
-          </p>
-        </div>
-
-        <div class="roadmap-timeline">
-          <!-- Item 1: v1.0.0 -->
-          <div class="roadmap-card completed">
-            <span class="roadmap-badge badge-done">Lançado • v1.0.0</span>
-            <h3 class="roadmap-title">Arquitetura Base</h3>
-            <p class="roadmap-desc">
-              Integração nativa com a API NVIDIA NIM, renderizador Markdown e streaming de tokens com baixa latência.
-            </p>
-          </div>
-
-          <!-- Item 2: v1.1.1 -->
-          <div class="roadmap-card completed">
-            <span class="roadmap-badge badge-done">Lançado • v1.1.1</span>
-            <h3 class="roadmap-title">NeMo Guardrails &amp; Eval</h3>
-            <p class="roadmap-desc">
-              Container Thinking sob demanda, Guardrails de validação, motor LLM-as-a-Judge e telemetria TTFT.
-            </p>
-          </div>
-
-          <!-- Item 3: v1.2.0 (Current) -->
-          <div class="roadmap-card in-progress">
-            <span class="roadmap-badge badge-active">Versão Atual • v1.2.0</span>
-            <h3 class="roadmap-title">Ingestão Universal &amp; Context Bridge</h3>
-            <p class="roadmap-desc">
-              Ingestão nativa de PDF, DOCX, XLSX e ZIP, Context Bridge com outras IAs e design Cyber Slate.
-            </p>
-          </div>
-
-          <!-- Item 4: v1.3.0 -->
-          <div class="roadmap-card">
-            <span class="roadmap-badge badge-planned">Próximo • v1.3.0</span>
-            <h3 class="roadmap-title">Voice Live API &amp; Agentes</h3>
-            <p class="roadmap-desc">
-              Entrada de voz bidirecional de baixa latência via WebSockets e subagentes autônomos locais.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Download CTA Banner (Centered) -->
-    <section class="container cta-banner-wrapper">
-      <div class="cta-banner">
-        <h2 class="cta-title">
-          Pronto para Acelerar Seu Desenvolvimento com o Cloudtron OneClick?
+    <!-- 3. Grid de Recursos Principais (6 Cards com Glassmorphism) -->
+    <section id="recursos" class="py-20 md:py-28 px-4 max-w-7xl mx-auto border-t border-cyberBorder/60">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-neonCyan font-mono text-xs font-semibold tracking-wider uppercase mb-3 block">Capacidades de Engenharia</span>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
+          Arquitetado para Performance Extrema. <span class="text-gradient-cyan-purple">Sem Atalhos.</span>
         </h2>
-        <p class="cta-subtitle">
-          Instale o Cloudtron OneClick agora mesmo. Sem dependências pesadas, sem complicação de linha de comando.
+        <p class="text-mutedText text-base sm:text-lg">
+          O CLAUTRON OneClick reúne em um único executável tudo o que engenheiros exigem para operar modelos de 120B de parâmetros na rotina de código.
         </p>
-        <div class="cta-buttons">
-          <a href="https://github.com/felipeptxa/clautron/releases/download/v1.2.0/Cloudtron-OneClick-Setup-1.2.0.exe" class="btn-primary-download btn-download-action">
-            <span class="btn-icon-windows">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.751"/>
-              </svg>
-            </span>
-            <span class="btn-text-group">
-              <span class="btn-main-label">Baixar para Windows (x64)</span>
-              <span class="btn-sub-label">Instalador NSIS • v1.2.0 (Gratuito)</span>
-            </span>
-          </a>
+      </div>
 
-          <a href="https://github.com/felipeptxa/clautron/releases" target="_blank" rel="noopener noreferrer" class="btn-secondary-hero">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span>Todas as Releases</span>
-          </a>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Card 1: Zero Setup Local -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan mb-6">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Zero Setup Local</h3>
+            <p class="text-mutedText text-sm leading-relaxed mb-6">
+              Servidor HTTP nativo Node.js com streaming SSE bidirecional e empacotamento Electron leve. Esqueça dependências quebradas de Python e drivers CUDA incompatíveis.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-cyberBorder text-xs font-mono text-neonCyan flex items-center justify-between">
+            <span>Stack:</span>
+            <span>Electron 34 • Node.js • Win x64</span>
+          </div>
         </div>
+
+        <!-- Card 2: Deep Thinking (CoT) Inspecionável -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-neonPurple/15 border border-neonPurple/40 flex items-center justify-center text-neonPurple mb-6">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Deep Thinking (CoT) Inspecionável</h3>
+            <p class="text-mutedText text-sm leading-relaxed mb-6">
+              Caixa retrátil dedicada para auditar o raciocínio analítico do Nemotron antes da resposta final. Transparência lógica completa para refatorações críticas.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-cyberBorder text-xs font-mono text-neonPurple flex items-center justify-between">
+            <span>Inspecionabilidade:</span>
+            <span>Tag &lt;thinking&gt; nativa</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Multimodalidade com Visão -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-neonGreen/10 border border-neonGreen/30 flex items-center justify-center text-neonGreen mb-6">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Multimodalidade com Visão</h3>
+            <p class="text-mutedText text-sm leading-relaxed mb-6">
+              Suporte nativo a Ctrl+V para colar capturas de tela, mockups do Figma ou logs de terminal, além de drag-and-drop de arquivos para contextualização imediata.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-cyberBorder text-xs font-mono text-neonGreen flex items-center justify-between">
+            <span>Entrada:</span>
+            <span>PNG, JPEG, WEBP &amp; Snippets</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Live Sandbox Preview -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center text-neonCyan mb-6">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Live Sandbox Preview</h3>
+            <p class="text-mutedText text-sm leading-relaxed mb-6">
+              Iframe isolado para executar e visualizar artefatos HTML5, CSS e JS criados pelo modelo em tempo real, sem poluir o contexto da conversa nem vazar escopo.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-cyberBorder text-xs font-mono text-neonCyan flex items-center justify-between">
+            <span>Ambiente:</span>
+            <span>Iframe seguro com hot-reload</span>
+          </div>
+        </div>
+
+        <!-- Card 5: Diagnóstico em 2 Passos -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-neonPurple/15 border border-neonPurple/40 flex items-center justify-center text-neonPurple mb-6">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Diagnóstico em 2 Passos</h3>
+            <p class="text-mutedText text-sm leading-relaxed mb-6">
+              Botão no cabeçalho do app que testa a conexão local com o backend e valida a chave nvapi-... diretamente no endpoint oficial da NVIDIA NIM.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-cyberBorder text-xs font-mono text-neonPurple flex items-center justify-between">
+            <span>Telemetria:</span>
+            <span>NVIDIA NIM Latency Test</span>
+          </div>
+        </div>
+
+        <!-- Card 6: Motor Heurístico Adaptativo -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-neonGreen/10 border border-neonGreen/30 flex items-center justify-center text-neonGreen mb-6">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path>
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Motor Heurístico Adaptativo</h3>
+            <p class="text-mutedText text-sm leading-relaxed mb-6">
+              Modulação automática de hiperparâmetros (Código, Profundo, Criativo e Rápido) com base no prompt para equilibrar criatividade e rigidez determinística.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-cyberBorder text-xs font-mono text-neonGreen flex items-center justify-between">
+            <span>Modos:</span>
+            <span>Código • CoT • Rápido • Livre</span>
+          </div>
+        </div>
+
       </div>
     </section>
+
+    <!-- 4. Seção de Arquitetura Técnica -->
+    <section id="arquitetura" class="py-20 md:py-28 px-4 max-w-7xl mx-auto border-t border-cyberBorder/60">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-neonPurple font-mono text-xs font-semibold tracking-wider uppercase mb-3 block">Topologia de Engenharia</span>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
+          Como o <span class="text-gradient-cyan-purple">CLAUTRON OneClick</span> Funciona
+        </h2>
+        <p class="text-mutedText text-base sm:text-lg">
+          Uma arquitetura híbrida de alto desempenho que transfere o peso computacional de 120 bilhões de parâmetros para a nuvem da NVIDIA, mantendo a experiência local ultrarrápida.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+        
+        <!-- Step 1: Desktop Shell -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl relative border-neonCyan/20">
+          <div class="text-neonCyan font-mono text-xs font-bold mb-4">01 • DESKTOP RUNTIME</div>
+          <h3 class="font-display font-bold text-xl text-white mb-2">Electron 34 + Node.js</h3>
+          <p class="text-mutedText text-sm leading-relaxed mb-4">
+            Shell leve empacotado em executável NSIS para Windows x64. Consumo mínimo de RAM (&lt;120MB) e interface acelerada por hardware nativo.
+          </p>
+          <div class="bg-cyberBg p-3 rounded-lg border border-cyberBorder font-mono text-xs text-mutedText">
+            <code>&gt; 0 GB VRAM Local<br>&gt; 0 Drivers CUDA exigidos</code>
+          </div>
+        </div>
+
+        <!-- Step 2: SSE Proxy Server -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl relative border-neonPurple/20">
+          <div class="text-neonPurple font-mono text-xs font-bold mb-4">02 • BACKEND SSE PROXY</div>
+          <h3 class="font-display font-bold text-xl text-white mb-2">Pipeline HTTP Streaming</h3>
+          <p class="text-mutedText text-sm leading-relaxed mb-4">
+            Servidor HTTP interno em `server.js` gerencia buffers de streaming Server-Sent Events (SSE), parseia Markdown progressivo e sanitiza payloads multimodais.
+          </p>
+          <div class="bg-cyberBg p-3 rounded-lg border border-cyberBorder font-mono text-xs text-mutedText">
+            <code>&gt; Localhost:3000 IPC<br>&gt; First Token: ~110ms</code>
+          </div>
+        </div>
+
+        <!-- Step 3: NVIDIA NIM Cloud -->
+        <div class="glass-card p-6 md:p-8 rounded-2xl relative border-neonGreen/20">
+          <div class="text-neonGreen font-mono text-xs font-bold mb-4">03 • CLOUD INFERENCE</div>
+          <h3 class="font-display font-bold text-xl text-white mb-2">NVIDIA NIM Cluster</h3>
+          <p class="text-mutedText text-sm leading-relaxed mb-4">
+            Comunicação segura com a API oficial da NVIDIA NIM executando o modelo Nemotron 3.5 Super VL 120B com aceleração nos clusters H100/A100 Tensor Core.
+          </p>
+          <div class="bg-cyberBg p-3 rounded-lg border border-cyberBorder font-mono text-xs text-mutedText">
+            <code>&gt; Endpoint: build.nvidia.com<br>&gt; Autenticação: nvapi-***</code>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. Roadmap Visual (Linha do Tempo) -->
+    <section id="roadmap" class="py-20 md:py-28 px-4 max-w-7xl mx-auto border-t border-cyberBorder/60">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-neonCyan font-mono text-xs font-semibold tracking-wider uppercase mb-3 block">Linha do Tempo</span>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
+          Evolução Contínua do <span class="text-gradient-cyan-purple">CLAUTRON</span>
+        </h2>
+        <p class="text-mutedText text-base sm:text-lg">
+          Acompanhe os marcos consolidados e os próximos desenvolvimentos planejados para o ecossistema.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- v1.0.0 -->
+        <div class="glass-card p-6 rounded-2xl border-cyberBorder">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-neonGreen px-2.5 py-1 rounded bg-neonGreen/10 border border-neonGreen/30">Lançado</span>
+            <span class="font-mono text-xs text-mutedText">v1.0.0</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Base Web &amp; Proxy SSE</h3>
+          <p class="text-mutedText text-xs leading-relaxed">
+            Implementação da arquitetura base de proxy HTTP nativo, conexão com o gateway da NVIDIA NIM e renderização de tokens via stream.
+          </p>
+        </div>
+
+        <!-- v1.1.0 (Current) -->
+        <div class="glass-card p-6 rounded-2xl border-neonCyan/40 shadow-[0_0_20px_rgba(0,240,255,0.1)]">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-neonCyan px-2.5 py-1 rounded bg-neonCyan/10 border border-neonCyan/40">Versão Atual</span>
+            <span class="font-mono text-xs text-neonCyan font-bold">v1.1.0</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Desktop Electron &amp; Visão</h3>
+          <p class="text-mutedText text-xs leading-relaxed">
+            Instalador Windows x64 NSIS, ferramenta de diagnóstico em 2 passos, container retrátil de Chain-of-Thought e captura de imagens via Ctrl+V.
+          </p>
+        </div>
+
+        <!-- v1.2.0 -->
+        <div class="glass-card p-6 rounded-2xl border-neonPurple/30">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-neonPurple px-2.5 py-1 rounded bg-neonPurple/10 border border-neonPurple/30">Em Progresso</span>
+            <span class="font-mono text-xs text-mutedText">v1.2.0</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Histórico &amp; Exportação</h3>
+          <p class="text-mutedText text-xs leading-relaxed">
+            Busca global indexada em conversas passadas, exportação estruturada em PDF/Markdown e módulo de ingestão universal de documentos.
+          </p>
+        </div>
+
+        <!-- v1.3.0 / v1.4.0 -->
+        <div class="glass-card p-6 rounded-2xl border-cyberBorder opacity-80">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-mutedText px-2.5 py-1 rounded bg-white/5 border border-cyberBorder">Planejado</span>
+            <span class="font-mono text-xs text-mutedText">v1.3.0+</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Multi-Modelos &amp; Auto-Update</h3>
+          <p class="text-mutedText text-xs leading-relaxed">
+            Seletor dinâmico de personas NIM (Llama, DeepSeek, Qwen), atalhos globais de sistema no Windows e auto-updater nativo em background.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Banner Discreto de Apoio -->
+    <section class="max-w-5xl mx-auto px-4 py-8">
+      <div class="glass-card rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-neonGreen/20 bg-gradient-to-r from-cyberCard via-cyberCard to-neonGreen/5">
+        <div class="space-y-1 text-center sm:text-left">
+          <div class="text-neonGreen font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center sm:justify-start gap-1.5">
+            <svg class="w-4 h-4 text-neonGreen animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            Apoie o Projeto Independente
+          </div>
+          <h3 class="text-white font-display font-bold text-lg">Gostou do CLAUTRON OneClick?</h3>
+          <p class="text-mutedText text-sm">Ajude a manter as releases ativas e novas integrações com uma contribuição via PayPal ou N26.</p>
+        </div>
+        <button onclick="openDonationModal()" type="button" class="shrink-0 px-6 py-3 rounded-xl bg-neonGreen/10 border border-neonGreen text-neonGreen font-bold text-sm hover:bg-neonGreen hover:text-black transition-all shadow-[0_0_20px_rgba(0,255,163,0.2)]">
+          Apoiar com Doação
+        </button>
+      </div>
+    </section>
+
   </main>
 
-  <!-- Floating Back to Top Button -->
-  <button class="back-to-top-btn" id="backToTopBtn" aria-label="Voltar ao topo da página" type="button" title="Voltar ao topo">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
-  </button>
+  <!-- 4. Componente Modal de Doação ("Buy Me a Coffee") -->
+  <div id="donationModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    
+    <!-- Modal Card Container -->
+    <div id="donationModalBox" class="glass-card w-full max-w-2xl rounded-2xl border border-cyberBorder overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(0,240,255,0.15)] transform scale-95 transition-transform duration-300">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-5 bg-cyberSurface/80 border-b border-cyberBorder flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-neonGreen/15 border border-neonGreen/40 flex items-center justify-center text-neonGreen">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+              <line x1="6" y1="1" x2="6" y2="4"></line>
+              <line x1="10" y1="1" x2="10" y2="4"></line>
+              <line x1="14" y1="1" x2="14" y2="4"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 id="modalTitle" class="font-display font-bold text-lg text-white">Apoie o Desenvolvimento do CLAUTRON</h3>
+            <p class="text-xs text-mutedText">Projeto open-source e independente criado por Felipe Monroe.</p>
+          </div>
+        </div>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand-info">
-          <div class="brand-link" style="pointer-events: none;">
-            <div class="brand-icon-wrapper">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        <!-- Close Button (X) -->
+        <button onclick="closeDonationModal()" type="button" class="w-8 h-8 rounded-lg bg-white/5 border border-cyberBorder text-mutedText hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors" aria-label="Fechar modal">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body (Duas Colunas / Formas de Apoio) -->
+      <div class="p-6 md:p-8 space-y-6">
+        
+        <p class="text-sm text-mutedText leading-relaxed">
+          Toda contribuição ajuda diretamente a manter a evolução contínua das releases, custear testes em hardware nativo e manter o projeto 100% livre e sem anúncios.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Aba/Card 1 — PayPal -->
+          <div class="p-5 rounded-xl bg-cyberSurface/60 border border-neonCyan/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-neonCyan uppercase tracking-wider">Opção 1</span>
+                <span class="text-xs font-mono text-mutedText">Instantâneo</span>
+              </div>
+              <h4 class="font-display font-bold text-base text-white">Doação via PayPal</h4>
+              <p class="text-xs text-mutedText leading-relaxed">
+                Contribua com qualquer valor utilizando cartão de crédito internacional ou seu saldo PayPal.
+              </p>
+
+              <!-- QR Code Oficial PayPal -->
+              <div class="flex justify-center py-2">
+                <div class="p-2.5 rounded-xl bg-cyberBg border border-neonCyan/40 shadow-[0_0_15px_rgba(0,240,255,0.15)] flex flex-col items-center">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https%3A%2F%2Fpaypal.me%2FFelipeMonroe&color=00F0FF&bgcolor=0B0D13" alt="QR Code PayPal Felipe Monroe" class="w-32 h-32 rounded-lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 120 120\'><rect width=\'120\' height=\'120\' fill=\'%230B0D13\'/><text x=\'60\' y=\'65\' fill=\'%2300F0FF\' font-family=\'monospace\' font-size=\'12\' text-anchor=\'middle\'>PayPal QR</text></svg>'">
+                  <span class="text-[10px] font-mono text-neonCyan mt-1.5 font-semibold">Escanear com a câmera</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botão Redirecionamento PayPal -->
+            <a href="https://paypal.me/FelipeMonroe" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-neonCyan/20 to-neonCyan/10 border border-neonCyan text-neonCyan font-bold text-xs hover:bg-neonCyan hover:text-black transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.78.78 0 0 1 .77-.655h6.666c3.153 0 5.485 1.488 5.485 4.708 0 2.825-1.748 5.093-4.702 5.093H9.728a.78.78 0 0 0-.77.655l-1.882 7.816z"/>
               </svg>
+              <span>Abrir PayPal (paypal.me/FelipeMonroe)</span>
+            </a>
+          </div>
+
+          <!-- Aba/Card 2 — Transferência N26 (IBAN Europeu) -->
+          <div class="p-5 rounded-xl bg-cyberSurface/60 border border-neonGreen/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-neonGreen uppercase tracking-wider">Opção 2</span>
+                <span class="text-xs font-mono text-mutedText">SEPA Instant / N26</span>
+              </div>
+              <h4 class="font-display font-bold text-base text-white">Transferência Bancária N26</h4>
+              
+              <div class="space-y-2.5 text-xs font-mono">
+                <!-- Titular -->
+                <div class="bg-cyberBg p-2.5 rounded-lg border border-cyberBorder">
+                  <div class="text-[10px] text-mutedText uppercase">Titular da Conta</div>
+                  <div class="text-white font-semibold">Felipe Monroe</div>
+                </div>
+
+                <!-- Banco -->
+                <div class="bg-cyberBg p-2.5 rounded-lg border border-cyberBorder">
+                  <div class="text-[10px] text-mutedText uppercase">Instituição Bancária</div>
+                  <div class="text-white font-semibold">N26 Bank</div>
+                </div>
+
+                <!-- IBAN com Botão Copiar -->
+                <div class="bg-cyberBg p-2.5 rounded-lg border border-cyberBorder">
+                  <div class="text-[10px] text-mutedText uppercase">IBAN Europeu</div>
+                  <div class="flex items-center justify-between gap-1 mt-0.5">
+                    <span id="ibanValue" class="text-neonGreen font-bold select-all tracking-wider text-[11px] sm:text-xs">LT26 3250 0685 1452 6514</span>
+                    <button onclick="copyToClipboard('ibanValue', this)" type="button" class="px-2 py-1 rounded bg-neonGreen/10 border border-neonGreen/40 text-neonGreen text-[10px] font-bold hover:bg-neonGreen hover:text-black transition-colors shrink-0">
+                      Copiar IBAN
+                    </button>
+                  </div>
+                </div>
+
+                <!-- BIC / SWIFT com Botão Copiar -->
+                <div class="bg-cyberBg p-2.5 rounded-lg border border-cyberBorder">
+                  <div class="text-[10px] text-mutedText uppercase">BIC / SWIFT</div>
+                  <div class="flex items-center justify-between gap-1 mt-0.5">
+                    <span id="swiftValue" class="text-white font-bold select-all tracking-wider text-xs">NTSBLT21</span>
+                    <button onclick="copyToClipboard('swiftValue', this)" type="button" class="px-2 py-1 rounded bg-white/5 border border-cyberBorder text-mutedText text-[10px] font-bold hover:text-white hover:border-neonCyan transition-colors shrink-0">
+                      Copiar BIC
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="brand-text">
-              <span>Cloudtron</span>
-              <span class="text-cyan">OneClick</span>
+
+            <div class="text-[11px] font-mono text-mutedText text-center pt-1">
+              ✓ Transferências gratuitas e instantâneas via SEPA.
             </div>
           </div>
-          <p class="footer-desc">
-            A estação desktop leve e nativa para raciocínio profundo e análise multimodal com NVIDIA Nemotron 3.5 Super VL 120B.
-          </p>
+
         </div>
 
-        <div class="footer-links-grid">
-          <div>
-            <div class="footer-column-title">Projeto</div>
-            <ul class="footer-column-links">
-              <li><a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer">Repositório GitHub</a></li>
-              <li><a href="https://github.com/felipeptxa/clautron/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Changelog</a></li>
-              <li><a href="https://github.com/felipeptxa/clautron/issues" target="_blank" rel="noopener noreferrer">Reportar Problemas (Issues)</a></li>
-              <li><a href="https://github.com/felipeptxa/clautron/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Licença MIT</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="footer-column-title">Tecnologias</div>
-            <ul class="footer-column-links">
-              <li><a href="https://build.nvidia.com/nvidia/nemotron-3-5-vl-120b" target="_blank" rel="noopener noreferrer">NVIDIA NIM Portal</a></li>
-              <li><a href="https://www.electronjs.org/" target="_blank" rel="noopener noreferrer">Electron Desktop</a></li>
-              <li><a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer">Node.js Runtime</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="footer-column-title">Desenvolvedor</div>
-            <ul class="footer-column-links">
-              <li><a href="https://github.com/felipeptxa" target="_blank" rel="noopener noreferrer">Felipe Monroe</a></li>
-              <li><a href="https://github.com/felipeptxa/clautron" target="_blank" rel="noopener noreferrer">Contribuir no GitHub</a></li>
-            </ul>
-          </div>
-        </div>
       </div>
 
-      <div class="footer-bottom">
-        <div>
-          &copy; 2026 <strong>Cloudtron OneClick</strong>. Desenvolvido por <a href="https://github.com/felipeptxa" target="_blank" rel="noopener noreferrer" style="color: var(--neon-cyan); font-weight: 600;">Felipe Monroe</a> sob licença MIT.
-        </div>
-        <div class="mono" style="font-size: 0.78rem;">
-          Versão v1.2.0 • Windows x64 Nativo
-        </div>
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 bg-cyberSurface/90 border-t border-cyberBorder flex items-center justify-between text-xs font-mono text-mutedText">
+        <span>Pressione <kbd class="px-1.5 py-0.5 bg-cyberBorder rounded text-lightText font-semibold">Esc</kbd> para fechar</span>
+        <button onclick="closeDonationModal()" type="button" class="text-neonCyan hover:underline font-bold">
+          Fechar Janela
+        </button>
       </div>
+
+    </div>
+  </div>
+
+  <!-- 6. Rodapé -->
+  <footer class="border-t border-cyberBorder bg-cyberSurface/60 text-mutedText text-sm py-12 px-4 relative z-10">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Brand & MIT License -->
+      <div class="space-y-1 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-2">
+          <span class="font-display font-extrabold text-white">⚡ CLAUTRON OneClick</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyberCard border border-cyberBorder text-neonCyan">v1.1.0</span>
+        </div>
+        <p class="text-xs">
+          Desenvolvido por <a href="https://github.com/felipeptxa" target="_blank" rel="noopener noreferrer" class="text-white hover:text-neonCyan font-semibold underline">Felipe Monroe</a> sob licença open-source MIT.
+        </p>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-medium">
+        <a href="#hero" class="hover:text-neonCyan transition-colors">Voltar ao Topo</a>
+        <a href="#recursos" class="hover:text-neonCyan transition-colors">Recursos</a>
+        <a href="#arquitetura" class="hover:text-neonCyan transition-colors">Arquitetura</a>
+        <a href="https://github.com/felipeptxa/clautron/releases" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Releases</a>
+        <a href="https://github.com/felipeptxa/clautron/issues" target="_blank" rel="noopener noreferrer" class="hover:text-neonCyan transition-colors">Reportar Issue</a>
+        <button onclick="openDonationModal()" type="button" class="text-neonGreen hover:underline font-semibold flex items-center gap-1">
+          <span>☕ Apoiar com um café / Doação</span>
+        </button>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-xs font-mono text-center md:text-right text-mutedText/80">
+        &copy; 2026 CLAUTRON Project.<br>Windows x64 Native.
+      </div>
+
     </div>
   </footer>
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+  <!-- Toast Notification Container -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl bg-cyberCard border border-neonGreen text-white text-xs font-mono shadow-[0_0_20px_rgba(0,255,163,0.3)] opacity-0 pointer-events-none transform translate-y-3 transition-all duration-300">
+    <svg class="w-4 h-4 text-neonGreen shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toastMessage">Texto copiado!</span>
+  </div>
 
-  <!-- JavaScript -->
-  <script src="script.js?v=1.2.0"></script>
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // 1. Modal de Doação Logic
+    const donationModal = document.getElementById('donationModal');
+    const donationModalBox = document.getElementById('donationModalBox');
+
+    function openDonationModal() {
+      if (!donationModal) return;
+      donationModal.classList.remove('opacity-0', 'pointer-events-none');
+      donationModalBox.classList.remove('scale-95');
+      donationModalBox.classList.add('scale-100');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDonationModal() {
+      if (!donationModal) return;
+      donationModal.classList.add('opacity-0', 'pointer-events-none');
+      donationModalBox.classList.remove('scale-100');
+      donationModalBox.classList.add('scale-95');
+      document.body.style.overflow = '';
+    }
+
+    // Fechar ao clicar fora do card
+    donationModal.addEventListener('click', (e) => {
+      if (e.target === donationModal) {
+        closeDonationModal();
+      }
+    });
+
+    // Fechar com a tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDonationModal();
+      }
+    });
+
+    // 2. Copiar para a Área de Transferência com Feedback Visual
+    async function copyToClipboard(elementId, buttonEl) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const textToCopy = el.innerText.trim();
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        const originalText = buttonEl.innerText;
+        buttonEl.innerText = 'Copiado! ✓';
+        buttonEl.classList.add('bg-neonGreen', 'text-black', 'border-neonGreen');
+
+        showToast(`Copiado: ${textToCopy}`);
+
+        setTimeout(() => {
+          buttonEl.innerText = originalText;
+          buttonEl.classList.remove('bg-neonGreen', 'text-black');
+        }, 2200);
+      } catch (err) {
+        console.warn('Erro ao copiar para clipboard:', err);
+      }
+    }
+
+    // 3. Sistema de Toast
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      if (!toast || !toastMsg) return;
+
+      toastMsg.textContent = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+      }, 3000);
+    }
+
+    // 4. Mobile Menu Drawer Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    if (mobileMenuBtn && mobileDrawer) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('hidden');
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileDrawer.classList.add('hidden');
+        });
+      });
+    }
+
+    // 5. Download Feedback
+    const heroDownloadBtn = document.getElementById('heroDownloadBtn');
+    if (heroDownloadBtn) {
+      heroDownloadBtn.addEventListener('click', () => {
+        showToast('Iniciando download do instalador CLAUTRON OneClick v1.1.0...');
+      });
+    }
+  </script>
 </body>
 </html>
