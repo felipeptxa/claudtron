@@ -2,6 +2,5 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
-Sitemap: https://felipeptxa.github.io/claudtron/sitemap.xml
-Sitemap: https://felipeptxa.github.io/clautron/sitemap.xml
+# Sitemap
+Sitemap: https://felipeptxa.github.io/cloudtron/sitemap.xml
