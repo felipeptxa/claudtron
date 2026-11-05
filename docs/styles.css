@@ -189,7 +189,8 @@ body {
   transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 
-.nav-container {
+.nav-container,
+.header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -242,7 +243,8 @@ body {
   letter-spacing: 0.03em;
 }
 
-.nav-links {
+.nav-links,
+.nav-list {
   display: flex;
   align-items: center;
   gap: 32px;
