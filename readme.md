@@ -21,7 +21,27 @@ Distribuição pronta via instalador executável: `CLAUTRON OneClick Setup 1.1.0
 
 ## 🇧🇷 Português (Brasil)
 
-### ✨ Recursos Principais (v1.1.1)
+### ✨ Recursos Principais (v1.2)
+
+* 📑 **Universal Document Ingestion (Extração Local e Direta de Documentos):**
+  * Leitura e extração estruturada de documentos diretamente na máquina local sem expor dados brutos:
+    - **PDF:** Extração de texto integral com contagem de páginas e palavras (`pdf-parse`).
+    - **Word (DOCX, DOC, RTF):** Conversão automática para Markdown estruturado (`mammoth`).
+    - **Excel (XLSX, XLS):** Detecção de abas e conversão em tabelas Markdown (`xlsx`).
+    - **PowerPoint (PPTX):** Extração de texto slide a slide (`officeparser`).
+    - **Jupyter Notebooks (IPYNB):** Parse inteligente de células Markdown e blocos de código com suas saídas.
+    - **Pacotes ZIP:** Mapeamento visual da árvore de pastas e concatenação de códigos e textos internos (`adm-zip`).
+    - **Códigos e Scripts:** Suporte a dezenas de extensões (`.py`, `.js`, `.ts`, `.html`, `.sql`, `.json`, etc.).
+  * Chips informativos com metadados no chat (ex.: `📕 contrato.pdf (12 págs · 3.400 palavras)`).
+
+* 🎭 **Seletor Multi-Modelos com Personas Especializadas:**
+  * Menu popover flutuante no cabeçalho com seleção instantânea e salvamento persistente por sessão e global:
+    1. **🧠 CLAUTRON Omni** (`nvidia/nemotron-3.5-super-vl-120b-a12b`): Visão multimodal e raciocínio profundo (*Thinking / CoT*).
+    2. **💻 CLAUTRON Coder** (`qwen/qwen2.5-coder-32b-instruct`): Especialista absoluto em código, algoritmos e refatoração.
+    3. **🔬 CLAUTRON Lógica** (`deepseek-ai/deepseek-r1`): Raciocínio matemático denso e dedução passo a passo.
+    4. **⚡ CLAUTRON Redator** (`meta/llama-3.3-70b-instruct`): Respostas ultrarrápidas, síntese, relatórios e textos fluidos.
+    5. **👁️ CLAUTRON Vision Lite** (`meta/llama-3.2-11b-vision-instruct`): OCR ágil e leitura de prints leves.
+  * **Bloqueio Inteligente de Imagem:** Validação automática que impede o envio de imagens para modelos exclusivamente de texto, alertando amigavelmente o usuário para alternar para personas com visão.
 
 * 🛡️ **Clautron NeMo Core & Guardrails:**
   * **NeMo Guardrails de Pré-Validação:** Sanitização de caracteres de controle e bytes nulos, e normalização com alternância estrita de papéis no histórico.

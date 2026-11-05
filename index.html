@@ -1030,6 +1030,160 @@
     .btn-ping.fail { color: #f28b82; border-color: rgba(242,139,130,0.4); }
     .btn-ping:disabled { opacity: 0.6; cursor: wait; }
 
+    
+    /* Seletor Multi-Modelos com Personas (v1.2) */
+    .persona-selector-container {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-persona-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #111318;
+      border: 1px solid #3c4043;
+      border-radius: 12px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e3e3e3;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-persona-selector:hover {
+      background: #1e1f20;
+      border-color: #60a5fa;
+      color: #ffffff;
+    }
+
+    .persona-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 330px;
+      background: #1e1f20;
+      border: 1px solid #3c4043;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 1000;
+    }
+
+    .persona-dropdown.open {
+      display: flex;
+      animation: fadeInDropdown 0.15s ease-out;
+    }
+
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .persona-option {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .persona-option:hover {
+      background: #282a2c;
+    }
+
+    .persona-option.active {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+
+    .persona-option-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .persona-option-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #f1f3f4;
+    }
+
+    .persona-option-badges {
+      display: flex;
+      gap: 4px;
+    }
+
+    .persona-badge {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .persona-badge-vision {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .persona-badge-thinking {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .persona-badge-code {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .persona-badge-logic {
+      background: rgba(6, 182, 212, 0.15);
+      color: #22d3ee;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .persona-badge-fast {
+      background: rgba(234, 179, 8, 0.15);
+      color: #facc15;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .persona-option-desc {
+      font-size: 11px;
+      color: #9aa0a6;
+      line-height: 1.35;
+      margin-left: 22px;
+    }
+
+    .spinner-att {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin-att 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin-att {
+      to { transform: rotate(360deg); }
+    }
+
     .btn-update-badge {
       display: inline-flex;
       align-items: center;
@@ -1576,7 +1730,16 @@
         </button>
         <div class="status-dot"></div>
         <h1>CLAUTRON OneClick</h1>
-        <span class="model-badge">Nemotron 3.5 Super VL 120B</span>
+        <div class="persona-selector-container">
+          <button class="btn-persona-selector" id="btnPersonaSelector" onclick="togglePersonaDropdown(event)" title="Selecionar Modelo / Persona">
+            <span id="activePersonaIcon">🧠</span>
+            <span id="activePersonaName">CLAUTRON Omni</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="persona-dropdown" id="personaDropdown"></div>
+        </div>
         <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Clique para ver os detalhes da nova versão">
           <span class="update-pulse-dot"></span>
           <span>🟢 Atualização Disponível</span>
@@ -1621,15 +1784,15 @@
         <div class="attachments-preview-bar" id="attachmentsPreview"></div>
 
         <div class="input-container">
-          <input type="file" id="fileInput" multiple accept="image/*,.txt,.js,.py,.html,.css,.json,.csv,.md" style="display: none;" onchange="handleFileSelect(event)">
+          <input type="file" id="fileInput" multiple accept="*/*" style="display: none;" onchange="handleFileSelect(event)">
           
-          <button class="btn-attach" onclick="document.getElementById('fileInput').click()" title="Anexar imagens ou arquivos de código">
+          <button class="btn-attach" onclick="document.getElementById('fileInput').click()" title="Anexar documentos (PDF, DOCX, XLSX, PPTX, IPYNB, ZIP), código ou imagens">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
             </svg>
           </button>
 
-          <textarea id="promptInput" placeholder="Faça uma pergunta ou cole imagens/código com Ctrl+V..." onkeydown="handleKey(event)"></textarea>
+          <textarea id="promptInput" placeholder="Faça uma pergunta ou anexe documentos (PDF, Word, Excel, ZIP), código ou imagens..." onkeydown="handleKey(event)"></textarea>
           
           <button class="btn-send" id="sendBtn" onclick="handleSendOrStop()" title="Enviar">
             <span id="sendBtnContent">
@@ -1898,7 +2061,7 @@
         <div class="update-version-banner">
           <div>
             <div style="font-size: 11px; color: #8e918f; text-transform: uppercase; font-weight: 600;">Versão Atual</div>
-            <div style="font-size: 15px; font-weight: 700; color: #c4c7c5; margin-top: 2px;" id="currentVersionLabel">v1.1.1</div>
+            <div style="font-size: 15px; font-weight: 700; color: #c4c7c5; margin-top: 2px;" id="currentVersionLabel">v1.2.0</div>
           </div>
           <div style="font-size: 20px; color: #8e918f;">➔</div>
           <div>
@@ -1928,7 +2091,155 @@
 
   <script>
     const API_URL = "/api/messages";
-    const MODEL_ID = "nvidia/nemotron-3.5-super-vl-120b-a12b";
+    
+    // ── Catálogo Oficial de Personas & Multi-Modelos (v1.2) ───────────────────
+    const PERSONAS_STORAGE_KEY = "clautron_persona_id";
+
+    const PERSONAS = [
+      {
+        id: "omni",
+        name: "CLAUTRON Omni",
+        icon: "🧠",
+        modelId: "nvidia/nemotron-3.5-super-vl-120b-a12b",
+        subtitle: "Visão computacional, raciocínio profundo (Thinking) e tarefas complexas.",
+        badges: ["👁️ Imagem + Texto", "🧠 Thinking"],
+        supportsVision: true,
+        isDefault: true
+      },
+      {
+        id: "coder",
+        name: "CLAUTRON Coder",
+        icon: "💻",
+        modelId: "qwen/qwen2.5-coder-32b-instruct",
+        subtitle: "Especialista puro em programação, refatoração, scripts e debugging.",
+        badges: ["💻 Código"],
+        supportsVision: false
+      },
+      {
+        id: "logic",
+        name: "CLAUTRON Lógica",
+        icon: "🔬",
+        modelId: "deepseek-ai/deepseek-r1",
+        subtitle: "Raciocínio lógico estrito, algoritmos densos e dedução passo a passo.",
+        badges: ["🔬 Lógica"],
+        supportsVision: false
+      },
+      {
+        id: "writer",
+        name: "CLAUTRON Redator",
+        icon: "⚡",
+        modelId: "meta/llama-3.3-70b-instruct",
+        subtitle: "Redação fluida, síntese, relatórios e respostas ultrarrápidas.",
+        badges: ["⚡ Rápido"],
+        supportsVision: false
+      },
+      {
+        id: "vision_lite",
+        name: "CLAUTRON Vision Lite",
+        icon: "👁️",
+        modelId: "meta/llama-3.2-11b-vision-instruct",
+        subtitle: "OCR veloz, leitura de prints de tela e diagramas leves.",
+        badges: ["👁️ Imagem Rápida"],
+        supportsVision: true
+      }
+    ];
+
+    function getActivePersona() {
+      const session = getActiveSession();
+      const storedId = session?.personaId || localStorage.getItem(PERSONAS_STORAGE_KEY) || "omni";
+      return PERSONAS.find(p => p.id === storedId) || PERSONAS[0];
+    }
+
+    function getBadgeClass(badgeText) {
+      if (badgeText.includes('Imagem')) return 'persona-badge-vision';
+      if (badgeText.includes('Thinking')) return 'persona-badge-thinking';
+      if (badgeText.includes('Código')) return 'persona-badge-code';
+      if (badgeText.includes('Lógica')) return 'persona-badge-logic';
+      if (badgeText.includes('Rápido')) return 'persona-badge-fast';
+      return 'persona-badge-code';
+    }
+
+    function selectPersona(personaId) {
+      const persona = PERSONAS.find(p => p.id === personaId);
+      if (!persona) return;
+
+      const session = getActiveSession();
+      if (session) {
+        session.personaId = persona.id;
+        session.modelId = persona.modelId;
+        saveStorage();
+      }
+      localStorage.setItem(PERSONAS_STORAGE_KEY, persona.id);
+
+      updatePersonaUI();
+      closePersonaDropdown();
+    }
+
+    function updatePersonaUI() {
+      const persona = getActivePersona();
+      const iconEl = document.getElementById('activePersonaIcon');
+      const nameEl = document.getElementById('activePersonaName');
+      if (iconEl) iconEl.textContent = persona.icon;
+      if (nameEl) nameEl.textContent = persona.name;
+
+      document.querySelectorAll('.persona-option').forEach(el => {
+        el.classList.toggle('active', el.dataset.personaId === persona.id);
+      });
+    }
+
+    function togglePersonaDropdown(e) {
+      if (e) e.stopPropagation();
+      const dropdown = document.getElementById('personaDropdown');
+      if (dropdown) dropdown.classList.toggle('open');
+    }
+
+    function closePersonaDropdown() {
+      const dropdown = document.getElementById('personaDropdown');
+      if (dropdown) dropdown.classList.remove('open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.persona-selector-container')) {
+        closePersonaDropdown();
+      }
+    });
+
+    function renderPersonaDropdown() {
+      const container = document.getElementById('personaDropdown');
+      if (!container) return;
+
+      const active = getActivePersona();
+      container.innerHTML = PERSONAS.map(p => {
+        const isActive = p.id === active.id;
+        const badgesHtml = p.badges.map(b => `<span class="persona-badge ${getBadgeClass(b)}">${escapeHtml(b)}</span>`).join('');
+        return `
+          <div class="persona-option ${isActive ? 'active' : ''}" data-persona-id="${p.id}" onclick="selectPersona('${p.id}')">
+            <div class="persona-option-header">
+              <div class="persona-option-title">
+                <span>${p.icon}</span>
+                <span>${escapeHtml(p.name)}</span>
+              </div>
+              <div class="persona-option-badges">
+                ${badgesHtml}
+              </div>
+            </div>
+            <div class="persona-option-desc">${escapeHtml(p.subtitle)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getDocumentIcon(name) {
+      const ext = (name || '').split('.').pop().toLowerCase();
+      if (ext === 'pdf') return '📕';
+      if (['docx', 'doc', 'rtf'].includes(ext)) return '📘';
+      if (['xlsx', 'xls', 'csv'].includes(ext)) return '📊';
+      if (ext === 'pptx') return '📙';
+      if (ext === 'ipynb') return '📓';
+      if (ext === 'zip') return '📦';
+      return '📄';
+    }
+
     const STORAGE_KEY = "nemotron_chat_sessions_v1";
     const API_KEY_STORAGE = "clautron_nvidia_api_key";
     const SIDEBAR_WIDTH_KEY = "nemotron_sidebar_width";
@@ -2436,14 +2747,21 @@
     }
 
     function processFileAttachment(file) {
-      const reader = new FileReader();
-      const isImg = file.type.startsWith('image/');
+      if (!file) return;
+      const isImg = file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(file.name);
+      const activePersona = getActivePersona();
 
       if (isImg) {
+        if (!activePersona.supportsVision) {
+          showError("Este modelo opera apenas em texto. Alterne para o Omni ou Vision Lite para analisar imagens.");
+          return;
+        }
+
+        const reader = new FileReader();
         reader.onload = (e) => {
           const base64Data = e.target.result.split(',')[1];
           pendingAttachments.push({
-            id: 'att_' + Date.now() + Math.random(),
+            id: 'att_' + Date.now() + Math.random().toString(36).substr(2, 5),
             name: file.name || 'imagem_colada.png',
             type: 'image',
             mediaType: file.type || 'image/png',
@@ -2453,18 +2771,66 @@
           renderAttachmentPreviews();
         };
         reader.readAsDataURL(file);
-      } else {
-        reader.onload = (e) => {
-          pendingAttachments.push({
-            id: 'att_' + Date.now() + Math.random(),
-            name: file.name,
-            type: 'text_file',
-            content: e.target.result
-          });
-          renderAttachmentPreviews();
-        };
-        reader.readAsText(file);
+        return;
       }
+
+      // Ingestão Universal de Documentos / Códigos
+      const tempId = 'att_' + Date.now() + Math.random().toString(36).substr(2, 5);
+      pendingAttachments.push({
+        id: tempId,
+        name: file.name,
+        type: 'document_loading',
+        loading: true
+      });
+      renderAttachmentPreviews();
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const base64Data = e.target.result.split(',')[1];
+          const res = await fetch('/api/parse-file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: file.name, base64: base64Data })
+          });
+          const data = await res.json();
+          const idx = pendingAttachments.findIndex(a => a.id === tempId);
+          if (idx !== -1) {
+            if (data.success) {
+              const metaParts = [];
+              if (data.pages) metaParts.push(`${data.pages} pág${data.pages > 1 ? 's' : ''}`);
+              if (data.sheets) metaParts.push(`${data.sheets} aba${data.sheets > 1 ? 's' : ''}`);
+              if (data.wordCount) metaParts.push(`${data.wordCount.toLocaleString('pt-BR')} palavras`);
+
+              pendingAttachments[idx] = {
+                id: tempId,
+                name: file.name,
+                type: 'document',
+                fileType: data.fileType,
+                metaLabel: metaParts.join(' · '),
+                extractedText: data.extractedText,
+                loading: false
+              };
+            } else {
+              pendingAttachments.splice(idx, 1);
+              showError(data.error || ("Falha ao extrair " + file.name));
+            }
+            renderAttachmentPreviews();
+          }
+        } catch (err) {
+          const idx = pendingAttachments.findIndex(a => a.id === tempId);
+          if (idx !== -1) pendingAttachments.splice(idx, 1);
+          renderAttachmentPreviews();
+          showError("Erro na extração do documento: " + err.message);
+        }
+      };
+      reader.onerror = () => {
+        const idx = pendingAttachments.findIndex(a => a.id === tempId);
+        if (idx !== -1) pendingAttachments.splice(idx, 1);
+        renderAttachmentPreviews();
+        showError("Falha ao ler arquivo: " + file.name);
+      };
+      reader.readAsDataURL(file);
     }
 
     function renderAttachmentPreviews() {
@@ -2475,20 +2841,27 @@
         const chip = document.createElement('div');
         chip.className = 'attachment-chip';
 
-        if (att.type === 'image') {
+        if (att.loading) {
+          chip.innerHTML = `
+            <div class="spinner-att"></div>
+            <span style="color: #93c5fd;">Extraindo ${escapeHtml(att.name.length > 20 ? att.name.substring(0, 20) + '...' : att.name)}</span>
+          `;
+        } else if (att.type === 'image') {
           chip.innerHTML = `
             <img src="${att.previewUrl}" alt="${escapeHtml(att.name)}">
             <span>${escapeHtml(att.name.length > 18 ? att.name.substring(0, 18) + '...' : att.name)}</span>
-            <button class="btn-remove-att" onclick="removeAttachment('${att.id}')">✕</button>
+            <button class="btn-remove-att" onclick="removeAttachment('${att.id}')" title="Remover imagem">✕</button>
           `;
         } else {
+          const icon = getDocumentIcon(att.name);
+          const metaBadge = att.metaLabel ? `<span style="font-size: 10px; color: #86efac; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); border-radius: 4px; padding: 1px 4px; margin-left: 4px;">${escapeHtml(att.metaLabel)}</span>` : '';
           chip.innerHTML = `
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-            </svg>
-            <span>${escapeHtml(att.name.length > 20 ? att.name.substring(0, 20) + '...' : att.name)}</span>
-            <button class="btn-remove-att" onclick="removeAttachment('${att.id}')">✕</button>
+            <span style="font-size: 15px;">${icon}</span>
+            <div style="display: flex; align-items: center; gap: 2px;">
+              <span style="font-weight: 500;">${escapeHtml(att.name.length > 22 ? att.name.substring(0, 22) + '...' : att.name)}</span>
+              ${metaBadge}
+            </div>
+            <button class="btn-remove-att" onclick="removeAttachment('${att.id}')" title="Remover anexo">✕</button>
           `;
         }
         container.appendChild(chip);
@@ -2798,7 +3171,7 @@
         if (msg.role === 'user') {
           appendUserBubble(msg.content, msg.time, msg.attachments);
         } else {
-          appendAssistantBubble(msg.content, msg.thinking, msg.time, msg.effortUsed, msg.ttft, msg.totalTime, msg.interactionId, msg.feedback, msg.nemoEval);
+          appendAssistantBubble(msg.content, msg.thinking, msg.time, msg.effortUsed, msg.ttft, msg.totalTime, msg.interactionId, msg.feedback, msg.nemoEval, msg.persona);
         }
       });
 
@@ -2896,10 +3269,13 @@
       let userDisplayText = text;
 
       let combinedText = text;
-      const textFiles = currentAttachments.filter(a => a.type === 'text_file');
-      if (textFiles.length > 0) {
-        textFiles.forEach(tf => {
-          combinedText += `\n\n--- Início do Arquivo Anexado: ${tf.name} ---\n${tf.content}\n--- Fim do Arquivo ---`;
+      // Ingestão Universal de Documentos e Códigos (v1.2)
+      const docFiles = currentAttachments.filter(a => a.type === 'document' || a.type === 'text_file');
+      if (docFiles.length > 0) {
+        docFiles.forEach(df => {
+          const content = df.extractedText || df.content || '';
+          const fType = df.fileType || (df.name ? df.name.split('.').pop().toUpperCase() : 'DOCUMENTO');
+          combinedText += `\n\n--- [Documento Anexado: ${df.name} | Tipo: ${fType}] ---\n${content}\n--- [Fim do Documento] ---\n\n`;
         });
       }
 
@@ -2993,9 +3369,11 @@
             : globalSettings.customSystemPrompt.trim();
         }
 
+        const activePersona = getActivePersona();
         const requestBody = {
           interactionId: currentInteractionId,
-          model: MODEL_ID,
+          model: activePersona.modelId,
+          persona: activePersona.name,
           max_tokens: finalMaxTokens,
           temperature: finalTemperature,
           top_p: finalTopP,
@@ -3130,13 +3508,15 @@
         const finalAnswer = accumulatedAnswer.trim() || accumulatedRaw.trim() || 'Nenhuma resposta retornada.';
         const finalTime = getTimestamp();
 
-        streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId);
+        streamingBubbleObj.finalize(finalAnswer, finalTime, effortTagToDisplay, { ttft, totalTime }, currentInteractionId, null, activePersona.name);
 
         session.messages.push({
           role: 'assistant',
           content: finalAnswer,
           thinking: accumulatedThinking.trim(),
           effortUsed: effortTagToDisplay,
+          persona: activePersona.name,
+          modelId: activePersona.modelId,
           ttft: ttft,
           totalTime: totalTime,
           interactionId: currentInteractionId,
@@ -3234,12 +3614,11 @@
           } else {
             const fileEl = document.createElement('div');
             fileEl.className = 'user-att-file';
+            const icon = getDocumentIcon(att.name);
+            const metaStr = att.metaLabel ? ` (${att.metaLabel})` : '';
             fileEl.innerHTML = `
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-              </svg>
-              <span>${escapeHtml(att.name)}</span>
+              <span style="font-size: 13px;">${icon}</span>
+              <span>${escapeHtml(att.name)}${escapeHtml(metaStr)}</span>
             `;
             attContainer.appendChild(fileEl);
           }
@@ -3317,7 +3696,7 @@
             smartScrollToBottom();
           }
         },
-        finalize(finalText, time, effortUsed, telemetry = null, interactionId = null, nemoEval = null) {
+        finalize(finalText, time, effortUsed, telemetry = null, interactionId = null, nemoEval = null, personaName = null) {
           bubble.dataset.rawText = finalText;
           textDiv.innerHTML = marked.parse(finalText);
           enhanceCodeBlocks(textDiv);
@@ -3331,7 +3710,7 @@
           const meta = document.createElement('div');
           meta.className = 'meta-tag';
           meta.innerHTML = `
-            <span>Nemotron · ${time || getTimestamp()}</span>
+            <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'CLAUTRON')} · ${time || getTimestamp()}</span>
             <span class="badge-effort">Effort: ${effortUsed}</span>
             ${telemetryHtml}
             ${nemoHtml}
@@ -3549,7 +3928,7 @@
       }
     }
 
-    function appendAssistantBubble(replyText, thinkingText, time, effortUsed = 'Médio', ttft = null, totalTime = null, interactionId = null, feedback = null, nemoEval = null) {
+    function appendAssistantBubble(replyText, thinkingText, time, effortUsed = 'Médio', ttft = null, totalTime = null, interactionId = null, feedback = null, nemoEval = null, personaName = null) {
       const chat = document.getElementById('chatWindow');
       const row = document.createElement('div');
       row.className = 'message-row assistant';
@@ -3580,7 +3959,7 @@
       const meta = document.createElement('div');
       meta.className = 'meta-tag';
       meta.innerHTML = `
-        <span>Nemotron · ${time || getTimestamp()}</span>
+        <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'CLAUTRON')} · ${time || getTimestamp()}</span>
         <span class="badge-effort">Effort: ${effortUsed}</span>
         ${telemetryHtml}
         ${nemoHtml}
@@ -3847,7 +4226,7 @@
     }
 
 
-    const FALLBACK_VERSION = "1.1.1";
+    const FALLBACK_VERSION = "1.2.0";
     const GITHUB_REPO = "felipeptxa/clautron";
     let latestReleaseInfo = null;
 
@@ -3952,6 +4331,8 @@
     window.addEventListener('DOMContentLoaded', () => {
       loadStorage();
       initSmartScroll();
+      renderPersonaDropdown();
+      updatePersonaUI();
       initSidebarResizer();
       initAttachmentListeners();
 

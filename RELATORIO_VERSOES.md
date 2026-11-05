@@ -74,7 +74,7 @@ A versão 1.1 transformou a aplicação Web em um aplicativo desktop nativo para
 
 ---
 
-### 3. Versão 1.1.1 (Atual) — Clautron NeMo Core, Guardrails e LLM-as-a-Judge
+### 3. Versão 1.1.1 — Clautron NeMo Core, Guardrails e LLM-as-a-Judge
 
 Nesta etapa, o CLAUTRON recebeu inteligência heurística local, permitindo que a própria aplicação module seus hiperparâmetros de acordo com o contexto da conversa.
 
@@ -104,7 +104,7 @@ Nesta etapa, o CLAUTRON recebeu inteligência heurística local, permitindo que 
 Um classificador local de intenção e complexidade analisa o prompt e anexos do usuário antes do envio (`detectPromptComplexity`), aplicando automaticamente o perfil ideal:
 
 | Categoria | Critérios de Detecção | Temp | Top-P | Max Tokens | Thinking (CoT) | Tag / Telemetria |
-| :--- | :--- | :---: | :---: | :---: | :---: | :--- |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Código / Técnico** | Blocos ```, arquivos de código (.js, .py, etc.), termos como `refatore`, `função`, `bug`, `api`, `sql` | **0.20** | **0.90** | **8192** | `true` | `Auto (Código)` |
 | **Criativo / Brainstorm** | Palavras como `crie uma história`, `roteiro`, `brainstorm`, `slogan`, `poema`, `copy` | **1.05** | **0.98** | **4096** | `false` | `Auto (Criativo)` |
 | **Rápido / Factual** | Texto curto (< 70 caracteres), sem código, saudações (`olá`, `bom dia`) e perguntas diretas (`o que é`, `defina`) | **0.30** | **0.85** | **1536** | `false` | `Auto (Rápido)` |
@@ -145,26 +145,70 @@ Inspirado nas diretrizes do framework NVIDIA NeMo, o CLAUTRON v1.1.1 implementou
 
 ---
 
+---
+
+### 4. Versão 1.2.0 (Atual) — Universal Document Ingestion & Seletor Multi-Modelos com Personas
+
+A versão 1.2.0 transforma o CLAUTRON de uma interface de chat em uma central de inteligência documental e orquestração de modelos de ponta, permitindo análise local e estruturada de múltiplos formatos e alternância imediata de especialidades.
+
+#### 🚀 Recursos Implementados:
+
+#### A. Universal Document Ingestion (Extração Local e Segura)
+Endpoint local de alto desempenho (`POST /api/parse-file`) que processa arquivos na própria máquina sem uploads a serviços de terceiros:
+1. **Documentos PDF (`pdf-parse`):** Extração de texto completo página a página com contagem de palavras e metadados de paginação.
+2. **Documentos Microsoft Word & RTF (`mammoth` / `officeparser`):** Conversão de arquivos `.docx`, `.doc` e `.rtf` diretamente para Markdown estruturado (títulos, listas e ênfases preservadas).
+3. **Planilhas Excel (`xlsx` / SheetJS):** Leitura de `.xlsx` e `.xls`, com identificação de cada aba e formatação em tabelas estruturadas Markdown (`csv` formatado).
+4. **Apresentações PowerPoint (`officeparser`):** Extração de textos e notas de slides em apresentações `.pptx`.
+5. **Jupyter Notebooks (`ipynb`):** Parser estruturado que extrai e formata células Markdown e blocos de código Python acompanhados das suas respectivas saídas e erros.
+6. **Pacotes Compactados (`adm-zip`):** Varredura de arquivos `.zip` com geração visual da árvore de pastas e extração do conteúdo de scripts e arquivos textuais suportados.
+7. **Códigos-Fonte e Scripts (`.py`, `.js`, `.ts`, `.html`, `.css`, `.sql`, etc.):** Decodificação direta em UTF-8.
+
+#### B. Experiência de Ingestão no Chat
+- **Chips Informativos com Metadados:** Ao anexar arquivos, o chip exibe o ícone temático e contagem em tempo real (ex.: `📕 contrato.pdf (12 págs · 3.400 palavras)`, `📊 financeiro.xlsx (3 abas · 1.250 palavras)`, `📦 codebase.zip (15.200 palavras)`).
+- **Injeção Contextual Delimitada:** O texto extraído é delimitado no contexto da mensagem com tags claras:
+  ```text
+  --- [Documento Anexado: relatorio.pdf | Tipo: PDF] ---
+  [Texto extraído do documento...]
+  --- [Fim do Documento] ---
+  ```
+
+#### C. Seletor de Personas & Multi-Modelos NVIDIA NIM
+Dropdown interativo no cabeçalho (`#btnPersonaSelector`) com popover escuro moderno e catálogo de personas:
+1. **🧠 CLAUTRON Omni** (`nvidia/nemotron-3.5-super-vl-120b-a12b`): Visão multimodal e raciocínio estendido (*Thinking / CoT*).
+2. **💻 CLAUTRON Coder** (`qwen/qwen2.5-coder-32b-instruct`): Especialista em arquitetura, algoritmos, scripts e refatoração de código.
+3. **🔬 CLAUTRON Lógica** (`deepseek-ai/deepseek-r1`): Raciocínio matemático, dedução lógica passo a passo e resolução analítica.
+4. **⚡ CLAUTRON Redator** (`meta/llama-3.3-70b-instruct`): Redação fluida, síntese, relatórios e respostas ultrarrápidas.
+5. **👁️ CLAUTRON Vision Lite** (`meta/llama-3.2-11b-vision-instruct`): Leitura ágil de imagens, OCR veloz e prints leves.
+
+#### D. Bloqueio Inteligente de Imagens para Modelos de Texto
+- Quando uma persona exclusivamente textual está ativa (`supportsVision: false`), qualquer tentativa de arrastar, selecionar ou colar imagem via **Ctrl + V** é bloqueada com aviso orientando o usuário a alternar para o **Omni** ou **Vision Lite**.
+- Documentos e arquivos de código convertidos em texto continuam permitidos normalmente para todos os modelos.
+- O modelo selecionado é persistido por conversa no `localStorage` e sincronizado ao alternar sessões.
+
+---
+
 ## 🏗️ Matriz Comparativa da Evolução
 
-| Recurso | v1.0.0 | v1.1.0 | v1.1.1 (Atual) |
+| Recurso | v1.0.0 | v1.1.0 | v1.1.1 | v1.2.0 (Atual) |
 | :--- | :---: | :---: | :---: |
-| **Ambiente de Execução** | Navegador Web | Desktop Electron (NSIS x64) | Desktop Electron + Web (v1.1.1) |
-| **Modelo NIM** | Nemotron 3.5 Super VL | Nemotron 3.5 Super VL | Nemotron 3.5 Super VL |
-| **Diagnóstico de Conexão** | ❌ Não | ✅ 2 Passos (Rede + Inferência) | ✅ 2 Passos com Feedback de Erro |
-| **Suporte Multimodal** | Básico | ✅ Formato Estrito NVIDIA | ✅ Formato Estrito NVIDIA |
-| **Sidebar Redimensionável** | ❌ Fixa | ✅ Drag-to-Resize | ✅ Drag-to-Resize |
-| **Checagem de Atualização** | ❌ Não | ❌ Não | ✅ GitHub Releases API com Modal |
-| **Custom System Prompt** | ❌ Não | ❌ Não | ✅ Permanente no LocalStorage |
-| **Ajuste de Hiperparâmetros** | ❌ Fixo no proxy | ❌ Fixo no proxy | ✅ Sliders manuais + Legendas vivas |
-| **Seleção de Esforço** | Manual (Low/Med/High) | Manual (Low/Med/High) | ✅ Modo Adaptativo Heurístico (4 perfis) |
-| **Telemetria na Mensagem** | Estática | Estática | ✅ Dinâmica por Perfil + TTFT |
-| **NeMo Guardrails** | ❌ Não | ❌ Não | ✅ Sanitização e Alternância Estrita |
-| **NeMo LLM-as-a-Judge** | ❌ Não | ❌ Não | ✅ Avaliação Assíncrona em Background |
-| **Logging JSONL (Eval)** | ❌ Não | ❌ Não | ✅ data/interactions.jsonl e nemo_evals |
-| **Feedback Humano (👍/👎)** | ❌ Não | ❌ Não | ✅ Integrado com Categorização |
-| **Smart Auto-Scroll** | ❌ Travado | ❌ Travado | ✅ Livre de Scroll Hijacking |
-| **Busca no Histórico** | ❌ Não | ❌ Não | ✅ Filtro em Tempo Real na Sidebar |
+| **Ambiente de Execução** | Navegador Web | Desktop Electron (NSIS x64) | Desktop Electron + Web | Desktop Electron + Web (v1.2) |
+| **Modelos NIM / Personas** | Nemotron Fixo | Nemotron Fixo | Nemotron 3.5 Super VL | ✅ 5 Personas (Nemotron, Qwen Coder, DeepSeek R1, Llama 3.3, Llama Vision) |
+| **Ingestão de Documentos** | ❌ Não | Imagens Básicas | Imagens Básicas | ✅ Universal (PDF, DOCX, XLSX, PPTX, IPYNB, ZIP, Códigos) |
+| **Bloqueio Inteligente de Visão** | ❌ Não | ❌ Não | ❌ Não | ✅ Guarda ativa por capacidade do modelo |
+| **Diagnóstico de Conexão** | ❌ Não | ✅ 2 Passos | ✅ 2 Passos com Detalhes | ✅ 2 Passos com Detalhes |
+| **Suporte Multimodal** | Básico | ✅ Formato Estrito | ✅ Formato Estrito | ✅ Híbrido (Visão + Ingestão de Texto) |
+| **Sidebar Redimensionável** | ❌ Fixa | ✅ Drag-to-Resize | ✅ Drag-to-Resize | ✅ Drag-to-Resize com Busca |
+| **Checagem de Atualização** | ❌ Não | ❌ Não | ✅ GitHub Releases API | ✅ GitHub Releases API (v1.2.0) |
+| **Custom System Prompt** | ❌ Não | ❌ Não | ✅ Permanente no LocalStorage | ✅ Permanente no LocalStorage |
+| **Ajuste de Hiperparâmetros** | ❌ Fixo | ❌ Fixo | ✅ Sliders manuais + Legendas vivas | ✅ Sliders + Seed Determinístico |
+| **Seleção de Esforço** | Manual | Manual | ✅ Modo Adaptativo Heurístico | ✅ Heurística com Detecção de Docs |
+| **Telemetria na Mensagem** | Estática | Estática | ✅ Dinâmica por Perfil + TTFT | ✅ Dinâmica por Perfil + TTFT |
+| **NeMo Guardrails** | ❌ Não | ❌ Não | ✅ Sanitização e Alternância Estrita | ✅ Sanitização e Alternância Estrita |
+| **NeMo LLM-as-a-Judge** | ❌ Não | ❌ Não | ✅ Avaliação Assíncrona em Background | ✅ Avaliação Assíncrona em Background |
+| **Logging JSONL (Eval)** | ❌ Não | ❌ Não | ✅ interactions e nemo_evals | ✅ interactions e nemo_evals |
+| **Feedback Humano (👍/👎)** | ❌ Não | ❌ Não | ✅ Integrado com Categorização | ✅ Integrado com Categorização |
+| **Smart Auto-Scroll** | ❌ Travado | ❌ Travado | ✅ Livre de Scroll Hijacking | ✅ Livre de Scroll Hijacking |
+| **Busca no Histórico** | ❌ Não | ❌ Não | ✅ Filtro em Tempo Real na Sidebar | ✅ Filtro em Tempo Real na Sidebar |
 
 ---
 

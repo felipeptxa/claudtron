@@ -1,5 +1,5 @@
 /**
- * CLAUTRON OneClick — Local Web UI & Proxy Server (v1.1.1 Complete)
+ * CLAUTRON OneClick — Local Web UI & Proxy Server (v1.2 Complete)
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -14,6 +14,13 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+
+// ── Ingestão Universal de Documentos (v1.2) ──────────────────────────────────
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
+const xlsx = require('xlsx');
+const officeParser = require('officeparser');
+const AdmZip = require('adm-zip');
 
 const PORT = process.env.PORT || 3000;
 const NVIDIA_ENDPOINT = 'https://integrate.api.nvidia.com/v1/chat/completions';
@@ -399,6 +406,180 @@ const server = http.createServer((req, res) => {
         console.error('[NEMO JUDGE ERRO]:', err.message);
         res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(JSON.stringify({ ok: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // ── /api/parse-file — Universal Document Ingestion (v1.2) ───────────────────
+  if (req.method === 'POST' && req.url === '/api/parse-file') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', async () => {
+      try {
+        const payload = JSON.parse(body);
+        const { filename, base64 } = payload;
+
+        if (!filename || !base64) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Campos filename e base64 são obrigatórios.' }));
+          return;
+        }
+
+        const buffer = Buffer.from(base64, 'base64');
+        const ext = path.extname(filename).toLowerCase();
+        let extractedText = '';
+        let pageCount = null;
+        let sheetCount = null;
+        const fileType = ext.replace(/^\./, '').toUpperCase() || 'UNKNOWN';
+
+        if (ext === '.pdf') {
+          try {
+            if (typeof pdfParse === 'function') {
+              const data = await pdfParse(buffer);
+              extractedText = data.text || '';
+              pageCount = data.numpages || 1;
+            } else if (pdfParse.PDFParse) {
+              const parser = new pdfParse.PDFParse({ data: buffer });
+              const result = await parser.getText();
+              extractedText = result.text || '';
+              pageCount = result.total || result.pages?.length || 1;
+            }
+          } catch (pdfErr) {
+            console.error('[PARSE-FILE] Erro ao extrair PDF:', pdfErr.message);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Falha ao processar arquivo PDF: ' + pdfErr.message }));
+            return;
+          }
+        } else if (ext === '.docx' || ext === '.doc' || ext === '.rtf') {
+          try {
+            if (ext === '.docx') {
+              const resDocx = await mammoth.convertToMarkdown({ buffer });
+              extractedText = resDocx.value || '';
+            } else {
+              try {
+                const resDoc = await mammoth.convertToMarkdown({ buffer });
+                extractedText = resDoc.value || '';
+              } catch (_) {
+                const parsed = await officeParser.parseOffice(buffer).catch(() => buffer.toString('utf8'));
+                extractedText = typeof parsed === 'string' ? parsed : JSON.stringify(parsed);
+              }
+            }
+          } catch (docErr) {
+            console.error('[PARSE-FILE] Erro ao extrair Word/RTF:', docErr.message);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Falha ao processar documento Word: ' + docErr.message }));
+            return;
+          }
+        } else if (ext === '.xlsx' || ext === '.xls') {
+          try {
+            const workbook = xlsx.read(buffer, { type: 'buffer' });
+            sheetCount = workbook.SheetNames ? workbook.SheetNames.length : 1;
+            const sheetsMd = [];
+            (workbook.SheetNames || []).forEach(name => {
+              const sheet = workbook.Sheets[name];
+              const csv = xlsx.utils.sheet_to_csv(sheet);
+              if (csv && csv.trim()) {
+                sheetsMd.push(`### Aba: ${name}\n\`\`\`csv\n${csv.trim()}\n\`\`\``);
+              }
+            });
+            extractedText = sheetsMd.join('\n\n');
+          } catch (xlsErr) {
+            console.error('[PARSE-FILE] Erro ao extrair planilha:', xlsErr.message);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Falha ao processar planilha Excel: ' + xlsErr.message }));
+            return;
+          }
+        } else if (ext === '.pptx') {
+          try {
+            const parsed = await officeParser.parseOffice(buffer);
+            extractedText = typeof parsed === 'string' ? parsed : JSON.stringify(parsed);
+          } catch (pptErr) {
+            console.error('[PARSE-FILE] Erro ao extrair apresentação PPTX:', pptErr.message);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Falha ao processar apresentação PPTX: ' + pptErr.message }));
+            return;
+          }
+        } else if (ext === '.ipynb') {
+          try {
+            const nb = JSON.parse(buffer.toString('utf8'));
+            const parts = [];
+            (nb.cells || []).forEach((c, i) => {
+              const src = Array.isArray(c.source) ? c.source.join('') : (c.source || '');
+              if (c.cell_type === 'markdown') {
+                parts.push(`#### [Célula ${i + 1} - Markdown]\n${src}`);
+              } else if (c.cell_type === 'code') {
+                let outStr = '';
+                if (c.outputs && c.outputs.length > 0) {
+                  c.outputs.forEach(o => {
+                    if (o.text) outStr += Array.isArray(o.text) ? o.text.join('') : o.text;
+                    else if (o.data && o.data['text/plain']) {
+                      const p = o.data['text/plain'];
+                      outStr += Array.isArray(p) ? p.join('') : p;
+                    }
+                  });
+                }
+                parts.push(`#### [Célula ${i + 1} - Código]\n\`\`\`python\n${src}\n\`\`\`${outStr ? '\n*Saída:*\n\`\`\`\n' + outStr.trim() + '\n\`\`\`' : ''}`);
+              }
+            });
+            extractedText = parts.join('\n\n');
+          } catch (nbErr) {
+            console.error('[PARSE-FILE] Erro ao extrair notebook IPYNB:', nbErr.message);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Falha ao processar Jupyter Notebook: ' + nbErr.message }));
+            return;
+          }
+        } else if (ext === '.zip') {
+          try {
+            const zip = new AdmZip(buffer);
+            const entries = zip.getEntries();
+            let tree = '📁 Árvore de Arquivos no ZIP:\n';
+            const contents = [];
+            const textExts = ['.txt', '.md', '.js', '.ts', '.py', '.html', '.css', '.json', '.sql', '.csv', '.yaml', '.yml', '.sh', '.bat', '.java', '.c', '.cpp', '.cs', '.go', '.rs', '.php', '.xml'];
+            entries.forEach(e => {
+              if (e.isDirectory) {
+                tree += `  📂 ${e.entryName}\n`;
+              } else {
+                tree += `  📄 ${e.entryName} (${(e.header.size / 1024).toFixed(1)} KB)\n`;
+                const subExt = path.extname(e.name).toLowerCase();
+                if (textExts.includes(subExt) && e.header.size < 500000) {
+                  try {
+                    const str = e.getData().toString('utf8');
+                    contents.push(`\n--- [Arquivo no ZIP: ${e.entryName}] ---\n${str}`);
+                  } catch (_) {}
+                }
+              }
+            });
+            extractedText = `${tree}\n\nConteúdo dos Arquivos Extraídos:\n${contents.join('\n')}`;
+          } catch (zipErr) {
+            console.error('[PARSE-FILE] Erro ao extrair arquivo ZIP:', zipErr.message);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Falha ao processar arquivo ZIP: ' + zipErr.message }));
+            return;
+          }
+        } else {
+          // Arquivos de código e texto comuns (.txt, .md, .csv, .py, .js, .html, .json, .sql, etc.)
+          extractedText = buffer.toString('utf8');
+        }
+
+        const wordCount = extractedText ? extractedText.trim().split(/\s+/).filter(Boolean).length : 0;
+        console.log(`[PARSE-FILE] 📄 Ingestão concluída: ${filename} (${fileType}) — ${wordCount} palavras${pageCount ? ' · ' + pageCount + ' págs' : ''}${sheetCount ? ' · ' + sheetCount + ' abas' : ''}`);
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          filename: filename,
+          fileType: fileType,
+          pages: pageCount,
+          sheets: sheetCount,
+          wordCount: wordCount,
+          extractedText: extractedText
+        }));
+
+      } catch (err) {
+        console.error('[PARSE-FILE] Erro inesperado ao processar arquivo:', err.message);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Erro interno ao processar o arquivo: ' + err.message }));
       }
     });
     return;
