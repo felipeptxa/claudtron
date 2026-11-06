@@ -1246,7 +1246,7 @@ const ready = listenOnPort(BASE_PORT, MAX_PORT_ATTEMPTS)
     if (!reusedExisting) {
       server.on('error', (err) => console.error('[SERVER ERRO]:', err));
       console.log(`===============================================`);
-      console.log(` ⚡ Cloudtron OneClick v1.2.5 - Local Server Ativo`);
+      console.log(` ⚡ Cloudtron OneClick v1.3.0 - Local Server Ativo`);
       console.log(` 🚀 Interface: http://${BIND_HOST}:${port}`);
       console.log(` 📡 Streaming de Baixa Latência Ativo`);
       console.log(` 🧠 Modelo: ${DEFAULT_MODEL}`);

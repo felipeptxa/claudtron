@@ -3256,7 +3256,7 @@
           </button>
 
           <!-- Pílula de Modo Plan / Build -->
-          <button type="button" class="mode-pill mode-pill-active" id="modePill" onclick="toggleModePill(event)" title="Alternar Modo Plan / Build">
+          <button type="button" class="mode-pill mode-pill-active" id="modePill" title="Alternar Modo Plan / Build">
             <span class="mode-icon">📋</span>
             <span class="mode-label">Plan</span>
           </button>
@@ -4136,6 +4136,12 @@
       }
     }
 
+    // Bind do seletor de modo Plan/Build via addEventListener (moderno, sem onclick inline)
+    const modePillBtn = document.getElementById('modePill');
+    if (modePillBtn) {
+      modePillBtn.addEventListener('click', toggleModePill);
+    }
+
     /* ── Seletor de Esforço ───────────────────────────────────── */
     const EFFORT_CONFIGS = {
       auto: { label: 'Auto', icon: '🧠', temperature: null, top_p: null, max_tokens: null, thinking: null, thinkingText: null },
@@ -4739,12 +4745,18 @@
 
       // Preenche todos os campos de provedor com valores salvos
       const providerKeys = s.providerApiKeys || {};
-      document.getElementById('providerKeyNVIDIA')?.value = providerKeys.nvidia || '';
-      document.getElementById('providerKeyGroq')?.value = providerKeys.groq || '';
-      document.getElementById('providerKeyOpenrouter')?.value = providerKeys.openrouter || '';
-      document.getElementById('providerKeyGoogle')?.value = providerKeys.google || '';
-      document.getElementById('providerKeyDeepseek')?.value = providerKeys.deepseek || '';
-      document.getElementById('providerKeyAnthropic')?.value = providerKeys.anthropic || '';
+      const nvidiaInput = document.getElementById('providerKeyNVIDIA');
+      if (nvidiaInput) nvidiaInput.value = providerKeys.nvidia || '';
+      const groqInput = document.getElementById('providerKeyGroq');
+      if (groqInput) groqInput.value = providerKeys.groq || '';
+      const openrouterInput = document.getElementById('providerKeyOpenrouter');
+      if (openrouterInput) openrouterInput.value = providerKeys.openrouter || '';
+      const googleInput = document.getElementById('providerKeyGoogle');
+      if (googleInput) googleInput.value = providerKeys.google || '';
+      const deepseekInput = document.getElementById('providerKeyDeepseek');
+      if (deepseekInput) deepseekInput.value = providerKeys.deepseek || '';
+      const anthropicInput = document.getElementById('providerKeyAnthropic');
+      if (anthropicInput) anthropicInput.value = providerKeys.anthropic || '';
 
       document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
       updatePersistentContextStatus();
