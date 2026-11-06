@@ -1881,8 +1881,8 @@
       gap: 6px;
       height: 30px;
       padding: 0 12px;
-      background: #0d1424;
-      border: 1px solid rgba(56, 189, 248, 0.18);
+      background: #0b1329;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 999px;
       color: #94a3b8;
       font-size: 11px;
@@ -1897,6 +1897,7 @@
     .settings-tab-btn:hover {
       background: #11192a;
       color: #e2e8f0;
+      border-color: rgba(56, 189, 248, 0.4);
     }
 
     .settings-tab-btn.settings-tab-btn-active,
@@ -1905,10 +1906,6 @@
       border-color: #0284c7;
       color: #ffffff;
       box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
-    }
-
-    .settings-tab-btn.text-slate-400 {
-      color: #94a3b8;
     }
 
     .settings-section-title {
@@ -1994,6 +1991,121 @@
 
     .settings-textarea:focus {
       border-color: #60a5fa;
+    }
+
+    /* Cards de Provedores (Tier 1, 2 & 3) */
+    .provider-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .provider-card {
+      background: #111318;
+      border: 1px solid #282a2c;
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .provider-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: #161a26;
+    }
+
+    .provider-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .provider-icon {
+      font-size: 14px;
+    }
+
+    .provider-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .provider-tier-badge {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .provider-tier-badge.tier-free {
+      background: rgba(34, 197, 94, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .provider-tier-badge.tier-paid {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .provider-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #c4c7c5;
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    .provider-key-input {
+      width: 100%;
+      padding: 8px 10px;
+      background: #0b1329;
+      border: 1px solid #282a2c;
+      border-radius: 6px;
+      color: #e3e3e3;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 6px;
+    }
+
+    .provider-key-input:focus {
+      border-color: #38bdf8;
+    }
+
+    .provider-help {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .provider-help a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .provider-help a:hover {
+      text-decoration: underline;
+    }
+
+    .provider-divider {
+      color: #64748b;
+    }
+
+    .provider-model {
+      color: #64748b;
     }
 
     .settings-context-tools {
@@ -3277,29 +3389,136 @@
               <span>API Keys &amp; Provedores</span>
             </div>
             <button type="button" class="btn-preview-ctrl" id="btnTestKeyModal" onclick="runPingTest(true)" style="padding: 4px 12px; font-size: 11px; color: #38bdf8; border-color: rgba(56,189,248,0.35); background: rgba(56,189,248,0.08); border-radius: 6px; font-weight: 500; cursor: pointer; white-space: nowrap;">
-              ⚡ Testar Chave
+              ⚡ Testar Chaves
             </button>
           </div>
           <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
-            Chave pessoal da NVIDIA NIM (iniciada com <code>nvapi-...</code>). Obtenha em 
-            <a href="https://build.nvidia.com" target="_blank" style="color: #60a5fa; text-decoration: none;">build.nvidia.com</a> •
-            <a href="https://openrouter.ai/settings/keys" target="_blank" style="color: #60a5fa; text-decoration: none;">OpenRouter</a> para modelos adicionais.
+            Configure as chaves de API para cada provedor. As chaves são armazenadas apenas no <strong>localStorage local</strong> e nunca são enviadas a logs nem a terceiros.
+            As chaves configuradas são usadas na Fila de Swap/Failover automática quando o provedor primário falha.
           </p>
-          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
-            <label style="font-size: 11px; color: #c4c7c5; font-weight: 600; white-space: nowrap;">Provedor:</label>
-            <select id="settingsApiProvider" class="bridge-select" onchange="renderProviderApiFields()" style="flex: 1;">
-              <option value="nvidia">NVIDIA NIM</option>
-              <option value="openrouter">OpenRouter</option>
-              <option value="custom">Modelo Local / Chave Própria</option>
-            </select>
+
+          <!-- TIER 1: Gratuitos & Alta Potência -->
+          <div style="margin-top: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                <path d="M12 17V21"></path>
+              </svg>
+              <span style="font-size: 11px; font-weight: 700; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px;">Tier 1 — Gratuitos & Alta Potência</span>
+            </div>
+            <div class="provider-cards-grid">
+              <!-- NVIDIA NIM -->
+              <div class="provider-card provider-nvidia">
+                <div class="provider-card-header">
+                  <span class="provider-icon">🧠</span>
+                  <span class="provider-name">NVIDIA NIM</span>
+                  <span class="provider-tier-badge tier-free">Grátis</span>
+                </div>
+                <label class="provider-label">NVIDIA NIM API Key (Principal)</label>
+                <input type="password" id="providerKeyNVIDIA" class="provider-key-input" placeholder="nvapi-..." autocomplete="off" spellcheck="false" value=""/>
+                <div class="provider-help">
+                  <a href="https://build.nvidia.com" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 10px;">Obter chave em build.nvidia.com</a>
+                  <span class="provider-divider">•</span>
+                  <span class="provider-model">Modelo: nemotron-3.5-super-vl-120b-a12b</span>
+                </div>
+              </div>
+
+              <!-- Groq Cloud -->
+              <div class="provider-card provider-groq">
+                <div class="provider-card-header">
+                  <span class="provider-icon">⚡</span>
+                  <span class="provider-name">Groq Cloud</span>
+                  <span class="provider-tier-badge tier-free">Grátis</span>
+                </div>
+                <label class="provider-label">Groq Cloud API Key</label>
+                <input type="password" id="providerKeyGroq" class="provider-key-input" placeholder="gsk_..." autocomplete="off" spellcheck="false" value=""/>
+                <div class="provider-help">
+                  <a href="https://console.groq.com" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 10px;">Obter chave em console.groq.com</a>
+                  <span class="provider-divider">•</span>
+                  <span class="provider-model">Modelo: deepseek-r1-distill-llama-70b</span>
+                </div>
+              </div>
+
+              <!-- OpenRouter -->
+              <div class="provider-card provider-openrouter">
+                <div class="provider-card-header">
+                  <span class="provider-icon">🔄</span>
+                  <span class="provider-name">OpenRouter</span>
+                  <span class="provider-tier-badge tier-free">Grátis</span>
+                </div>
+                <label class="provider-label">OpenRouter API Key</label>
+                <input type="password" id="providerKeyOpenrouter" class="provider-key-input" placeholder="sk-or-v1-..." autocomplete="off" spellcheck="false" value=""/>
+                <div class="provider-help">
+                  <a href="https://openrouter.ai/settings/keys" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 10px;">Obter chave em openrouter.ai/settings/keys</a>
+                  <span class="provider-divider">•</span>
+                  <span class="provider-model">Modelo: deepseek/deepseek-r1-distill-llama-70b:free</span>
+                </div>
+              </div>
+
+              <!-- Google AI Studio -->
+              <div class="provider-card provider-google">
+                <div class="provider-card-header">
+                  <span class="provider-icon">🔮</span>
+                  <span class="provider-name">Google AI Studio</span>
+                  <span class="provider-tier-badge tier-free">Grátis</span>
+                </div>
+                <label class="provider-label">Google AI Studio API Key</label>
+                <input type="password" id="providerKeyGoogle" class="provider-key-input" placeholder="AIzaSy..." autocomplete="off" spellcheck="false" value=""/>
+                <div class="provider-help">
+                  <a href="https://aistudio.google.com" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 10px;">Obter chave em aistudio.google.com</a>
+                  <span class="provider-divider">•</span>
+                  <span class="provider-model">Modelo: gemini-1.5-pro</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." autocomplete="off" spellcheck="false" style="flex: 1;" />
+
+          <!-- TIER 2 & 3: Modelos Avançados / Pay-as-you-go -->
+          <div style="margin-top: 18px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></path>
+                <path d="M12 17V21"></path>
+              </svg>
+              <span style="font-size: 11px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.5px;">Tier 2 & 3 — Modelos Avançados / Pay-as-you-go</span>
+            </div>
+            <div class="provider-cards-grid">
+              <!-- DeepSeek Oficial -->
+              <div class="provider-card provider-deepseek">
+                <div class="provider-card-header">
+                  <span class="provider-icon">🔍</span>
+                  <span class="provider-name">DeepSeek Oficial</span>
+                  <span class="provider-tier-badge tier-paid">Pago</span>
+                </div>
+                <label class="provider-label">DeepSeek API Key</label>
+                <input type="password" id="providerKeyDeepseek" class="provider-key-input" placeholder="sk-..." autocomplete="off" spellcheck="false" value=""/>
+                <div class="provider-help">
+                  <a href="https://platform.deepseek.com" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 10px;">Obter chave em platform.deepseek.com</a>
+                  <span class="provider-divider">•</span>
+                  <span class="provider-model">Modelo: deepseek-chat</span>
+                </div>
+              </div>
+
+              <!-- Anthropic -->
+              <div class="provider-card provider-anthropic">
+                <div class="provider-card-header">
+                  <span class="provider-icon">🤖</span>
+                  <span class="provider-name">Anthropic Claude</span>
+                  <span class="provider-tier-badge tier-paid">Pago</span>
+                </div>
+                <label class="provider-label">Anthropic API Key</label>
+                <input type="password" id="providerKeyAnthropic" class="provider-key-input" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" value=""/>
+                <div class="provider-help">
+                  <a href="https://console.anthropic.com" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 10px;">Obter chave em console.anthropic.com</a>
+                  <span class="provider-divider">•</span>
+                  <span class="provider-model">Modelo: claude-3-7-sonnet-20250219</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id="settingsProviderExtra" style="margin-top: 8px; display: none; flex-direction: column; gap: 6px;">
-            <!-- Campos específicos do provedor (renderizados via JS) -->
-          </div>
-          <div id="modalTestResult" style="display: none; margin-top: 8px; font-size: 11.5px; padding: 7px 12px; border-radius: 6px; line-height: 1.4;"></div>
+
+          <!-- Resultado dos testes -->
+          <div id="providerTestResults" style="margin-top: 12px; display: none;"></div>
           <p style="font-size: 10.5px; color: #64748b; margin-top: 6px;">
             As chaves são armazenadas apenas no <strong>localStorage local</strong> do navegador/app e nunca são enviadas a logs nem a terceiros.
           </p>
@@ -4486,15 +4705,24 @@
     }
 
     function switchSettingsTab(tab, btn) {
-      // 1. Atualiza estilos visuais das abas
+      // 1. Remove destaque de TODAS as outras abas
       document.querySelectorAll('.settings-tab-btn').forEach(b => {
-        b.classList.remove('active', 'bg-blue-600', 'text-white', 'border-blue-400');
+        b.classList.remove('active', 'bg-blue-600', 'bg-[#0284c7]', 'border-blue-400', 'text-white', 'shadow-lg');
         b.classList.add('text-slate-400');
+        b.style.background = '#0b1329';
+        b.style.border = '1px solid rgba(255, 255, 255, 0.08)';
+        b.style.color = '#94a3b8';
       });
+
+      // 2. Aplica destaque apenas na aba clicada
       btn.classList.add('active', 'bg-blue-600', 'text-white', 'border-blue-400');
       btn.classList.remove('text-slate-400');
+      btn.style.background = '#0284c7';
+      btn.style.borderColor = '#0284c7';
+      btn.style.color = '#ffffff';
+      btn.style.boxShadow = '0 0 12px rgba(2, 132, 199, 0.4)';
 
-      // 2. Alterna exibição física dos painéis
+      // 3. Alterna exibição física dos painéis
       document.querySelectorAll('.settings-tab-panel').forEach(panel => {
         panel.style.display = 'none';
       });
@@ -4508,7 +4736,16 @@
       document.getElementById('modalKeyInput').value = s.apiKey;
       const providerEl = document.getElementById('settingsApiProvider');
       if (providerEl) providerEl.value = s.apiProvider || 'nvidia';
-      renderProviderApiFields();
+
+      // Preenche todos os campos de provedor com valores salvos
+      const providerKeys = s.providerApiKeys || {};
+      document.getElementById('providerKeyNVIDIA')?.value = providerKeys.nvidia || '';
+      document.getElementById('providerKeyGroq')?.value = providerKeys.groq || '';
+      document.getElementById('providerKeyOpenrouter')?.value = providerKeys.openrouter || '';
+      document.getElementById('providerKeyGoogle')?.value = providerKeys.google || '';
+      document.getElementById('providerKeyDeepseek')?.value = providerKeys.deepseek || '';
+      document.getElementById('providerKeyAnthropic')?.value = providerKeys.anthropic || '';
+
       document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
       updatePersistentContextStatus();
       document.getElementById('inputTemperature').value = s.temperature.toFixed(2);
@@ -4582,6 +4819,25 @@
       const jsonModeVal = document.getElementById('checkJsonMode').checked;
       const nemoAutoEvalVal = document.getElementById('checkNemoAutoEval') ? document.getElementById('checkNemoAutoEval').checked : true;
 
+      // Salva chaves de TODOS os provedores (apenas localStorage, sem vazar em logs)
+      const providerKeys = {};
+      const nvidiaKey = document.getElementById('providerKeyNVIDIA')?.value.trim();
+      const groqKey = document.getElementById('providerKeyGroq')?.value.trim();
+      const openrouterKey = document.getElementById('providerKeyOpenrouter')?.value.trim();
+      const googleKey = document.getElementById('providerKeyGoogle')?.value.trim();
+      const deepseekKey = document.getElementById('providerKeyDeepseek')?.value.trim();
+      const anthropicKey = document.getElementById('providerKeyAnthropic')?.value.trim();
+      if (nvidiaKey) providerKeys.nvidia = nvidiaKey;
+      if (groqKey) providerKeys.groq = groqKey;
+      if (openrouterKey) providerKeys.openrouter = openrouterKey;
+      if (googleKey) providerKeys.google = googleKey;
+      if (deepseekKey) providerKeys.deepseek = deepseekKey;
+      if (anthropicKey) providerKeys.anthropic = anthropicKey;
+
+      try {
+        localStorage.setItem(PROVIDER_API_KEYS_STORAGE, JSON.stringify(providerKeys));
+      } catch (_) {}
+
       const settings = {
         seed: !isNaN(seedRaw) ? seedRaw : null,
         jsonMode: !!jsonModeVal,
@@ -4593,22 +4849,8 @@
         temperature: !isNaN(tempVal) ? tempVal : 0.70,
         top_p: !isNaN(topPVal) ? topPVal : 0.95,
         max_tokens: !isNaN(maxTokensVal) ? maxTokensVal : 4096,
-        providerApiKeys: {}
+        providerApiKeys: providerKeys
       };
-
-      // Salva chaves por provedor (apenas localStorage, sem vazar em logs)
-      try {
-        const provider = document.getElementById('settingsApiProvider')?.value || 'nvidia';
-        const providerKeys = {};
-        if (provider === 'openrouter') {
-          providerKeys.openrouter = document.getElementById('providerKeyOpenrouter')?.value.trim() || '';
-        } else if (provider === 'custom') {
-          providerKeys.endpoint = document.getElementById('providerEndpointCustom')?.value.trim() || '';
-          providerKeys.custom = document.getElementById('providerKeyCustom')?.value.trim() || '';
-        }
-        localStorage.setItem(PROVIDER_API_KEYS_STORAGE, JSON.stringify(providerKeys));
-        settings.providerApiKeys = providerKeys;
-      } catch (_) {}
 
       try {
         localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
@@ -4624,36 +4866,6 @@
       updatePersistentContextStatus();
       updateNvidiaStatusLed(!!apiKeyVal, apiKeyVal ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
       closeSettingsModal();
-    }
-
-    function renderProviderApiFields() {
-      const providerEl = document.getElementById('settingsApiProvider');
-      const extra = document.getElementById('settingsProviderExtra');
-      if (!providerEl || !extra) return;
-      const provider = providerEl.value;
-      const s = getGlobalSettings();
-      const providerKeys = s.providerApiKeys || {};
-      let html = '';
-      if (provider === 'openrouter') {
-        html = `
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="password" id="providerKeyOpenrouter" class="key-input-field" placeholder="sk-or-v1-..." autocomplete="off" spellcheck="false" style="flex: 1;" value="${escapeHtml(providerKeys.openrouter || '')}" />
-          </div>
-          <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Chave OpenRouter para modelos adicionais (deepseek, llama, etc.). Obtenha em <a href="https://openrouter.ai/settings/keys" target="_blank" style="color: #60a5fa; text-decoration: none;">openrouter.ai/settings/keys</a>.</p>
-        `;
-      } else if (provider === 'custom') {
-        html = `
-          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
-            <input type="text" id="providerEndpointCustom" class="key-input-field" placeholder="http://localhost:11434/v1" autocomplete="off" spellcheck="false" style="flex: 1;" value="${escapeHtml(providerKeys.endpoint || '')}" />
-          </div>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="password" id="providerKeyCustom" class="key-input-field" placeholder="sk-..." autocomplete="off" spellcheck="false" style="flex: 1;" value="${escapeHtml(providerKeys.custom || '')}" />
-          </div>
-          <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Endpoint e chave para modelo local (Ollama, LM Studio) ou provedor próprio.</p>
-        `;
-      }
-      extra.innerHTML = html;
-      extra.style.display = html ? 'flex' : 'none';
     }
 
     function saveKeyModal() {
