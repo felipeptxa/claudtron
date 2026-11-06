@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudtron OneClick v1.2.3</title>
+  <title>Cloudtron OneClick v1.2.4</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -600,7 +600,7 @@
       display: flex;
       flex-direction: column;
       gap: 22px;
-      max-width: 900px;
+      max-width: min(90vw, 1200px);
       width: 100%;
       margin: 0 auto;
       min-width: 0;
@@ -1091,7 +1091,7 @@
     }
 
     .input-container-wrapper {
-      max-width: 820px;
+      max-width: min(90vw, 1200px);
       width: 100%;
       position: relative;
       z-index: 105;
@@ -1323,18 +1323,8 @@
       line-height: 1;
     }
 
-    .intel-model {
+    .intel-profile {
       letter-spacing: 0.1px;
-    }
-
-    .intel-sep {
-      color: #64748b;
-      font-size: 10px;
-    }
-
-    .intel-context {
-      letter-spacing: 0.1px;
-      color: #94a3b8;
     }
 
     .intel-chevron {
@@ -1376,6 +1366,60 @@
 
     .intel-section:last-child {
       margin-bottom: 0;
+    }
+
+    .intel-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 8px 10px 8px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+      margin-bottom: 8px;
+    }
+
+    .intel-header-model {
+      font-size: 11px;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: 0.1px;
+    }
+
+    .intel-header-status {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #22c55e;
+      background: rgba(34, 197, 94, 0.10);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .intel-header-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      display: inline-block;
+    }
+
+    .intel-section-footer {
+      width: 100%;
+      padding: 10px 8px 6px 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.08);
+      margin-top: 6px;
+    }
+
+    .intel-footer-model {
+      display: block;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      color: #64748b;
+      letter-spacing: 0.2px;
     }
 
     .intel-section-title {
@@ -1447,11 +1491,13 @@
       padding: 6px 0;
       font-size: 13.5px;
       resize: none;
-      height: 24px;
+      min-height: 28px;
+      height: 28px;
       max-height: 180px;
       outline: none;
       line-height: 1.5;
       user-select: text;
+      overflow-y: auto;
     }
 
     textarea::placeholder {
@@ -2793,7 +2839,7 @@
             <span class="brand-clautron">Cloudtron</span>
             <span class="brand-oneclick">OneClick</span>
           </div>
-          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.3</span>
+          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.4</span>
         </div>
       </div>
 
@@ -2844,7 +2890,7 @@
       </button>
       <div class="sidebar-footer-info">
         <span class="sidebar-app-name">Cloudtron OneClick</span>
-        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.3</span>
+        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.4</span>
         </div>
       </div>
       <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver a nova versão">
@@ -2873,7 +2919,7 @@
               <circle cx="20" cy="20" r="4" fill="#2dd4bf" />
             </svg>
           </div>
-          <span class="app-brand-title"><strong>Cloudtron</strong> <span style="font-weight: 300;">OneClick v1.2.3</span></span>
+          <span class="app-brand-title"><strong>Cloudtron</strong> <span style="font-weight: 300;">OneClick v1.2.4</span></span>
         </div>
       </div>
 
@@ -2896,7 +2942,7 @@
         </button>
         <button class="sub-nav-tab" id="tabSandboxView" onclick="switchMainView('sandbox')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span>▷ Live Preview</span>
+          <span>Live Preview</span>
           <span class="tab-badge-interactive">Interativo</span>
         </button>
       </div>
@@ -2943,60 +2989,46 @@
             </svg>
           </button>
 
-          <!-- Seletor Unificado de Inteligência (Modelo + Contexto) -->
+          <!-- Seletor Unificado de Perfis de Tarefa -->
           <div class="intel-selector" id="intelSelector">
-            <button type="button" class="intel-selector-toggle" id="intelSelectorToggle" onclick="toggleIntelDropdown(event)" title="Selecionar Modelo e Contexto">
-              <span class="intel-icon" id="intelIcon">🧠</span>
-              <span class="intel-model" id="intelModel">Omni</span>
-              <span class="intel-sep">·</span>
-              <span class="intel-context" id="intelContext">Engenharia & Código</span>
+            <button type="button" class="intel-selector-toggle" id="intelSelectorToggle" onclick="toggleIntelDropdown(event)" title="Selecionar Perfil de Tarefa">
+              <span class="intel-icon" id="intelIcon">⚡</span>
+              <span class="intel-profile" id="intelProfile">Engenharia & Código</span>
               <svg class="intel-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
-            <div class="intel-selector-menu" id="intelSelectorMenu" role="listbox" aria-label="Modelo e Contexto">
-              <!-- SEÇÃO 1 - MODELOS NVIDIA NIM -->
+            <div class="intel-selector-menu" id="intelSelectorMenu" role="listbox" aria-label="Perfil de Tarefa">
+              <!-- Cabeçalho fixo: Modelo -->
+              <div class="intel-section-header">
+                <span class="intel-header-model">NVIDIA Nemotron 3.5 VL 120B</span>
+                <span class="intel-header-status">● Online</span>
+              </div>
+              <!-- Perfis / Modos de Tarefa -->
               <div class="intel-section">
-                <span class="intel-section-title">Modelos NVIDIA NIM</span>
-                <button type="button" class="intel-option intel-option-model" data-model="nvidia/nemotron-3.5-super-vl-120b-a12b" onclick="selectIntelModel(this, 'nvidia/nemotron-3.5-super-vl-120b-a12b')" role="option">
-                  <span class="intel-option-icon">🧠</span>
-                  <span class="intel-option-text"><strong>Cloudtron Omni</strong><small>Visão multimodal, raciocínio avançado</small></span>
-                </button>
-                <button type="button" class="intel-option intel-option-model" data-model="deepseek-ai/deepseek-v4.1-flash" onclick="selectIntelModel(this, 'deepseek-ai/deepseek-v4.1-flash')" role="option">
+                <button type="button" class="intel-option intel-option-profile" data-profile="eng-codigo" onclick="selectIntelProfile(this, 'eng-codigo')" role="option">
                   <span class="intel-option-icon">💻</span>
-                  <span class="intel-option-text"><strong>Cloudtron Coder</strong><small>Engenharia de software, algoritmos</small></span>
+                  <span class="intel-option-text"><strong>Engenharia & Código</strong><small>Temperatura baixa, foco sintático e arquitetura</small></span>
                 </button>
-                <button type="button" class="intel-option intel-option-model" data-model="deepseek-ai/deepseek-r1" onclick="selectIntelModel(this, 'deepseek-ai/deepseek-r1')" role="option">
-                  <span class="intel-option-icon">🔬</span>
-                  <span class="intel-option-text"><strong>Cloudtron Lógica</strong><small>Raciocínio matemático denso</small></span>
+                <button type="button" class="intel-option intel-option-profile" data-profile="raciocinio" onclick="selectIntelProfile(this, 'raciocinio')" role="option">
+                  <span class="intel-option-icon">🧠</span>
+                  <span class="intel-option-text"><strong>Raciocínio Profundo</strong><small>Temperatura média, Chain-of-Thought ativado</small></span>
                 </button>
-                <button type="button" class="intel-option intel-option-model" data-model="meta/llama-3.3-70b-instruct" onclick="selectIntelModel(this, 'meta/llama-3.3-70b-instruct')" role="option">
+                <button type="button" class="intel-option intel-option-profile" data-profile="criativo" onclick="selectIntelProfile(this, 'criativo')" role="option">
+                  <span class="intel-option-icon">🎨</span>
+                  <span class="intel-option-text"><strong>Criativo & Ideação</strong><small>Temperatura maior para brainstorming</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-profile" data-profile="rapido" onclick="selectIntelProfile(this, 'rapido')" role="option">
                   <span class="intel-option-icon">⚡</span>
-                  <span class="intel-option-text"><strong>Cloudtron Redator</strong><small>Respostas ultrarrápidas, síntese técnica</small></span>
+                  <span class="intel-option-text"><strong>Rápido & Direto</strong><small>Baixa latência, sem reasoning longo</small></span>
                 </button>
               </div>
-              <!-- SEÇÃO 2 - LENTE DE CONTEXTO & ESFORÇO -->
-              <div class="intel-section">
-                <span class="intel-section-title">Lente de Contexto &amp; Esforço</span>
-                <button type="button" class="intel-option intel-option-context" data-context="eng-codigo" onclick="selectIntelContext(this, 'eng-codigo')" role="option">
-                  <span class="intel-option-icon">💻</span>
-                  <span class="intel-option-text"><strong>Engenharia & Código</strong><small>Temperatura baixa, sintaxe e arquitetura</small></span>
-                </button>
-                <button type="button" class="intel-option intel-option-context" data-context="deep-thinking" onclick="selectIntelContext(this, 'deep-thinking')" role="option">
-                  <span class="intel-option-icon">🧠</span>
-                  <span class="intel-option-text"><strong>Raciocínio Profundo</strong><small>Temperatura média, ativação Chain-of-Thought</small></span>
-                </button>
-                <button type="button" class="intel-option intel-option-context" data-context="criativo" onclick="selectIntelContext(this, 'criativo')" role="option">
-                  <span class="intel-option-icon">🎨</span>
-                  <span class="intel-option-text"><strong>Criativo & Exploração</strong><small>Temperatura maior para ideação</small></span>
-                </button>
-                <button type="button" class="intel-option intel-option-context" data-context="rapido" onclick="selectIntelContext(this, 'rapido')" role="option">
-                  <span class="intel-option-icon">⚡</span>
-                  <span class="intel-option-text"><strong>Rápido & Direto</strong><small>Baixa latência, resposta concisa sem reasoning</small></span>
-                </button>
+              <!-- Rodapé: Model ID ativo -->
+              <div class="intel-section-footer">
+                <span class="intel-footer-model">Modelo ativo: nemotron-3.5-super-vl-120b-a12b</span>
               </div>
             </div>
           </div>
 
-          <textarea id="promptInput" placeholder="Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)..." onkeydown="handleKey(event)"></textarea>
+          <textarea id="promptInput" placeholder="Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)..." onkeydown="handleKey(event)" oninput="autoResizePrompt(this)"></textarea>
           
           <button class="btn-send" id="sendBtn" onclick="handleSendOrStop()" title="Enviar mensagem">
             <span id="sendBtnContent" style="display: flex; align-items: center; justify-content: center; font-size: 15px; margin-left: 1px;">➤</span>
@@ -3079,7 +3111,7 @@
       </div>
 
       <div class="info-card-body" style="gap: 16px;">
-        <!-- Seção 1: Chave de API -->
+        <!-- Seção 1: API Keys & Provedores -->
         <div class="settings-section">
           <div class="settings-section-title" style="justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 6px;">
@@ -3087,19 +3119,35 @@
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
               </svg>
-              <span>Autenticação NVIDIA NIM</span>
+              <span>API Keys &amp; Provedores</span>
             </div>
             <button type="button" class="btn-preview-ctrl" id="btnTestKeyModal" onclick="runPingTest(true)" style="padding: 4px 12px; font-size: 11px; color: #38bdf8; border-color: rgba(56,189,248,0.35); background: rgba(56,189,248,0.08); border-radius: 6px; font-weight: 500; cursor: pointer; white-space: nowrap;">
               ⚡ Testar Chave
             </button>
           </div>
           <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
-            Chave pessoal da NVIDIA (iniciada com <code>nvapi-...</code>). Obtenha em <a href="https://build.nvidia.com" target="_blank" style="color: #60a5fa; text-decoration: none;">build.nvidia.com</a>.
+            Chave pessoal da NVIDIA NIM (iniciada com <code>nvapi-...</code>). Obtenha em 
+            <a href="https://build.nvidia.com" target="_blank" style="color: #60a5fa; text-decoration: none;">build.nvidia.com</a> •
+            <a href="https://openrouter.ai/settings/keys" target="_blank" style="color: #60a5fa; text-decoration: none;">OpenRouter</a> para modelos adicionais.
           </p>
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+            <label style="font-size: 11px; color: #c4c7c5; font-weight: 600; white-space: nowrap;">Provedor:</label>
+            <select id="settingsApiProvider" class="bridge-select" onchange="renderProviderApiFields()" style="flex: 1;">
+              <option value="nvidia">NVIDIA NIM</option>
+              <option value="openrouter">OpenRouter</option>
+              <option value="custom">Modelo Local / Chave Própria</option>
+            </select>
+          </div>
           <div style="display: flex; gap: 8px; align-items: center;">
             <input type="password" id="modalKeyInput" class="key-input-field" placeholder="nvapi-..." autocomplete="off" spellcheck="false" style="flex: 1;" />
           </div>
+          <div id="settingsProviderExtra" style="margin-top: 8px; display: none; flex-direction: column; gap: 6px;">
+            <!-- Campos específicos do provedor (renderizados via JS) -->
+          </div>
           <div id="modalTestResult" style="display: none; margin-top: 8px; font-size: 11.5px; padding: 7px 12px; border-radius: 6px; line-height: 1.4;"></div>
+          <p style="font-size: 10.5px; color: #64748b; margin-top: 6px;">
+            As chaves são armazenadas apenas no <strong>localStorage local</strong> do navegador/app e nunca são enviadas a logs nem a terceiros.
+          </p>
         </div>
 
         <!-- Seção 2: Personalização & Contexto -->
@@ -3676,42 +3724,20 @@
       }
     };
 
-    /* Catálogo de Modelos NVIDIA NIM (EOL removido: qwen/qwen2.5-coder-32b-instruct) */
-    const MODEL_CONFIGS = {
-      'nvidia/nemotron-3.5-super-vl-120b-a12b': {
-        label: 'Omni',
-        icon: '🧠',
-        modelId: 'nvidia/nemotron-3.5-super-vl-120b-a12b'
-      },
-      'deepseek-ai/deepseek-v4.1-flash': {
-        label: 'Coder',
-        icon: '💻',
-        modelId: 'deepseek-ai/deepseek-v4.1-flash'
-      },
-      'deepseek-ai/deepseek-r1': {
-        label: 'Lógica',
-        icon: '🔬',
-        modelId: 'deepseek-ai/deepseek-r1'
-      },
-      'meta/llama-3.3-70b-instruct': {
-        label: 'Redator',
-        icon: '⚡',
-        modelId: 'meta/llama-3.3-70b-instruct'
-      }
-    };
-
-    /* Lentes de Contexto & Esforço */
-    const CONTEXT_LENS_CONFIGS = {
+    /* Perfis de Tarefa (modelo fixo: nemotron-3.5-super-vl-120b-a12b) */
+    const PROFILE_CONFIGS = {
       'eng-codigo': {
         label: 'Engenharia & Código',
+        icon: '💻',
         temperature: 0.20,
         top_p: 0.90,
         max_tokens: 8192,
         thinking: true,
         thinkingText: "Você está operando no modo de engenharia e código. Forneça soluções precisas, código limpo, arquitetura sólida e refatoração cuidadosa."
       },
-      'deep-thinking': {
+      'raciocinio': {
         label: 'Raciocínio Profundo',
+        icon: '🧠',
         temperature: 0.60,
         top_p: 0.95,
         max_tokens: 8192,
@@ -3719,7 +3745,8 @@
         thinkingText: "Você está operando no modo de raciocínio profundo (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
       },
       'criativo': {
-        label: 'Criativo & Exploração',
+        label: 'Criativo & Ideação',
+        icon: '🎨',
         temperature: 1.05,
         top_p: 0.98,
         max_tokens: 4096,
@@ -3728,6 +3755,7 @@
       },
       'rapido': {
         label: 'Rápido & Direto',
+        icon: '⚡',
         temperature: 0.30,
         top_p: 0.85,
         max_tokens: 2048,
@@ -3768,54 +3796,37 @@
       }
     });
 
-    function syncIntelSelector(modelId, contextId) {
-      const modelCfg = MODEL_CONFIGS[modelId] || MODEL_CONFIGS['nvidia/nemotron-3.5-super-vl-120b-a12b'];
-      const contextCtx = CONTEXT_LENS_CONFIGS[contextId] || CONTEXT_LENS_CONFIGS['eng-codigo'];
+    function syncIntelSelector(profileId) {
+      const ctxCfg = PROFILE_CONFIGS[profileId] || PROFILE_CONFIGS['eng-codigo'];
       const iconEl = document.getElementById('intelIcon');
-      const modelEl = document.getElementById('intelModel');
-      const contextEl = document.getElementById('intelContext');
-      if (iconEl) iconEl.textContent = modelCfg.icon;
-      if (modelEl) modelEl.textContent = modelCfg.label;
-      if (contextEl) contextEl.textContent = contextCtx.label;
+      const profileEl = document.getElementById('intelProfile');
+      if (iconEl) iconEl.textContent = ctxCfg.icon;
+      if (profileEl) profileEl.textContent = ctxCfg.label;
 
       document.querySelectorAll('#intelSelectorMenu .intel-option').forEach(btn => {
-        const isModelActive = btn.classList.contains('intel-option-model') && btn.dataset.model === modelId;
-        const isContextActive = btn.classList.contains('intel-option-context') && btn.dataset.context === contextId;
-        const isActive = isModelActive || isContextActive;
+        const isActive = btn.classList.contains('intel-option-profile') && btn.dataset.profile === profileId;
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
 
-      updateTelemetryIndicators(null, `${modelCfg.label} · ${contextCtx.label}`);
+      updateTelemetryIndicators(null, ctxCfg.label);
     }
 
-    function selectIntelModel(btn, modelId) {
-      const ctxBtn = document.querySelector('#intelSelectorMenu .intel-option-context.active');
-      const contextId = ctxBtn ? ctxBtn.dataset.context : 'eng-codigo';
-      syncIntelSelector(modelId, contextId);
+    function selectIntelProfile(btn, profileId) {
+      syncIntelSelector(profileId);
       closeIntelDropdown();
-      applyIntelSelection(modelId, contextId);
+      applyIntelSelection(profileId);
     }
 
-    function selectIntelContext(btn, contextId) {
-      const modelBtn = document.querySelector('#intelSelectorMenu .intel-option-model.active');
-      const modelId = modelBtn ? modelBtn.dataset.model : 'nvidia/nemotron-3.5-super-vl-120b-a12b';
-      syncIntelSelector(modelId, contextId);
-      closeIntelDropdown();
-      applyIntelSelection(modelId, contextId);
-    }
-
-    function applyIntelSelection(modelId, contextId) {
-      const modelCfg = MODEL_CONFIGS[modelId] || MODEL_CONFIGS['nvidia/nemotron-3.5-super-vl-120b-a12b'];
-      const contextCtx = CONTEXT_LENS_CONFIGS[contextId] || CONTEXT_LENS_CONFIGS['eng-codigo'];
-      currentModelId = modelId;
-      currentContextId = contextId;
-      currentTemperature = contextCtx.temperature;
-      currentTopP = contextCtx.top_p;
-      currentMaxTokens = contextCtx.max_tokens;
-      currentThinking = contextCtx.thinking;
-      currentSystemPrompt = contextCtx.thinkingText;
-      console.log('[INTEL]', modelId, contextId, '| Temp:', currentTemperature, '| TopP:', currentTopP, '| Tokens:', currentMaxTokens, '| CoT:', currentThinking);
+    function applyIntelSelection(profileId) {
+      const ctxCfg = PROFILE_CONFIGS[profileId] || PROFILE_CONFIGS['eng-codigo'];
+      currentProfileId = profileId;
+      currentTemperature = ctxCfg.temperature;
+      currentTopP = ctxCfg.top_p;
+      currentMaxTokens = ctxCfg.max_tokens;
+      currentThinking = ctxCfg.thinking;
+      currentSystemPrompt = ctxCfg.thinkingText;
+      console.log('[INTEL]', profileId, '| Temp:', currentTemperature, '| TopP:', currentTopP, '| Tokens:', currentMaxTokens, '| CoT:', currentThinking);
     }
 
     function updateTelemetryIndicators(ttft = null, presetMode = null) {
@@ -3982,6 +3993,7 @@
 
     const STORAGE_KEY = "nemotron_chat_sessions_v1";
     const API_KEY_STORAGE = "clautron_nvidia_api_key";
+    const PROVIDER_API_KEYS_STORAGE = "clautron_provider_api_keys";
     const SIDEBAR_WIDTH_KEY = "nemotron_sidebar_width";
 
     let sessions = [];
@@ -3994,12 +4006,12 @@
     let currentLiveHTML = '';
     let pendingAttachments = [];
     let currentModelId = 'nvidia/nemotron-3.5-super-vl-120b-a12b';
-    let currentContextId = 'eng-codigo';
+    let currentProfileId = 'eng-codigo';
     let currentTemperature = 0.20;
     let currentTopP = 0.90;
     let currentMaxTokens = 8192;
     let currentThinking = true;
-    let currentSystemPrompt = CONTEXT_LENS_CONFIGS['eng-codigo'].thinkingText;
+    let currentSystemPrompt = PROFILE_CONFIGS['eng-codigo'].thinkingText;
 
     marked.setOptions({
       highlight: function(code, lang) {
@@ -4317,6 +4329,9 @@
       closePersonaDropdown();
       const s = getGlobalSettings();
       document.getElementById('modalKeyInput').value = s.apiKey;
+      const providerEl = document.getElementById('settingsApiProvider');
+      if (providerEl) providerEl.value = s.apiProvider || 'nvidia';
+      renderProviderApiFields();
       document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
       updatePersistentContextStatus();
       document.getElementById('inputTemperature').value = s.temperature.toFixed(2);
@@ -4391,12 +4406,26 @@
         jsonMode: !!jsonModeVal,
         nemoAutoEval: !!nemoAutoEvalVal,
         apiKey: apiKeyVal,
+        apiProvider: document.getElementById('settingsApiProvider')?.value || 'nvidia',
         customSystemPrompt: customPromptVal,
         preset: currentSelectedPreset || 'auto',
         temperature: !isNaN(tempVal) ? tempVal : 0.70,
         top_p: !isNaN(topPVal) ? topPVal : 0.95,
         max_tokens: !isNaN(maxTokensVal) ? maxTokensVal : 4096
       };
+
+      // Salva chaves por provedor (apenas localStorage, sem vazar em logs)
+      try {
+        const provider = document.getElementById('settingsApiProvider')?.value || 'nvidia';
+        const providerKeys = {};
+        if (provider === 'openrouter') {
+          providerKeys.openrouter = document.getElementById('providerKeyOpenrouter')?.value.trim() || '';
+        } else if (provider === 'custom') {
+          providerKeys.endpoint = document.getElementById('providerEndpointCustom')?.value.trim() || '';
+          providerKeys.custom = document.getElementById('providerKeyCustom')?.value.trim() || '';
+        }
+        localStorage.setItem(PROVIDER_API_KEYS_STORAGE, JSON.stringify(providerKeys));
+      } catch (_) {}
 
       try {
         localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
@@ -4412,6 +4441,36 @@
       updatePersistentContextStatus();
       updateNvidiaStatusLed(!!apiKeyVal, apiKeyVal ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
       closeSettingsModal();
+    }
+
+    function renderProviderApiFields() {
+      const providerEl = document.getElementById('settingsApiProvider');
+      const extra = document.getElementById('settingsProviderExtra');
+      if (!providerEl || !extra) return;
+      const provider = providerEl.value;
+      const s = getGlobalSettings();
+      const providerKeys = s.providerApiKeys || {};
+      let html = '';
+      if (provider === 'openrouter') {
+        html = `
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="password" id="providerKeyOpenrouter" class="key-input-field" placeholder="sk-or-v1-..." autocomplete="off" spellcheck="false" style="flex: 1;" value="${escapeHtml(providerKeys.openrouter || '')}" />
+          </div>
+          <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Chave OpenRouter para modelos adicionais (deepseek, llama, etc.). Obtenha em <a href="https://openrouter.ai/settings/keys" target="_blank" style="color: #60a5fa; text-decoration: none;">openrouter.ai/settings/keys</a>.</p>
+        `;
+      } else if (provider === 'custom') {
+        html = `
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+            <input type="text" id="providerEndpointCustom" class="key-input-field" placeholder="http://localhost:11434/v1" autocomplete="off" spellcheck="false" style="flex: 1;" value="${escapeHtml(providerKeys.endpoint || '')}" />
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="password" id="providerKeyCustom" class="key-input-field" placeholder="sk-..." autocomplete="off" spellcheck="false" style="flex: 1;" value="${escapeHtml(providerKeys.custom || '')}" />
+          </div>
+          <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Endpoint e chave para modelo local (Ollama, LM Studio) ou provedor próprio.</p>
+        `;
+      }
+      extra.innerHTML = html;
+      extra.style.display = html ? 'flex' : 'none';
     }
 
     function saveKeyModal() {
@@ -4464,25 +4523,23 @@
     }
 
     function syncIntelUI() {
-      syncIntelSelector(currentModelId, currentContextId);
+      syncIntelSelector(currentProfileId);
     }
 
     function syncContextPills() {
       syncIntelUI();
     }
 
-    function handleIntelChange(newModelId, newContextId) {
-      if (newModelId) currentModelId = newModelId;
-      if (newContextId) currentContextId = newContextId;
-      applyIntelSelection(currentModelId, currentContextId);
+    function handleIntelChange(newProfileId) {
+      if (newProfileId) currentProfileId = newProfileId;
+      applyIntelSelection(currentProfileId);
     }
 
     function getEffortSettings() {
-      const modelCfg = MODEL_CONFIGS[currentModelId] || MODEL_CONFIGS['nvidia/nemotron-3.5-super-vl-120b-a12b'];
-      const contextCtx = CONTEXT_LENS_CONFIGS[currentContextId] || CONTEXT_LENS_CONFIGS['eng-codigo'];
+      const ctxCfg = PROFILE_CONFIGS[currentProfileId] || PROFILE_CONFIGS['eng-codigo'];
 
       return {
-        modeName: `${modelCfg.label} · ${contextCtx.label}`,
+        modeName: ctxCfg.label,
         effortMode: currentModelId,
         isAuto: false,
         max_tokens: currentMaxTokens,
@@ -5072,6 +5129,12 @@
       }
     }
 
+    function autoResizePrompt(el) {
+      if (!el) return;
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+    }
+
     async function sendMessage() {
       const input = document.getElementById('promptInput');
       const text = input.value.trim();
@@ -5091,6 +5154,7 @@
       if (placeholder) placeholder.remove();
 
       input.value = '';
+      input.style.height = 'auto';
       const currentAttachments = [...pendingAttachments];
       pendingAttachments = [];
       renderAttachmentPreviews();
@@ -5177,7 +5241,7 @@
         let finalMaxTokens = currentMaxTokens || globalSettings.max_tokens || 4096;
         let isThinking = (typeof currentThinking === 'boolean') ? currentThinking : false;
         let baseSystemPrompt = currentSystemPrompt;
-        let effortTagToDisplay = `${currentModelId.split('/').pop()} · ${currentContextId}`;
+        let effortTagToDisplay = PROFILE_CONFIGS[currentProfileId]?.label || currentProfileId;
 
         if (isAutoActive) {
           const detected = detectPromptComplexity(combinedText, currentAttachments);
@@ -5493,6 +5557,13 @@
             <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
           </svg>
           <span>Editar</span>
+        </button>
+        <button class="btn-action-msg" title="Copiar mensagem" onclick="copyMessage(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Copiar</span>
         </button>
       `;
 
@@ -6251,7 +6322,7 @@
     }
 
 
-    const FALLBACK_VERSION = "1.2.3";
+    const FALLBACK_VERSION = "1.2.4";
     const GITHUB_REPO = "felipeptxa/cloudtron";
     let latestReleaseInfo = null;
 
@@ -6387,10 +6458,10 @@
       } else {
         currentSessionId = sessions[0].id;
         renderSidebar();
-        syncIntelSelector(currentModelId, currentContextId);
+        syncIntelSelector(currentProfileId);
         renderActiveChat();
       }
-      syncIntelSelector(currentModelId, currentContextId);
+      syncIntelSelector(currentProfileId);
 
       if (!getStoredApiKey()) {
         setTimeout(openSettingsModal, 400);

@@ -1,5 +1,5 @@
 /**
- * Cloudtron OneClick — Local Web UI & Proxy Server (v1.2.3)
+ * Cloudtron OneClick — Local Web UI & Proxy Server (v1.2.4)
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -28,6 +28,11 @@ const BIND_HOST = '127.0.0.1';
 const MAX_BODY_BYTES = 50 * 1024 * 1024; // 50 MB
 const NVIDIA_ENDPOINT = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const DEFAULT_MODEL = 'nvidia/nemotron-3.5-super-vl-120b-a12b';
+
+// Instrução de sistema reforçada para geração de código executável / preview de sandbox.
+// Quando o usuário pedir código, componente visual ou web app, o modelo deve retornar
+// diretamente o código completo em um bloco ```html ... ```, sem conversas de confirmação.
+const SANDBOX_SYSTEM_INSTRUCTION = `Você está em modo de geração de código executável / preview de sandbox (Live Sandbox). Quando o usuário solicitar código executável, componente visual, página web ou aplicativo, NUNCA responda com conversas, saudações ou pedidos de confirmação (ex: "Olá! Posso gerar..."). Retorne DIRETAMENTE o código completo e auto-contido dentro de um único bloco de markup \`\`\`html ... \`\`\`. Use CSS Grid robusto (box-sizing: border-box, grid-template-columns, gap) para evitar sobreposição de elementos no preview. O código deve ser funcional, estilizado e pronto para renderização imediata em iframe. Não adicione texto antes ou depois do bloco de código.`;
 
 // ── Diretório de Dados e Avaliação (Cloudtron NeMo Core & Eval Engine) ─────────
 const DATA_DIR = path.join(__dirname, 'data');
@@ -260,7 +265,7 @@ const server = http.createServer((req, res) => {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
-            'User-Agent': 'Cloudtron-OneClick/1.2.3'
+            'User-Agent': 'Cloudtron-OneClick/1.2.4'
           }
         }, 15000);
       } catch (e) {
@@ -307,7 +312,7 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'Cloudtron-OneClick/1.2.3'
+            'User-Agent': 'Cloudtron-OneClick/1.2.4'
           },
           body: JSON.stringify({
             model: modelToTest,
@@ -412,7 +417,7 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'Cloudtron-NeMo-Evaluator/1.2.3'
+            'User-Agent': 'Cloudtron-NeMo-Evaluator/1.2.4'
           },
           body: JSON.stringify(judgePayload)
         }, 30000);
@@ -758,6 +763,14 @@ const server = http.createServer((req, res) => {
         // Aplica NeMo Guardrails para integridade, alternância de papéis e sanitização
         const sanitizedMessages = applyNeMoGuardrails(clientData.messages, clientData.system);
 
+        // Reforço de prompt para Live Sandbox Preview (código executável / visual / web app)
+        const lastUserMsg = [...sanitizedMessages].reverse().find(m => m.role === 'user');
+        const userText = (lastUserMsg && typeof lastUserMsg.content === 'string') ? lastUserMsg.content : '';
+        const wantsCode = /\b(html|css|javascript|\bjs\b|react|componente|p[áa]gina|web app|aplicativo|iframe|preview|sandbox|código|code)\b/i.test(userText);
+        if (wantsCode) {
+          sanitizedMessages.unshift({ role: 'system', content: SANDBOX_SYSTEM_INSTRUCTION });
+        }
+
         // Determinação da flag Thinking: respeita valor booleano explícito do cliente
         const isThinking = (typeof clientData.thinking === 'boolean')
           ? clientData.thinking
@@ -813,7 +826,7 @@ const server = http.createServer((req, res) => {
               'Authorization': `Bearer ${apiKey}`,
               'Content-Type': 'application/json',
               'Accept': 'text/event-stream',
-              'User-Agent': 'Cloudtron-OneClick/1.2.3'
+              'User-Agent': 'Cloudtron-OneClick/1.2.4'
             },
             body: JSON.stringify(nvidiaPayload),
             signal: abortCtrl.signal
@@ -1114,7 +1127,7 @@ const ready = listenOnPort(BASE_PORT, MAX_PORT_ATTEMPTS)
     if (!reusedExisting) {
       server.on('error', (err) => console.error('[SERVER ERRO]:', err));
       console.log(`===============================================`);
-      console.log(` ⚡ Cloudtron OneClick v1.2.3 - Local Server Ativo`);
+      console.log(` ⚡ Cloudtron OneClick v1.2.4 - Local Server Ativo`);
       console.log(` 🚀 Interface: http://${BIND_HOST}:${port}`);
       console.log(` 📡 Streaming de Baixa Latência Ativo`);
       console.log(` 🧠 Modelo: ${DEFAULT_MODEL}`);

@@ -1,6 +1,6 @@
 {
     "name": "cloudtron-oneclick",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Cloudtron Desktop AI Engine com NVIDIA NIM",
     "main": "main.js",
     "repository": {
