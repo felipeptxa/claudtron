@@ -1,5 +1,5 @@
 /**
- * Cloudtron OneClick — Test Battery & Integrity Suite (v1.2.5)
+ * Cloudtron OneClick — Test Battery & Integrity Suite (v1.3.0)
  */
 
 const { execSync } = require('child_process');
@@ -104,8 +104,8 @@ async function runSuite() {
   const criticalUrls = [
     'https://github.com/felipeptxa/cloudtron',
     'https://github.com/felipeptxa/cloudtron/releases',
-    'https://github.com/felipeptxa/cloudtron/releases/tag/v1.2.5',
-    'https://github.com/felipeptxa/cloudtron/releases/download/v1.2.5/Cloudtron-OneClick-Setup-1.2.5.exe',
+    'https://github.com/felipeptxa/cloudtron/releases/tag/v1.3.0',
+    'https://github.com/felipeptxa/cloudtron/releases/download/v1.3.0/Cloudtron-OneClick-Setup-1.3.0.exe',
     'https://github.com/felipeptxa/cloudtron/issues'
   ];
 

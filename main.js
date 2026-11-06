@@ -1,5 +1,5 @@
 /**
- * Cloudtron OneClick — Electron Main Process (v1.2.5)
+ * Cloudtron OneClick — Electron Main Process (v1.3.0)
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -131,7 +131,7 @@ function createWindow() {
     height: 800,
     minWidth: 900,
     minHeight: 600,
-    title: 'Cloudtron OneClick v1.2.5',
+    title: 'Cloudtron OneClick v1.3.0',
     backgroundColor: '#131314',
     autoHideMenuBar: true, // Oculta a barra de menu padrão do Windows
     webPreferences: {

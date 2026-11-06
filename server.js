@@ -1,5 +1,5 @@
 /**
- * Cloudtron OneClick — Local Web UI & Proxy Server (v1.2.5)
+ * Cloudtron OneClick — Local Web UI & Proxy Server (v1.3.0)
  * Author: Felipe Monroe
  * License: MIT
  */
@@ -28,6 +28,82 @@ const BIND_HOST = '127.0.0.1';
 const MAX_BODY_BYTES = 50 * 1024 * 1024; // 50 MB
 const NVIDIA_ENDPOINT = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const DEFAULT_MODEL = 'nvidia/nemotron-3.5-super-vl-120b-a12b';
+
+// ── Fila de Prioridade de Provedores (Failover Automático) ────────────────────
+// Ordem de tentativa quando o provedor ativo falha (429, 402, 401 ou timeout).
+// As chaves são lidas do corpo da requisição (providerApiKeys) ou do ambiente (.env).
+const PROVIDER_FAILOVER_QUEUE = [
+  {
+    name: 'NVIDIA NIM',
+    endpoint: 'https://integrate.api.nvidia.com/v1/chat/completions',
+    envKey: 'NVIDIA_API_KEY',
+    defaultModel: 'nvidia/nemotron-3.5-super-vl-120b-a12b'
+  },
+  {
+    name: 'Groq Cloud',
+    endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+    envKey: 'GROQ_API_KEY',
+    defaultModel: 'deepseek-r1-distill-llama-70b'
+  },
+  {
+    name: 'OpenRouter Free',
+    endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+    envKey: 'OPENROUTER_API_KEY',
+    defaultModel: 'deepseek/deepseek-r1-distill-llama-70b:free'
+  },
+  {
+    name: 'DeepSeek Oficial',
+    endpoint: 'https://api.deepseek.com/chat/completions',
+    envKey: 'DEEPSEEK_API_KEY',
+    defaultModel: 'deepseek-chat'
+  },
+  {
+    name: 'Google AI Studio',
+    endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
+    envKey: 'GOOGLE_AI_STUDIO_API_KEY',
+    defaultModel: 'gemini-1.5-pro'
+  },
+  {
+    name: 'Anthropic Claude',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    envKey: 'ANTHROPIC_API_KEY',
+    defaultModel: 'claude-3-7-sonnet-20250219'
+  }
+];
+
+// Tempo máximo (ms) aguardando o primeiro token de cada provedor antes de fazer failover.
+const PROVIDER_TIMEOUT_MS = 15000;
+
+// Tempo máximo (ms) da sessão inteira de streaming.
+const SESSION_TIMEOUT_MS = 120000;
+
+// Chave de ambiente para a NVIDIA (usada como fallback da fila).
+const NVIDIA_KEY_ENV = 'NVIDIA_API_KEY';
+
+// Extrai as chaves customizadas por provedor enviadas pelo cliente (se houver).
+function clientDataProviderApiKeys(rawBody) {
+  try {
+    const parsed = JSON.parse(rawBody || '{}');
+    return parsed && parsed.providerApiKeys && typeof parsed.providerApiKeys === 'object'
+      ? parsed.providerApiKeys
+      : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+// Envia um evento SSE de failover para o cliente informando a troca de provedor.
+function sendFailoverEvent(res, from, to, reason) {
+  const payload = JSON.stringify({ from, to, reason });
+  try {
+    res.write(`event: failover\ndata: ${payload}\n\n`);
+  } catch (_) {}
+}
+
+// Limpa o buffer parcial de resposta acumulada para evitar mistura de provedores.
+function resetAccumulated() {
+  return '';
+}
 
 // Instrução de sistema reforçada para geração de código executável / preview de sandbox.
 // Quando o usuário pedir código, componente visual ou web app, o modelo deve retornar
@@ -265,7 +341,7 @@ const server = http.createServer((req, res) => {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiKey}`,
-            'User-Agent': 'Cloudtron-OneClick/1.2.5'
+            'User-Agent': 'Cloudtron-OneClick/1.3.0'
           }
         }, 15000);
       } catch (e) {
@@ -312,7 +388,7 @@ const server = http.createServer((req, res) => {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'User-Agent': 'Cloudtron-OneClick/1.2.5'
+            'User-Agent': 'Cloudtron-OneClick/1.3.0'
           },
           body: JSON.stringify({
             model: modelToTest,
@@ -719,19 +795,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // ── /api/messages — Proxy de streaming SSE para a NVIDIA ──────────────────
+  // ── /api/messages — Proxy de streaming SSE com Failover Automático ──────────
   if (req.method === 'POST' && (req.url === '/api/messages' || req.url === '/api/chat')) {
     const authHeader = req.headers['authorization'] || '';
     const clientKey = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
-    const apiKey = clientKey || getEnvApiKey();
-
-    if (!apiKey) {
-      res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
-      res.end(JSON.stringify({ error: 'Chave não informada. Clique em "Configurações" no topo.' }));
-      return;
-    }
 
     readBodyWithLimit(req, res, async (rawBody) => {
+      const providerApiKeys = clientDataProviderApiKeys(rawBody); // chaves customizadas por provedor (se houver)
+      if (!clientKey && !getEnvApiKey() && !providerApiKeys[NVIDIA_KEY_ENV]) {
+        res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ error: 'Chave não informada. Clique em "Configurações" no topo.' }));
+        return;
+      }
       const startTime = Date.now();
       let clientData;
       try {
@@ -748,12 +823,12 @@ const server = http.createServer((req, res) => {
       const timeoutId = setTimeout(() => {
         isTimedOut = true;
         abortCtrl.abort();
-      }, 120000);
+      }, SESSION_TIMEOUT_MS);
 
-      // Cancela a requisição com a NVIDIA somente se a resposta do cliente for fechada prematuramente
+      // Cancela a requisição se o cliente fechar a conexão prematuramente
       res.on('close', () => {
         if (!res.writableEnded) {
-          console.warn('[PROXY] Conexão com o navegador encerrada prematuramente. Abortando NVIDIA...');
+          console.warn('[PROXY] Conexão com o navegador encerrada prematuramente. Abortando...');
           clearTimeout(timeoutId);
           abortCtrl.abort();
         }
@@ -794,81 +869,8 @@ const server = http.createServer((req, res) => {
           ? clientData.seed
           : null;
 
-        const modelToUse = (typeof clientData.model === 'string' && clientData.model.trim())
-          ? clientData.model.trim()
-          : DEFAULT_MODEL;
-
-        const nvidiaPayload = {
-          model: modelToUse,
-          messages: sanitizedMessages,
-          temperature: temperature,
-          top_p: top_p,
-          max_tokens: max_tokens,
-          stream: true,
-          chat_template_kwargs: { enable_thinking: isThinking }
-        };
-
-        if (seed !== null) {
-          nvidiaPayload.seed = seed;
-        }
-
-        if (clientData.response_format && typeof clientData.response_format === 'object') {
-          nvidiaPayload.response_format = clientData.response_format;
-        }
-
-        console.log(`[PROXY] -> Enviando para NVIDIA (${modelToUse} | thinking: ${isThinking} | temp: ${temperature} | top_p: ${top_p} | tokens: ${max_tokens} | seed: ${seed} | msgs: ${sanitizedMessages.length})...`);
-
-        let nvidiaRes;
-        try {
-          nvidiaRes = await fetch(NVIDIA_ENDPOINT, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${apiKey}`,
-              'Content-Type': 'application/json',
-              'Accept': 'text/event-stream',
-              'User-Agent': 'Cloudtron-OneClick/1.2.5'
-            },
-            body: JSON.stringify(nvidiaPayload),
-            signal: abortCtrl.signal
-          });
-        } catch (fetchErr) {
-          clearTimeout(timeoutId);
-          if (fetchErr.name === 'AbortError') {
-            console.warn('[PROXY] Requisição abortada (timeout ou cancelamento do usuário).');
-            if (isTimedOut && !res.headersSent) {
-              res.writeHead(504, { 'Content-Type': 'application/json; charset=utf-8' });
-              res.end(JSON.stringify({ error: 'Timeout: a NVIDIA não respondeu em 120 segundos.' }));
-            }
-            return;
-          }
-          console.error('[ERRO FETCH PROXY]:', fetchErr.message);
-          if (!res.headersSent) {
-            res.writeHead(502, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify({ error: `Falha na conexão com a NVIDIA: ${fetchErr.message}` }));
-          }
-          return;
-        }
-
-        if (!nvidiaRes.ok) {
-          clearTimeout(timeoutId);
-          console.error(`[ERRO NVIDIA API]: HTTP ${nvidiaRes.status} ${nvidiaRes.statusText}`);
-          let errMsg = `Erro NVIDIA HTTP ${nvidiaRes.status}: ${nvidiaRes.statusText}`;
-          try {
-            const errData = await nvidiaRes.json();
-            console.error('[DETALHE ERRO NVIDIA]:', JSON.stringify(errData));
-            errMsg = errData.error?.message || errData.message || errData.detail || JSON.stringify(errData);
-          } catch (_) {
-            const errBody = await nvidiaRes.text().catch(() => '');
-            if (errBody) errMsg = errBody.substring(0, 300);
-          }
-
-          if (!res.headersSent) {
-            res.writeHead(nvidiaRes.status, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify({ error: errMsg }));
-          }
-          return;
-        }
-
+        // Monta o cabeçalho SSE ANTES de iniciar o failover, para que eventos de troca
+        // de provedor possam ser enviados a qualquer momento.
         res.writeHead(200, {
           'Content-Type': 'text/event-stream; charset=utf-8',
           'Cache-Control': 'no-cache, no-transform',
@@ -880,76 +882,193 @@ const server = http.createServer((req, res) => {
         // Envia o interactionId como primeiro evento SSE para sincronização do cliente
         res.write(`data: {"__clautron_interaction_id":"${interactionId}"}\n\n`);
 
-        let chunkCount = 0;
-        let ttft_ms = 0;
-        let accumulatedResponseText = '';
-        const textDecoder = new TextDecoder('utf-8');
+        // Determina o prompt do usuário para o log de avaliação
+        let userPrompt = clientData.prompt || '';
+        if (!userPrompt && Array.isArray(sanitizedMessages)) {
+          const lastUser = [...sanitizedMessages].reverse().find(m => m.role === 'user');
+          if (lastUser) {
+            userPrompt = typeof lastUser.content === 'string'
+              ? lastUser.content
+              : JSON.stringify(lastUser.content);
+          }
+        }
 
-        try {
-          for await (const chunk of nvidiaRes.body) {
-            chunkCount++;
-            if (chunkCount === 1) {
-              ttft_ms = Date.now() - startTime;
-              console.log(`[PROXY] ⚡ Primeiro chunk de streaming recebido em ${ttft_ms}ms!`);
+        let overallSuccess = false;
+        let finalModelUsed = DEFAULT_MODEL;
+        let finalEffort = clientData.effort || 'auto';
+        let finalProfile = clientData.profile || 'Auto';
+        let finalTemperature = temperature;
+        let finalTopP = top_p;
+        let finalMaxTokens = max_tokens;
+        let finalThinking = isThinking;
+        let finalSeed = seed;
+
+        // ── Loop de Failover sobre a fila de provedores ────────────────────────
+        for (const provider of PROVIDER_FAILOVER_QUEUE) {
+          // Resolve a chave do provedor: prioridade clientData.providerApiKeys > env
+          const providerKey = providerApiKeys[provider.envKey] || process.env[provider.envKey] || '';
+          if (!providerKey) {
+            console.log(`[FAILOVER] ${provider.name}: chave não configurada, pulando.`);
+            continue;
+          }
+
+          // Modelo do provedor (usa o do cliente se for o NVIDIA, senão o default do provedor)
+          const providerModel = (typeof clientData.model === 'string' && clientData.model.trim() && provider.name === 'NVIDIA NIM')
+            ? clientData.model.trim()
+            : provider.defaultModel;
+
+          const providerPayload = {
+            model: providerModel,
+            messages: sanitizedMessages,
+            temperature: temperature,
+            top_p: top_p,
+            max_tokens: max_tokens,
+            stream: true
+          };
+
+          // Adapta campos específicos por provedor
+          if (provider.name === 'NVIDIA NIM') {
+            providerPayload.chat_template_kwargs = { enable_thinking: isThinking };
+            if (seed !== null) providerPayload.seed = seed;
+          }
+          if (provider.name === 'Groq Cloud') {
+            // Groq usa o formato OpenAI padrão; thinking via temperature/top_p
+          }
+          if (clientData.response_format && typeof clientData.response_format === 'object') {
+            providerPayload.response_format = clientData.response_format;
+          }
+
+          console.log(`[PROXY] → Tentando ${provider.name} (${providerModel} | thinking: ${isThinking} | temp: ${temperature} | top_p: ${top_p} | tokens: ${max_tokens})...`);
+
+          let providerRes;
+          try {
+            const providerCtrl = new AbortController();
+            const providerTid = setTimeout(() => providerCtrl.abort(), PROVIDER_TIMEOUT_MS);
+            providerRes = await fetch(provider.endpoint, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${providerKey}`,
+                'Content-Type': 'application/json',
+                'Accept': 'text/event-stream',
+                'User-Agent': 'Cloudtron-OneClick/1.3.0'
+              },
+              body: JSON.stringify(providerPayload),
+              signal: providerCtrl.signal
+            });
+            clearTimeout(providerTid);
+          } catch (fetchErr) {
+            clearTimeout(providerTid);
+            if (fetchErr.name === 'AbortError') {
+              console.warn(`[FAILOVER] ${provider.name}: timeout após ${PROVIDER_TIMEOUT_MS / 1000}s.`);
+              sendFailoverEvent(res, provider.name, 'Próximo provedor', `Timeout (${PROVIDER_TIMEOUT_MS / 1000}s)`);
+              continue;
             }
-            if (!res.writableEnded) res.write(chunk);
+            console.error(`[ERRO FETCH ${provider.name}]:`, fetchErr.message);
+            sendFailoverEvent(res, provider.name, 'Próximo provedor', `Erro de conexão`);
+            continue;
+          }
 
-            // Decodifica e acumula resposta para o log de avaliação
-            const decoded = textDecoder.decode(chunk, { stream: true });
-            const lines = decoded.split('\n');
-            for (const line of lines) {
-              const trimmed = line.trim();
-              if (trimmed.startsWith('data: ') && trimmed !== 'data: [DONE]') {
-                try {
-                  const parsed = JSON.parse(trimmed.slice(6));
-                  const delta = parsed.choices?.[0]?.delta || {};
-                  if (delta.content) accumulatedResponseText += delta.content;
-                } catch (_) {}
+          if (!providerRes.ok) {
+            let errMsg = `Erro ${provider.name} HTTP ${providerRes.status}`;
+            try {
+              const errData = await providerRes.json();
+              errMsg = errData.error?.message || errData.message || errData.detail || JSON.stringify(errData);
+            } catch (_) {
+              const errBody = await providerRes.text().catch(() => '');
+              if (errBody) errMsg = errBody.substring(0, 300);
+            }
+            console.error(`[ERRO ${provider.name} API]: HTTP ${providerRes.status} ${providerRes.statusText} - ${errMsg}`);
+            // 429 rate limit, 402 quota, 401 chave inválida → dispara failover
+            if (providerRes.status === 429 || providerRes.status === 402 || providerRes.status === 401) {
+              sendFailoverEvent(res, provider.name, 'Próximo provedor', `HTTP ${providerRes.status}`);
+            } else {
+              sendFailoverEvent(res, provider.name, 'Próximo provedor', `HTTP ${providerRes.status}`);
+            }
+            continue;
+          }
+
+          // ── Sucesso: iniciamos o streaming deste provedor ────────────────────
+          finalModelUsed = providerModel;
+          finalEffort = clientData.effort || 'auto';
+          finalProfile = clientData.profile || 'Auto';
+          finalTemperature = temperature;
+          finalTopP = top_p;
+          finalMaxTokens = max_tokens;
+          finalThinking = isThinking;
+          finalSeed = seed;
+
+          let chunkCount = 0;
+          let ttft_ms = 0;
+          let accumulatedResponseText = '';
+          const textDecoder = new TextDecoder('utf-8');
+
+          try {
+            for await (const chunk of providerRes.body) {
+              chunkCount++;
+              if (chunkCount === 1) {
+                ttft_ms = Date.now() - startTime;
+                console.log(`[PROXY] ⚡ Primeiro chunk de streaming recebido em ${ttft_ms}ms (${provider.name})!`);
+              }
+              if (!res.writableEnded) res.write(chunk);
+
+              // Decodifica e acumula resposta para o log de avaliação
+              const decoded = textDecoder.decode(chunk, { stream: true });
+              const lines = decoded.split('\n');
+              for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed.startsWith('data: ') && trimmed !== 'data: [DONE]') {
+                  try {
+                    const parsed = JSON.parse(trimmed.slice(6));
+                    const delta = parsed.choices?.[0]?.delta || {};
+                    if (delta.content) accumulatedResponseText += delta.content;
+                  } catch (_) {}
+                }
               }
             }
-          }
-        } catch (streamErr) {
-          if (streamErr.name !== 'AbortError') {
-            console.error('[ERRO STREAM]:', streamErr.message);
-            if (!res.writableEnded) {
-              const safeMsg = streamErr.message.replace(/"/g, "'");
-              res.write(`data: {"__clautron_error":"${safeMsg}"}\n\n`);
+            // Streaming concluído com sucesso neste provedor
+            overallSuccess = true;
+            break;
+          } catch (streamErr) {
+            if (streamErr.name !== 'AbortError') {
+              console.error(`[ERRO STREAM ${provider.name}]:`, streamErr.message);
+              // Se houve erro após tokens transmitidos, limpa buffer parcial e tenta próximo
+              accumulatedResponseText = resetAccumulated();
+              sendFailoverEvent(res, provider.name, 'Próximo provedor', 'Erro no stream');
             }
+            continue;
           }
-        } finally {
-          clearTimeout(timeoutId);
-          const total_time_ms = Date.now() - startTime;
-          console.log(`[PROXY] Streaming concluído (${chunkCount} chunks enviados em ${(total_time_ms/1000).toFixed(2)}s).`);
+        }
 
-          // Determina o prompt do usuário para o log de avaliação
-          let userPrompt = clientData.prompt || '';
-          if (!userPrompt && Array.isArray(sanitizedMessages)) {
-            const lastUser = [...sanitizedMessages].reverse().find(m => m.role === 'user');
-            if (lastUser) {
-              userPrompt = typeof lastUser.content === 'string'
-                ? lastUser.content
-                : JSON.stringify(lastUser.content);
-            }
-          }
+        // ── Finalização ────────────────────────────────────────────────────────
+        clearTimeout(timeoutId);
+        const total_time_ms = Date.now() - startTime;
+
+        if (overallSuccess) {
+          console.log(`[PROXY] Streaming concluído via ${finalModelUsed} (${total_time_ms / 1000}s).`);
 
           // Grava a interação estruturada no formato JSONL (Clautron Eval Engine)
           if (accumulatedResponseText || chunkCount > 0) {
             logInteraction({
               id: interactionId,
               timestamp: new Date().toISOString(),
-              model: modelToUse,
-              effort: clientData.effort || 'auto',
-              profile: clientData.profile || 'Auto',
-              temperature: temperature,
-              top_p: top_p,
-              seed: seed,
-              thinking: isThinking,
+              model: finalModelUsed,
+              effort: finalEffort,
+              profile: finalProfile,
+              temperature: finalTemperature,
+              top_p: finalTopP,
+              seed: finalSeed,
+              thinking: finalThinking,
               ttft_ms: ttft_ms || 0,
               total_time_ms: total_time_ms,
               prompt: userPrompt,
               response: accumulatedResponseText,
               feedback: null
             });
+          }
+        } else {
+          console.error('[PROXY] Todos os provedores da fila falharam.');
+          if (!res.writableEnded) {
+            res.write(`data: {"__clautron_error":"Todos os provedores de inferência estão indisponíveis no momento."}\n\n`);
           }
         }
 
@@ -962,9 +1081,9 @@ const server = http.createServer((req, res) => {
             console.error('[PROXY] ⏱️ Requisição abortada por timeout de 120s.');
             if (!res.headersSent) {
               res.writeHead(504, { 'Content-Type': 'application/json; charset=utf-8' });
-              res.end(JSON.stringify({ error: 'Timeout: a NVIDIA não retornou resposta em 120 segundos.' }));
+              res.end(JSON.stringify({ error: 'Timeout: a inferência não retornou resposta em 120 segundos.' }));
             } else if (!res.writableEnded) {
-              res.write(`data: {"__clautron_error":"Timeout: sem resposta da NVIDIA."}\n\n`);
+              res.write(`data: {"__clautron_error":"Timeout: sem resposta dos provedores."}\n\n`);
               res.end();
             }
           } else {
