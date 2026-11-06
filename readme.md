@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Cloudtron OneClick (v1.2.2)
+# ⚡ Cloudtron OneClick (v1.2.3)
 ### Desktop Nativo & Web UI para NVIDIA Nemotron 3.5 Super VL 120B
 
 [![Website](https://img.shields.io/badge/%F0%9F%8C%90_Website_Oficial-felipeptxa.github.io%2Fcloudtron-00F0FF?style=for-the-badge&logo=googlechrome&logoColor=black)](https://felipeptxa.github.io/cloudtron/)
@@ -15,7 +15,7 @@
 
 Aplicativo Desktop nativo para Windows (Electron) e Web UI local projetado para interagir com o modelo multimodal de raciocínio profundo **NVIDIA Nemotron 3.5 Super VL 120B** sem configurações complexas de ambiente.
 
-Distribuição pronta via instalador executável: `Cloudtron-OneClick-Setup-1.2.2.exe` (NSIS x64).
+Distribuição pronta via instalador executável: `Cloudtron-OneClick-Setup-1.2.3.exe` (NSIS x64).
 
 ---
 

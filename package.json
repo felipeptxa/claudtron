@@ -1,6 +1,6 @@
 {
     "name": "cloudtron-oneclick",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "Cloudtron Desktop AI Engine com NVIDIA NIM",
     "main": "main.js",
     "repository": {
@@ -33,6 +33,8 @@
         "nsis": {
             "oneClick": false,
             "allowToChangeInstallationDirectory": true,
+            "deleteAppDataOnUninstall": true,
+            "differentialPackage": false,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
             "shortcutName": "Cloudtron OneClick"

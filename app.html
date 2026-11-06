@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudtron OneClick v1.2.2</title>
+  <title>Cloudtron OneClick v1.2.3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1287,22 +1287,22 @@
       background: rgba(56, 189, 248, 0.1);
     }
 
-    /* Seletor compacto de Effort acoplado à caixa de prompt */
-    .effort-dock {
+    /* Seletor Unificado de Inteligência acoplado à caixa de prompt */
+    .intel-selector {
       position: relative;
       flex-shrink: 0;
     }
 
-    .effort-dock-toggle {
+    .intel-selector-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       height: 30px;
-      padding: 0 9px;
-      background: rgba(56, 189, 248, 0.07);
-      border: 1px solid rgba(56, 189, 248, 0.18);
+      padding: 0 10px;
+      background: #0d1424;
+      border: 1px solid rgba(56, 189, 248, 0.25);
       border-radius: 999px;
-      color: #cbd5e1;
+      color: #e2e8f0;
       font-size: 11px;
       font-weight: 600;
       font-family: 'JetBrains Mono', Consolas, monospace;
@@ -1312,36 +1312,45 @@
       user-select: none;
     }
 
-    .effort-dock-toggle:hover,
-    .effort-dock.open .effort-dock-toggle {
-      background: rgba(56, 189, 248, 0.13);
-      border-color: rgba(56, 189, 248, 0.4);
-      color: #e0f2fe;
+    .intel-selector-toggle:hover {
+      background: #11192a;
+      border-color: #38bdf8;
+      color: #f1f5f9;
     }
 
-    .effort-dock-icon {
+    .intel-icon {
       font-size: 12px;
       line-height: 1;
     }
 
-    .effort-dock-label {
+    .intel-model {
       letter-spacing: 0.1px;
     }
 
-    .effort-dock-chevron {
+    .intel-sep {
+      color: #64748b;
+      font-size: 10px;
+    }
+
+    .intel-context {
+      letter-spacing: 0.1px;
+      color: #94a3b8;
+    }
+
+    .intel-chevron {
       color: #64748b;
       transition: transform 0.2s ease;
     }
 
-    .effort-dock.open .effort-dock-chevron {
+    .intel-selector.open .intel-chevron {
       transform: rotate(180deg);
     }
 
-    .effort-dock-menu {
+    .intel-selector-menu {
       position: absolute;
       bottom: calc(100% + 10px);
       left: 0;
-      width: 232px;
+      width: 320px;
       padding: 10px;
       background: #0b1222;
       border: 1px solid rgba(148, 163, 184, 0.14);
@@ -1349,18 +1358,38 @@
       box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 18px rgba(56, 189, 248, 0.08);
       display: none;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
       z-index: 1200;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
 
-    .effort-dock-menu.open {
+    .intel-selector-menu.open {
       display: flex;
       animation: fadeInDropdown 0.16s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .effort-dock-option {
+    .intel-section {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .intel-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .intel-section-title {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 6px;
+      padding-left: 4px;
+    }
+
+    .intel-option {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1376,48 +1405,38 @@
       transition: background 0.15s ease;
     }
 
-    .effort-dock-option:hover {
+    .intel-option:hover {
       background: #1e293b;
     }
 
-    .effort-dock-option.active {
+    .intel-option.active {
       background: rgba(59, 130, 246, 0.10);
       box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.35);
       color: #eff6ff;
     }
 
-    .effort-option-icon {
+    .intel-option-icon {
       width: 16px;
       text-align: center;
       font-size: 13px;
     }
 
-    .effort-option-text {
+    .intel-option-text {
       display: flex;
       flex-direction: column;
       gap: 1px;
       flex: 1;
     }
 
-    .effort-option-text strong {
+    .intel-option-text strong {
       font-size: 12px;
       font-weight: 600;
       color: inherit;
     }
 
-    .effort-option-text small {
+    .intel-option-text small {
       font-size: 10px;
       color: #64748b;
-    }
-
-    .effort-option-check {
-      color: #38bdf8;
-      font-size: 11px;
-      opacity: 0;
-    }
-
-    .effort-dock-option.active .effort-option-check {
-      opacity: 1;
     }
 
     textarea {
@@ -2774,7 +2793,7 @@
             <span class="brand-clautron">Cloudtron</span>
             <span class="brand-oneclick">OneClick</span>
           </div>
-          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.2</span>
+          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.3</span>
         </div>
       </div>
 
@@ -2825,7 +2844,7 @@
       </button>
       <div class="sidebar-footer-info">
         <span class="sidebar-app-name">Cloudtron OneClick</span>
-        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.2</span>
+        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.3</span>
         </div>
       </div>
       <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver a nova versão">
@@ -2837,16 +2856,9 @@
   </aside>
 
   <!-- Janela Principal -->
-  <div class="app-main">
+      <div class="app-main">
     <header class="app-topbar">
       <div class="titlebar-left">
-        <!-- Controles Decorativos da Janela (Traffic Lights) -->
-        <div class="window-controls">
-          <div class="control-dot control-close" title="Fechar"></div>
-          <div class="control-dot control-min" title="Minimizar"></div>
-          <div class="control-dot control-max" title="Maximizar"></div>
-        </div>
-
         <button class="btn-toggle-sidebar" id="btnToggleSidebar" onclick="toggleSidebar()" title="Ocultar / Mostrar Barra Lateral">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -2861,17 +2873,7 @@
               <circle cx="20" cy="20" r="4" fill="#2dd4bf" />
             </svg>
           </div>
-          <span class="app-brand-title"><strong>Cloudtron</strong> <span style="font-weight: 300;">OneClick</span></span>
-        </div>
-
-        <!-- Seletor de Modelo / Persona com Chevron ▾ -->
-        <div class="persona-selector-container">
-          <button class="model-pill-btn" id="btnPersonaSelector" onclick="togglePersonaDropdown(event)" title="Selecionar Modelo / Persona">
-            <span id="activePersonaIcon">🧠</span>
-            <span id="activePersonaName">Cloudtron Omni</span>
-            <svg class="model-pill-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          </button>
-          <div class="persona-dropdown" id="personaDropdown"></div>
+          <span class="app-brand-title"><strong>Cloudtron</strong> <span style="font-weight: 300;">OneClick v1.2.3</span></span>
         </div>
       </div>
 
@@ -2894,7 +2896,7 @@
         </button>
         <button class="sub-nav-tab" id="tabSandboxView" onclick="switchMainView('sandbox')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span>▷ Live Sandbox Preview</span>
+          <span>▷ Live Preview</span>
           <span class="tab-badge-interactive">Interativo</span>
         </button>
       </div>
@@ -2941,39 +2943,56 @@
             </svg>
           </button>
 
-          <!-- Seletor compacto de Effort (docked no prompt) -->
-          <div class="effort-dock" id="effortDock">
-            <button type="button" class="effort-dock-toggle" id="effortDockToggle" onclick="toggleEffortDropdown(event)" title="Selecionar nível de esforço">
-              <span class="effort-dock-icon" id="effortDockIcon">✨</span>
-              <span class="effort-dock-label" id="effortDockLabel">Auto</span>
-              <svg class="effort-dock-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <!-- Seletor Unificado de Inteligência (Modelo + Contexto) -->
+          <div class="intel-selector" id="intelSelector">
+            <button type="button" class="intel-selector-toggle" id="intelSelectorToggle" onclick="toggleIntelDropdown(event)" title="Selecionar Modelo e Contexto">
+              <span class="intel-icon" id="intelIcon">🧠</span>
+              <span class="intel-model" id="intelModel">Omni</span>
+              <span class="intel-sep">·</span>
+              <span class="intel-context" id="intelContext">Engenharia & Código</span>
+              <svg class="intel-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
-            <div class="effort-dock-menu" id="effortDockMenu" role="listbox" aria-label="Nível de esforço">
-              <button type="button" class="effort-dock-option" data-mode="auto" onclick="setContextPreset('auto')" role="option">
-                <span class="effort-option-icon">✨</span>
-                <span class="effort-option-text"><strong>Auto</strong><small>Detecção automática</small></span>
-                <span class="effort-option-check">✓</span>
-              </button>
-              <button type="button" class="effort-dock-option" data-mode="low" onclick="setContextPreset('low')" role="option">
-                <span class="effort-option-icon">⚡</span>
-                <span class="effort-option-text"><strong>Rápido</strong><small>Resposta direta</small></span>
-                <span class="effort-option-check">✓</span>
-              </button>
-              <button type="button" class="effort-dock-option" data-mode="code" onclick="setContextPreset('code')" role="option">
-                <span class="effort-option-icon">💻</span>
-                <span class="effort-option-text"><strong>Código</strong><small>Precisão técnica</small></span>
-                <span class="effort-option-check">✓</span>
-              </button>
-              <button type="button" class="effort-dock-option" data-mode="creative" onclick="setContextPreset('creative')" role="option">
-                <span class="effort-option-icon">🎨</span>
-                <span class="effort-option-text"><strong>Criativo</strong><small>Exploração e ideação</small></span>
-                <span class="effort-option-check">✓</span>
-              </button>
-              <button type="button" class="effort-dock-option" data-mode="high" onclick="setContextPreset('high')" role="option">
-                <span class="effort-option-icon">🧠</span>
-                <span class="effort-option-text"><strong>Profundo</strong><small>Raciocínio estendido</small></span>
-                <span class="effort-option-check">✓</span>
-              </button>
+            <div class="intel-selector-menu" id="intelSelectorMenu" role="listbox" aria-label="Modelo e Contexto">
+              <!-- SEÇÃO 1 - MODELOS NVIDIA NIM -->
+              <div class="intel-section">
+                <span class="intel-section-title">Modelos NVIDIA NIM</span>
+                <button type="button" class="intel-option intel-option-model" data-model="nvidia/nemotron-3.5-super-vl-120b-a12b" onclick="selectIntelModel(this, 'nvidia/nemotron-3.5-super-vl-120b-a12b')" role="option">
+                  <span class="intel-option-icon">🧠</span>
+                  <span class="intel-option-text"><strong>Cloudtron Omni</strong><small>Visão multimodal, raciocínio avançado</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-model" data-model="deepseek-ai/deepseek-v4.1-flash" onclick="selectIntelModel(this, 'deepseek-ai/deepseek-v4.1-flash')" role="option">
+                  <span class="intel-option-icon">💻</span>
+                  <span class="intel-option-text"><strong>Cloudtron Coder</strong><small>Engenharia de software, algoritmos</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-model" data-model="deepseek-ai/deepseek-r1" onclick="selectIntelModel(this, 'deepseek-ai/deepseek-r1')" role="option">
+                  <span class="intel-option-icon">🔬</span>
+                  <span class="intel-option-text"><strong>Cloudtron Lógica</strong><small>Raciocínio matemático denso</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-model" data-model="meta/llama-3.3-70b-instruct" onclick="selectIntelModel(this, 'meta/llama-3.3-70b-instruct')" role="option">
+                  <span class="intel-option-icon">⚡</span>
+                  <span class="intel-option-text"><strong>Cloudtron Redator</strong><small>Respostas ultrarrápidas, síntese técnica</small></span>
+                </button>
+              </div>
+              <!-- SEÇÃO 2 - LENTE DE CONTEXTO & ESFORÇO -->
+              <div class="intel-section">
+                <span class="intel-section-title">Lente de Contexto &amp; Esforço</span>
+                <button type="button" class="intel-option intel-option-context" data-context="eng-codigo" onclick="selectIntelContext(this, 'eng-codigo')" role="option">
+                  <span class="intel-option-icon">💻</span>
+                  <span class="intel-option-text"><strong>Engenharia & Código</strong><small>Temperatura baixa, sintaxe e arquitetura</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-context" data-context="deep-thinking" onclick="selectIntelContext(this, 'deep-thinking')" role="option">
+                  <span class="intel-option-icon">🧠</span>
+                  <span class="intel-option-text"><strong>Raciocínio Profundo</strong><small>Temperatura média, ativação Chain-of-Thought</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-context" data-context="criativo" onclick="selectIntelContext(this, 'criativo')" role="option">
+                  <span class="intel-option-icon">🎨</span>
+                  <span class="intel-option-text"><strong>Criativo & Exploração</strong><small>Temperatura maior para ideação</small></span>
+                </button>
+                <button type="button" class="intel-option intel-option-context" data-context="rapido" onclick="selectIntelContext(this, 'rapido')" role="option">
+                  <span class="intel-option-icon">⚡</span>
+                  <span class="intel-option-text"><strong>Rápido & Direto</strong><small>Baixa latência, resposta concisa sem reasoning</small></span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -3220,6 +3239,29 @@
                 </div>
               </div>
               <div class="param-desc" style="font-size: 10.5px;">Controla inferência determinística (seed constante) e formatação de saída em objeto JSON válido da NVIDIA NIM.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção 4: Otimização & Agentes -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M12 17V21"></path>
+            </svg>
+            <span>Otimização & Agentes</span>
+          </div>
+          <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
+            Controle de camadas de auditoria, integridade e segurança de código gerado.
+          </p>
+          <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #282a2c; display: flex; flex-direction: column; gap: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #e3e3e3; cursor: pointer; user-select: none;">
+              <input type="checkbox" id="checkNemoGuardrails" style="cursor: pointer; accent-color: #10b981;" checked />
+              <span>🛡️ <strong>NVIDIA NeMo Guardrails & Evaluator</strong> (Auditor em Tempo Real)</span>
+            </label>
+            <div class="param-desc" style="font-size: 10.5px; margin-top: -3px; line-height: 1.4;">
+              Atua como auditor em tempo real para verificar a integridade lógica das respostas, mitigar alucinações críticas e avaliar a segurança do código gerado via critérios NeMo. Desative caso prefira menor latência e resposta direta sem verificação em background.
             </div>
           </div>
         </div>
@@ -3634,6 +3676,66 @@
       }
     };
 
+    /* Catálogo de Modelos NVIDIA NIM (EOL removido: qwen/qwen2.5-coder-32b-instruct) */
+    const MODEL_CONFIGS = {
+      'nvidia/nemotron-3.5-super-vl-120b-a12b': {
+        label: 'Omni',
+        icon: '🧠',
+        modelId: 'nvidia/nemotron-3.5-super-vl-120b-a12b'
+      },
+      'deepseek-ai/deepseek-v4.1-flash': {
+        label: 'Coder',
+        icon: '💻',
+        modelId: 'deepseek-ai/deepseek-v4.1-flash'
+      },
+      'deepseek-ai/deepseek-r1': {
+        label: 'Lógica',
+        icon: '🔬',
+        modelId: 'deepseek-ai/deepseek-r1'
+      },
+      'meta/llama-3.3-70b-instruct': {
+        label: 'Redator',
+        icon: '⚡',
+        modelId: 'meta/llama-3.3-70b-instruct'
+      }
+    };
+
+    /* Lentes de Contexto & Esforço */
+    const CONTEXT_LENS_CONFIGS = {
+      'eng-codigo': {
+        label: 'Engenharia & Código',
+        temperature: 0.20,
+        top_p: 0.90,
+        max_tokens: 8192,
+        thinking: true,
+        thinkingText: "Você está operando no modo de engenharia e código. Forneça soluções precisas, código limpo, arquitetura sólida e refatoração cuidadosa."
+      },
+      'deep-thinking': {
+        label: 'Raciocínio Profundo',
+        temperature: 0.60,
+        top_p: 0.95,
+        max_tokens: 8192,
+        thinking: true,
+        thinkingText: "Você está operando no modo de raciocínio profundo (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
+      },
+      'criativo': {
+        label: 'Criativo & Exploração',
+        temperature: 1.05,
+        top_p: 0.98,
+        max_tokens: 4096,
+        thinking: false,
+        thinkingText: "Você está operando no modo criativo / brainstorm. Explore variedade vocabular, imaginação, pensamento lateral e ideias inovadoras."
+      },
+      'rapido': {
+        label: 'Rápido & Direto',
+        temperature: 0.30,
+        top_p: 0.85,
+        max_tokens: 2048,
+        thinking: false,
+        thinkingText: "Modo rápido e direto. Resposta concisa sem raciocínio estendido, ideal para consultas pontuais."
+      }
+    };
+
     function getEffortModeConfig(mode) {
       return EFFORT_MODES[mode] || EFFORT_MODES.auto;
     }
@@ -3643,44 +3745,77 @@
       return EFFORT_MODES[mode] ? mode : 'auto';
     }
 
-    function toggleEffortDropdown(e) {
+    function toggleIntelDropdown(e) {
       if (e) e.stopPropagation();
-      const dock = document.getElementById('effortDock');
-      const menu = document.getElementById('effortDockMenu');
+      const dock = document.getElementById('intelSelector');
+      const menu = document.getElementById('intelSelectorMenu');
       if (!dock || !menu) return;
       const willOpen = !menu.classList.contains('open');
       menu.classList.toggle('open', willOpen);
       dock.classList.toggle('open', willOpen);
     }
 
-    function closeEffortDropdown() {
-      const dock = document.getElementById('effortDock');
-      const menu = document.getElementById('effortDockMenu');
+    function closeIntelDropdown() {
+      const dock = document.getElementById('intelSelector');
+      const menu = document.getElementById('intelSelectorMenu');
       if (menu) menu.classList.remove('open');
       if (dock) dock.classList.remove('open');
     }
 
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('.effort-dock')) {
-        closeEffortDropdown();
+      if (!e.target.closest('.intel-selector')) {
+        closeIntelDropdown();
       }
     });
 
-    function syncEffortSelector(presetMode) {
-      const mode = EFFORT_MODES[presetMode] ? presetMode : 'auto';
-      const config = getEffortModeConfig(mode);
-      const iconEl = document.getElementById('effortDockIcon');
-      const labelEl = document.getElementById('effortDockLabel');
-      if (iconEl) iconEl.textContent = config.icon;
-      if (labelEl) labelEl.textContent = config.label;
+    function syncIntelSelector(modelId, contextId) {
+      const modelCfg = MODEL_CONFIGS[modelId] || MODEL_CONFIGS['nvidia/nemotron-3.5-super-vl-120b-a12b'];
+      const contextCtx = CONTEXT_LENS_CONFIGS[contextId] || CONTEXT_LENS_CONFIGS['eng-codigo'];
+      const iconEl = document.getElementById('intelIcon');
+      const modelEl = document.getElementById('intelModel');
+      const contextEl = document.getElementById('intelContext');
+      if (iconEl) iconEl.textContent = modelCfg.icon;
+      if (modelEl) modelEl.textContent = modelCfg.label;
+      if (contextEl) contextEl.textContent = contextCtx.label;
 
-      document.querySelectorAll('#effortDockMenu .effort-dock-option').forEach(btn => {
-        const isActive = btn.dataset.mode === mode;
+      document.querySelectorAll('#intelSelectorMenu .intel-option').forEach(btn => {
+        const isModelActive = btn.classList.contains('intel-option-model') && btn.dataset.model === modelId;
+        const isContextActive = btn.classList.contains('intel-option-context') && btn.dataset.context === contextId;
+        const isActive = isModelActive || isContextActive;
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
 
-      updateTelemetryIndicators(null, config.label);
+      updateTelemetryIndicators(null, `${modelCfg.label} · ${contextCtx.label}`);
+    }
+
+    function selectIntelModel(btn, modelId) {
+      const ctxBtn = document.querySelector('#intelSelectorMenu .intel-option-context.active');
+      const contextId = ctxBtn ? ctxBtn.dataset.context : 'eng-codigo';
+      syncIntelSelector(modelId, contextId);
+      closeIntelDropdown();
+      applyIntelSelection(modelId, contextId);
+    }
+
+    function selectIntelContext(btn, contextId) {
+      const modelBtn = document.querySelector('#intelSelectorMenu .intel-option-model.active');
+      const modelId = modelBtn ? modelBtn.dataset.model : 'nvidia/nemotron-3.5-super-vl-120b-a12b';
+      syncIntelSelector(modelId, contextId);
+      closeIntelDropdown();
+      applyIntelSelection(modelId, contextId);
+    }
+
+    function applyIntelSelection(modelId, contextId) {
+      const modelCfg = MODEL_CONFIGS[modelId] || MODEL_CONFIGS['nvidia/nemotron-3.5-super-vl-120b-a12b'];
+      const contextCtx = CONTEXT_LENS_CONFIGS[contextId] || CONTEXT_LENS_CONFIGS['eng-codigo'];
+      currentModelId = modelId;
+      currentContextId = contextId;
+      currentTemperature = contextCtx.temperature;
+      currentTopP = contextCtx.top_p;
+      currentMaxTokens = contextCtx.max_tokens;
+      currentThinking = contextCtx.thinking;
+      currentSystemPrompt = contextCtx.thinkingText;
+      console.log('[INTEL]', modelId, contextId, '| Temp:', currentTemperature, '| TopP:', currentTopP, '| Tokens:', currentMaxTokens, '| CoT:', currentThinking);
     }
 
     function updateTelemetryIndicators(ttft = null, presetMode = null) {
@@ -3713,7 +3848,7 @@
         id: "coder",
         name: "Cloudtron Coder",
         icon: "💻",
-        modelId: "qwen/qwen2.5-coder-32b-instruct",
+        modelId: "deepseek-ai/deepseek-v4.1-flash",
         subtitle: "Engenharia de software, refatoração, scripts e debugging.",
         badges: ["💻 Código"],
         supportsVision: false
@@ -3858,6 +3993,13 @@
     window.currentInteractionId = null;
     let currentLiveHTML = '';
     let pendingAttachments = [];
+    let currentModelId = 'nvidia/nemotron-3.5-super-vl-120b-a12b';
+    let currentContextId = 'eng-codigo';
+    let currentTemperature = 0.20;
+    let currentTopP = 0.90;
+    let currentMaxTokens = 8192;
+    let currentThinking = true;
+    let currentSystemPrompt = CONTEXT_LENS_CONFIGS['eng-codigo'].thinkingText;
 
     marked.setOptions({
       highlight: function(code, lang) {
@@ -3993,6 +4135,7 @@
         }
       } catch (e) {
         console.error("Falha ao carregar configurações:", e);
+        try { localStorage.removeItem(SETTINGS_STORAGE_KEY); } catch (_) {}
       }
       return {
         ...DEFAULT_SETTINGS,
@@ -4292,6 +4435,7 @@
         sessions = raw ? JSON.parse(raw) : [];
       } catch (e) {
         console.error("Falha ao carregar sessões:", e);
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
         sessions = [];
       }
     }
@@ -4319,34 +4463,33 @@
       closeEffortDropdown();
     }
 
-    function syncEffortUI() {
-      const session = getActiveSession();
-      const effort = normalizeEffortMode(session ? session.effort : 'auto');
-      syncEffortSelector(effort);
+    function syncIntelUI() {
+      syncIntelSelector(currentModelId, currentContextId);
     }
 
     function syncContextPills() {
-      syncEffortUI();
+      syncIntelUI();
     }
 
-    function handleEffortChange(newVal) {
-      if (newVal) setContextPreset(newVal);
+    function handleIntelChange(newModelId, newContextId) {
+      if (newModelId) currentModelId = newModelId;
+      if (newContextId) currentContextId = newContextId;
+      applyIntelSelection(currentModelId, currentContextId);
     }
 
     function getEffortSettings() {
-      const session = getActiveSession();
-      const mode = normalizeEffortMode(session ? session.effort : 'auto');
-      const profile = getEffortModeConfig(mode);
+      const modelCfg = MODEL_CONFIGS[currentModelId] || MODEL_CONFIGS['nvidia/nemotron-3.5-super-vl-120b-a12b'];
+      const contextCtx = CONTEXT_LENS_CONFIGS[currentContextId] || CONTEXT_LENS_CONFIGS['eng-codigo'];
 
       return {
-        modeName: profile.label,
-        effortMode: profile.effortMode,
-        isAuto: profile.isAuto,
-        max_tokens: profile.max_tokens,
-        temperature: profile.temperature,
-        top_p: profile.top_p,
-        thinking: profile.thinking,
-        systemPrompt: profile.systemPrompt
+        modeName: `${modelCfg.label} · ${contextCtx.label}`,
+        effortMode: currentModelId,
+        isAuto: false,
+        max_tokens: currentMaxTokens,
+        temperature: currentTemperature,
+        top_p: currentTopP,
+        thinking: currentThinking,
+        systemPrompt: currentSystemPrompt
       };
     }
 
@@ -5027,14 +5170,14 @@
       try {
         const payloadMessages = session.messages.map(m => ({ role: m.role, content: m.content }));
 
-        // Heurística Adaptativa: apenas o modo Auto delega a modulação ao motor
-        const isAutoActive = effortConfig.isAuto;
-        let finalTemperature = (typeof effortConfig.temperature === 'number') ? effortConfig.temperature : globalSettings.temperature;
-        let finalTopP = (typeof effortConfig.top_p === 'number') ? effortConfig.top_p : globalSettings.top_p;
-        let finalMaxTokens = effortConfig.max_tokens || globalSettings.max_tokens || 4096;
-        let isThinking = (typeof effortConfig.thinking === 'boolean') ? effortConfig.thinking : (effortConfig.effortMode !== 'low');
-        let baseSystemPrompt = effortConfig.systemPrompt;
-        let effortTagToDisplay = effortConfig.modeName;
+        // Seletor Unificado de Inteligência: parâmetros vêm do modelo + contexto selecionados
+        const isAutoActive = false;
+        let finalTemperature = (typeof currentTemperature === 'number') ? currentTemperature : globalSettings.temperature;
+        let finalTopP = (typeof currentTopP === 'number') ? currentTopP : globalSettings.top_p;
+        let finalMaxTokens = currentMaxTokens || globalSettings.max_tokens || 4096;
+        let isThinking = (typeof currentThinking === 'boolean') ? currentThinking : false;
+        let baseSystemPrompt = currentSystemPrompt;
+        let effortTagToDisplay = `${currentModelId.split('/').pop()} · ${currentContextId}`;
 
         if (isAutoActive) {
           const detected = detectPromptComplexity(combinedText, currentAttachments);
@@ -5058,13 +5201,13 @@
         const activePersona = getActivePersona();
         const requestBody = {
           interactionId: currentInteractionId,
-          model: activePersona.modelId,
+          model: currentModelId,
           persona: activePersona.name,
           max_tokens: finalMaxTokens,
           temperature: finalTemperature,
           top_p: finalTopP,
           thinking: isThinking,
-          effort: effortConfig.effortMode,
+          effort: currentModelId,
           profile: effortTagToDisplay,
           prompt: combinedText,
           seed: (typeof globalSettings.seed === 'number' && !isNaN(globalSettings.seed)) ? globalSettings.seed : null,
@@ -5115,79 +5258,92 @@
           }
         }, 120000);
 
+        // Buffer robusto: chunks de rede podem dividir uma linha "data: {...}" no meio
+        // de uma string JSON. Acumulamos e processamos apenas linhas completas.
+        let sseBuffer = '';
+
+        // Processa uma linha SSE completa de dados. Nunca propaga erros de JSON
+        // incompleto (fragmento de chunk); apenas erros reais do proxy.
+        function processSSEDataLine(trimmed) {
+          if (!trimmed || trimmed === 'data: [DONE]') return;
+          if (!trimmed.startsWith('data: ')) return;
+          try {
+            const parsed = JSON.parse(trimmed.slice(6));
+
+            // Sincronização do ID de interação do backend
+            if (parsed.__clautron_interaction_id) {
+              currentInteractionId = parsed.__clautron_interaction_id;
+              window.currentInteractionId = currentInteractionId;
+            }
+
+            // Evento de erro inline do proxy
+            if (parsed.__clautron_error) {
+              throw new Error(parsed.__clautron_error);
+            }
+
+            const delta = parsed.choices?.[0]?.delta || {};
+            const reasoningDelta = delta.reasoning_content || '';
+            const contentDelta = delta.content || '';
+
+            if ((reasoningDelta || contentDelta) && !firstTokenReceived) {
+              firstTokenReceived = true;
+              ttft = performance.now() - t0;
+            }
+
+            if (reasoningDelta) {
+              accumulatedThinking += reasoningDelta;
+              streamingBubbleObj.updateThinking(accumulatedThinking);
+            }
+
+            if (contentDelta) {
+              accumulatedRaw += contentDelta;
+
+              if (accumulatedRaw.includes('<thought>') && !accumulatedRaw.includes('</thought>')) {
+                const parts = accumulatedRaw.split('<thought>');
+                accumulatedThinking = parts[1] || '';
+                streamingBubbleObj.updateThinking(accumulatedThinking);
+              } else if (accumulatedRaw.includes('</thought>')) {
+                const parts = accumulatedRaw.split('</thought>');
+                accumulatedThinking = parts[0].replace('<thought>', '').trim();
+                streamingBubbleObj.updateThinking(accumulatedThinking);
+                accumulatedAnswer = parts.slice(1).join('</thought>');
+                streamingBubbleObj.updateAnswer(accumulatedAnswer);
+              } else {
+                accumulatedAnswer = accumulatedRaw;
+                streamingBubbleObj.updateAnswer(accumulatedAnswer);
+              }
+            }
+          } catch (parseOrProxyErr) {
+            // Se for um erro real (nao apenas JSON invalido de chunk parcial), re-lanca
+            if (parseOrProxyErr.message && !parseOrProxyErr.message.startsWith('JSON') &&
+                !parseOrProxyErr.message.includes('Unexpected token') &&
+                !parseOrProxyErr.message.includes('Unexpected end')) {
+              clearTimeout(clientTimeoutId);
+              throw parseOrProxyErr;
+            }
+            // JSON invalido (fragmento de chunk) — ignora silenciosamente
+          }
+        }
+
         try {
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
 
             const chunk = decoder.decode(value, { stream: true });
-            const lines = chunk.split('\n');
+            sseBuffer += chunk;
+            const lines = sseBuffer.split('\n');
+            sseBuffer = lines.pop() || '';
 
             for (const line of lines) {
-              const trimmed = line.trim();
-              if (!trimmed || trimmed === 'data: [DONE]') continue;
-
-              if (trimmed.startsWith('data: ')) {
-                try {
-                  const parsed = JSON.parse(trimmed.slice(6));
-
-                  // Sincronização do ID de interação do backend
-                  if (parsed.__clautron_interaction_id) {
-                    currentInteractionId = parsed.__clautron_interaction_id;
-                    window.currentInteractionId = currentInteractionId;
-                  }
-
-                  // Evento de erro inline do proxy
-                  if (parsed.__clautron_error) {
-                    throw new Error(parsed.__clautron_error);
-                  }
-
-                  const delta = parsed.choices?.[0]?.delta || {};
-                  const reasoningDelta = delta.reasoning_content || '';
-                  const contentDelta = delta.content || '';
-
-                  if ((reasoningDelta || contentDelta) && !firstTokenReceived) {
-                    firstTokenReceived = true;
-                    ttft = performance.now() - t0;
-                  }
-
-                  if (reasoningDelta) {
-                    accumulatedThinking += reasoningDelta;
-                    streamingBubbleObj.updateThinking(accumulatedThinking);
-                  }
-
-                  if (contentDelta) {
-                    accumulatedRaw += contentDelta;
-
-                    if (accumulatedRaw.includes('<thought>') && !accumulatedRaw.includes('</thought>')) {
-                      const parts = accumulatedRaw.split('<thought>');
-                      accumulatedThinking = parts[1] || '';
-                      streamingBubbleObj.updateThinking(accumulatedThinking);
-                    } else if (accumulatedRaw.includes('</thought>')) {
-                      const parts = accumulatedRaw.split('</thought>');
-                      accumulatedThinking = parts[0].replace('<thought>', '').trim();
-                      streamingBubbleObj.updateThinking(accumulatedThinking);
-                      accumulatedAnswer = parts.slice(1).join('</thought>');
-                      streamingBubbleObj.updateAnswer(accumulatedAnswer);
-                    } else {
-                      accumulatedAnswer = accumulatedRaw;
-                      streamingBubbleObj.updateAnswer(accumulatedAnswer);
-                    }
-                  }
-                } catch (parseOrProxyErr) {
-                  // Se for um erro real (nao apenas JSON invalido de chunk parcial), re-lanca
-                  if (parseOrProxyErr.message && !parseOrProxyErr.message.startsWith('JSON') &&
-                      !parseOrProxyErr.message.includes('Unexpected token') &&
-                      !parseOrProxyErr.message.includes('Unexpected end')) {
-                    clearTimeout(clientTimeoutId);
-                    throw parseOrProxyErr;
-                  }
-                  // JSON invalido (fragmento de chunk) — ignora silenciosamente
-                }
-              }
+              processSSEDataLine(line.trim());
             }
           }
         } finally {
+          // Flush qualquer linha remanescente no buffer (ultimo chunk pode nao terminar em \n)
+          if (sseBuffer.trim()) {
+            try { processSSEDataLine(sseBuffer.trim()); } catch (_) {}
+          }
           clearTimeout(clientTimeoutId);
         }
 
@@ -6095,7 +6251,7 @@
     }
 
 
-    const FALLBACK_VERSION = "1.2.2";
+    const FALLBACK_VERSION = "1.2.3";
     const GITHUB_REPO = "felipeptxa/cloudtron";
     let latestReleaseInfo = null;
 
@@ -6231,10 +6387,10 @@
       } else {
         currentSessionId = sessions[0].id;
         renderSidebar();
-        syncEffortUI();
+        syncIntelSelector(currentModelId, currentContextId);
         renderActiveChat();
       }
-      syncEffortUI();
+      syncIntelSelector(currentModelId, currentContextId);
 
       if (!getStoredApiKey()) {
         setTimeout(openSettingsModal, 400);
