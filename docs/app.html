@@ -1852,20 +1852,13 @@
       border: 1px solid #282a2c;
       border-radius: 12px;
       padding: 14px 16px;
-      display: flex;
+      display: none;
       flex-direction: column;
       gap: 10px;
     }
 
     .settings-section.settings-tab-panel-active {
       display: flex;
-    }
-
-    /* Todas as seções começam ocultas; apenas a aba ativa é exibida */
-    #panel-providers,
-    #panel-hyper,
-    #panel-agents {
-      display: none;
     }
 
     .settings-tabs {
@@ -3148,7 +3141,7 @@
     <!-- Rodapé da Sidebar com Botão de Configurações Minimalista -->
     <div class="sidebar-footer">
       <div style="display: flex; align-items: center; gap: 8px;">
-      <button class="btn-settings-sidebar" onclick="openSettingsModal()" title="Configurações Globais">
+      <button class="btn-settings-sidebar" id="btnSettingsSidebar" title="Configurações Globais">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"></circle>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -3366,7 +3359,7 @@
           </svg>
           <strong style="font-size: 14px; color: #f1f3f4;">Configurações Globais</strong>
         </div>
-        <button class="btn-item-action" onclick="closeSettingsModal()">✕</button>
+        <button class="btn-item-action" id="btnCloseSettingsModal">✕</button>
       </div>
 
       <div class="info-card-body" style="gap: 16px;">
@@ -3698,7 +3691,7 @@
           Restaurar Padrões
         </button>
         <div style="display: flex; gap: 8px;">
-          <button class="btn-preview-ctrl" onclick="closeSettingsModal()">Cancelar</button>
+          <button class="btn-preview-ctrl" id="btnSettingsCancel">Cancelar</button>
           <button class="btn-preview-ctrl" onclick="saveSettingsModal()" style="background: #3b82f6; color: #fff; border-color: #2563eb; font-weight: 500;">Salvar Configurações</button>
         </div>
       </div>
@@ -4373,6 +4366,7 @@
     const API_KEY_STORAGE = "clautron_nvidia_api_key";
     const PROVIDER_API_KEYS_STORAGE = "clautron_provider_api_keys";
     const SIDEBAR_WIDTH_KEY = "nemotron_sidebar_width";
+    const NEMO_GUARDRAILS_STORAGE = "cloudtron_nemo_enabled";
 
     let sessions = [];
     let currentSessionId = null;
@@ -4737,61 +4731,117 @@
     }
 
     function openSettingsModal() {
-      closePersonaDropdown();
-      const s = getGlobalSettings();
-      document.getElementById('modalKeyInput').value = s.apiKey;
-      const providerEl = document.getElementById('settingsApiProvider');
-      if (providerEl) providerEl.value = s.apiProvider || 'nvidia';
-
-      // Preenche todos os campos de provedor com valores salvos
-      const providerKeys = s.providerApiKeys || {};
-      const nvidiaInput = document.getElementById('providerKeyNVIDIA');
-      if (nvidiaInput) nvidiaInput.value = providerKeys.nvidia || '';
-      const groqInput = document.getElementById('providerKeyGroq');
-      if (groqInput) groqInput.value = providerKeys.groq || '';
-      const openrouterInput = document.getElementById('providerKeyOpenrouter');
-      if (openrouterInput) openrouterInput.value = providerKeys.openrouter || '';
-      const googleInput = document.getElementById('providerKeyGoogle');
-      if (googleInput) googleInput.value = providerKeys.google || '';
-      const deepseekInput = document.getElementById('providerKeyDeepseek');
-      if (deepseekInput) deepseekInput.value = providerKeys.deepseek || '';
-      const anthropicInput = document.getElementById('providerKeyAnthropic');
-      if (anthropicInput) anthropicInput.value = providerKeys.anthropic || '';
-
-      document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
-      updatePersistentContextStatus();
-      document.getElementById('inputTemperature').value = s.temperature.toFixed(2);
-      document.getElementById('inputTopP').value = s.top_p.toFixed(2);
-      document.getElementById('inputMaxTokens').value = s.max_tokens;
-
-      selectHyperparameterPreset(s.preset || 'auto');
-      updateSettingsSliderDisplay('temperature');
-      updateSettingsSliderDisplay('top_p');
-      updateSettingsSliderDisplay('max_tokens');
-
-      const seedEl = document.getElementById('inputSeed');
-      if (seedEl) seedEl.value = (typeof s.seed === 'number') ? s.seed : '';
-      const jsonCheck = document.getElementById('checkJsonMode');
-      if (jsonCheck) jsonCheck.checked = !!s.jsonMode;
-      const nemoCheck = document.getElementById('checkNemoAutoEval');
-      if (nemoCheck) nemoCheck.checked = (s.nemoAutoEval !== false);
-
-      const testRes = document.getElementById('modalTestResult');
-      if (testRes) {
-        testRes.style.display = 'none';
-        testRes.innerHTML = '';
-      }
-      const testBtn = document.getElementById('btnTestKeyModal');
-      if (testBtn) {
-        testBtn.disabled = false;
-        testBtn.textContent = '⚡ Testar Chave';
+      const modal = document.getElementById('settingsModal');
+      // 1. Abertura garantida do contentor visual
+      if (modal) {
+        modal.classList.add('aberto');
+        modal.style.display = 'flex';
       }
 
-      // Ativa aba Personalização & Contexto por padrão
-      const ctxTabBtn = document.querySelector('.settings-tab-btn[data-tab="panel-context"]');
-      switchSettingsTab('panel-context', ctxTabBtn);
+      try {
+        if (typeof closePersonaDropdown === 'function') {
+          closePersonaDropdown();
+        }
 
-      document.getElementById('settingsModal').classList.add('aberto');
+        const s = (typeof getGlobalSettings === 'function') 
+          ? getGlobalSettings() 
+          : (window.DEFAULT_SETTINGS || {});
+
+        const providerKeys = s.providerApiKeys || {};
+
+        // Helper guard ativo: aceita ID único ou lista de IDs de fallback
+        const setVal = (ids, val) => {
+          const list = Array.isArray(ids) ? ids : [ids];
+          for (const id of list) {
+            const el = document.getElementById(id);
+            if (el) el.value = (val !== null && val !== undefined) ? val : '';
+          }
+        };
+
+        const setCheck = (id, checked) => {
+          const el = document.getElementById(id);
+          if (el) el.checked = !!checked;
+        };
+
+        // 2. Chaves de Provedores com blindagem guard (IDs modernos dos Tiers e legados)
+        const primaryNvidiaKey = providerKeys.nvidia || s.apiKey || '';
+        setVal(['providerKeyNVIDIA', 'setting-nvidia-key', 'modalKeyInput'], primaryNvidiaKey);
+        setVal(['providerKeyGroq', 'setting-groq-key'], providerKeys.groq || '');
+        setVal(['providerKeyOpenrouter', 'setting-openrouter-key'], providerKeys.openrouter || '');
+        setVal(['providerKeyGoogle', 'setting-google-key'], providerKeys.google || '');
+        setVal(['providerKeyDeepseek', 'setting-deepseek-key'], providerKeys.deepseek || '');
+        setVal(['providerKeyAnthropic', 'setting-anthropic-key'], providerKeys.anthropic || '');
+
+        // 3. Provedor de API
+        setVal(['settingsApiProvider', 'setting-api-provider'], s.apiProvider || 'nvidia');
+
+        // 4. Prompt de Sistema Persistente & Regras
+        setVal(['modalCustomSystemPrompt', 'setting-system-prompt'], s.customSystemPrompt || '');
+        if (typeof updatePersistentContextStatus === 'function') {
+          updatePersistentContextStatus();
+        }
+
+        // 5. Hiperparâmetros de Inferência
+        const tempVal = (typeof s.temperature === 'number') ? s.temperature.toFixed(2) : '0.70';
+        const topPVal = (typeof s.top_p === 'number') ? s.top_p.toFixed(2) : '0.95';
+        const maxTokVal = s.max_tokens || 4096;
+        const seedVal = (typeof s.seed === 'number' && !isNaN(s.seed)) ? s.seed : '';
+
+        setVal(['inputTemperature', 'setting-temperature'], tempVal);
+        setVal(['inputTopP', 'setting-top-p'], topPVal);
+        setVal(['inputMaxTokens', 'setting-max-tokens'], maxTokVal);
+        setVal(['inputSeed', 'setting-seed'], seedVal);
+
+        if (typeof selectHyperparameterPreset === 'function') {
+          selectHyperparameterPreset(s.preset || 'auto');
+        }
+        if (typeof updateSettingsSliderDisplay === 'function') {
+          updateSettingsSliderDisplay('temperature');
+          updateSettingsSliderDisplay('top_p');
+          updateSettingsSliderDisplay('max_tokens');
+        }
+
+        // 6. Checkboxes e Parâmetros Avançados NeMo
+        setCheck('checkJsonMode', s.jsonMode);
+        setCheck('checkNemoAutoEval', s.nemoAutoEval !== false);
+
+        const nemoGuardrailsCheck = document.getElementById('checkNemoGuardrails');
+        if (nemoGuardrailsCheck) {
+          try {
+            const stored = localStorage.getItem(NEMO_GUARDRAILS_STORAGE);
+            nemoGuardrailsCheck.checked = stored === null ? true : JSON.parse(stored);
+          } catch (_) {
+            nemoGuardrailsCheck.checked = true;
+          }
+        }
+
+        // 7. Reset de feedback de teste de chave
+        const testRes = document.getElementById('modalTestResult') || document.getElementById('providerTestResults');
+        if (testRes) {
+          testRes.style.display = 'none';
+          testRes.innerHTML = '';
+        }
+        const testBtn = document.getElementById('btnTestKeyModal');
+        if (testBtn) {
+          testBtn.disabled = false;
+          testBtn.textContent = '⚡ Testar Chaves';
+        }
+
+        // 8. Navegação de abas (inicia em 'panel-context' ou fallback para 'panel-providers')
+        if (typeof switchSettingsTab === 'function') {
+          const defaultTabBtn = document.querySelector('.settings-tab-btn[data-tab="panel-context"]') ||
+                                document.querySelector('.settings-tab-btn[data-tab="panel-providers"]');
+          const targetTab = defaultTabBtn ? defaultTabBtn.getAttribute('data-tab') : 'panel-context';
+          switchSettingsTab(targetTab, defaultTabBtn);
+        }
+      } catch (err) {
+        console.error('[SETTINGS] Aviso durante a inicialização dos campos:', err);
+      } finally {
+        if (modal) {
+          modal.classList.add('aberto');
+          modal.style.display = 'flex';
+        }
+      }
     }
 
     // Alias para manter compatibilidade com códigos legados e erros 401
@@ -4800,7 +4850,11 @@
     }
 
     function closeSettingsModal() {
-      document.getElementById('settingsModal').classList.remove('aberto');
+      const modal = document.getElementById('settingsModal');
+      if (modal) {
+        modal.classList.remove('aberto');
+        modal.style.display = 'none';
+      }
     }
 
     function closeKeyModal() {
@@ -4808,37 +4862,63 @@
     }
 
     function restoreDefaultSettings() {
-      selectHyperparameterPreset('auto');
-      document.getElementById('inputTemperature').value = DEFAULT_SETTINGS.temperature.toFixed(2);
-      document.getElementById('inputTopP').value = DEFAULT_SETTINGS.top_p.toFixed(2);
-      document.getElementById('inputMaxTokens').value = DEFAULT_SETTINGS.max_tokens;
+      if (typeof selectHyperparameterPreset === 'function') {
+        selectHyperparameterPreset('auto');
+      }
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      };
+      const setCheck = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.checked = val;
+      };
 
-      updateSettingsSliderDisplay('temperature');
-      updateSettingsSliderDisplay('top_p');
-      updateSettingsSliderDisplay('max_tokens');
-      if (document.getElementById('inputSeed')) document.getElementById('inputSeed').value = '';
-      if (document.getElementById('checkJsonMode')) document.getElementById('checkJsonMode').checked = false;
-      if (document.getElementById('checkNemoAutoEval')) document.getElementById('checkNemoAutoEval').checked = true;
+      setVal('inputTemperature', DEFAULT_SETTINGS.temperature.toFixed(2));
+      setVal('inputTopP', DEFAULT_SETTINGS.top_p.toFixed(2));
+      setVal('inputMaxTokens', DEFAULT_SETTINGS.max_tokens);
+      setVal('inputSeed', '');
+
+      if (typeof updateSettingsSliderDisplay === 'function') {
+        updateSettingsSliderDisplay('temperature');
+        updateSettingsSliderDisplay('top_p');
+        updateSettingsSliderDisplay('max_tokens');
+      }
+
+      setCheck('checkJsonMode', false);
+      setCheck('checkNemoAutoEval', true);
+      setCheck('checkNemoGuardrails', true);
     }
 
     function saveSettingsModal() {
-      const apiKeyVal = document.getElementById('modalKeyInput').value.trim();
-      const customPromptVal = document.getElementById('modalCustomSystemPrompt').value;
-      const tempVal = parseFloat(document.getElementById('inputTemperature').value);
-      const topPVal = parseFloat(document.getElementById('inputTopP').value);
-      const maxTokensVal = parseInt(document.getElementById('inputMaxTokens').value, 10);
-      const seedRaw = parseInt(document.getElementById('inputSeed').value, 10);
-      const jsonModeVal = document.getElementById('checkJsonMode').checked;
+      const getVal = (ids) => {
+        const list = Array.isArray(ids) ? ids : [ids];
+        for (const id of list) {
+          const el = document.getElementById(id);
+          if (el && typeof el.value === 'string') return el.value.trim();
+        }
+        return '';
+      };
+
+      const nvidiaKey = getVal(['providerKeyNVIDIA', 'setting-nvidia-key', 'modalKeyInput']);
+      const apiKeyVal = nvidiaKey;
+      const customPromptVal = getVal(['modalCustomSystemPrompt', 'setting-system-prompt']);
+      const tempVal = parseFloat(getVal(['inputTemperature', 'setting-temperature'])) || 0.70;
+      const topPVal = parseFloat(getVal(['inputTopP', 'setting-top-p'])) || 0.95;
+      const maxTokensVal = parseInt(getVal(['inputMaxTokens', 'setting-max-tokens']), 10) || 4096;
+      const seedRaw = parseInt(getVal(['inputSeed', 'setting-seed']), 10);
+      const jsonModeVal = !!document.getElementById('checkJsonMode')?.checked;
       const nemoAutoEvalVal = document.getElementById('checkNemoAutoEval') ? document.getElementById('checkNemoAutoEval').checked : true;
+      const nemoGuardrailsVal = document.getElementById('checkNemoGuardrails') ? document.getElementById('checkNemoGuardrails').checked : true;
 
       // Salva chaves de TODOS os provedores (apenas localStorage, sem vazar em logs)
       const providerKeys = {};
-      const nvidiaKey = document.getElementById('providerKeyNVIDIA')?.value.trim();
-      const groqKey = document.getElementById('providerKeyGroq')?.value.trim();
-      const openrouterKey = document.getElementById('providerKeyOpenrouter')?.value.trim();
-      const googleKey = document.getElementById('providerKeyGoogle')?.value.trim();
-      const deepseekKey = document.getElementById('providerKeyDeepseek')?.value.trim();
-      const anthropicKey = document.getElementById('providerKeyAnthropic')?.value.trim();
+      const groqKey = getVal(['providerKeyGroq', 'setting-groq-key']);
+      const openrouterKey = getVal(['providerKeyOpenrouter', 'setting-openrouter-key']);
+      const googleKey = getVal(['providerKeyGoogle', 'setting-google-key']);
+      const deepseekKey = getVal(['providerKeyDeepseek', 'setting-deepseek-key']);
+      const anthropicKey = getVal(['providerKeyAnthropic', 'setting-anthropic-key']);
+
       if (nvidiaKey) providerKeys.nvidia = nvidiaKey;
       if (groqKey) providerKeys.groq = groqKey;
       if (openrouterKey) providerKeys.openrouter = openrouterKey;
@@ -4850,10 +4930,15 @@
         localStorage.setItem(PROVIDER_API_KEYS_STORAGE, JSON.stringify(providerKeys));
       } catch (_) {}
 
+      try {
+        localStorage.setItem(NEMO_GUARDRAILS_STORAGE, JSON.stringify(!!nemoGuardrailsVal));
+      } catch (_) {}
+
       const settings = {
         seed: !isNaN(seedRaw) ? seedRaw : null,
         jsonMode: !!jsonModeVal,
         nemoAutoEval: !!nemoAutoEvalVal,
+        nemoGuardrails: !!nemoGuardrailsVal,
         apiKey: apiKeyVal,
         apiProvider: document.getElementById('settingsApiProvider')?.value || 'nvidia',
         customSystemPrompt: customPromptVal,
@@ -6765,7 +6850,7 @@
       setModalFeedback('testing', '<span>⚡ [2/2] Autenticando chave e testando nó de inferência na NVIDIA NIM...</span>');
 
       try {
-        const modalKey = document.getElementById('modalKeyInput')?.value?.trim();
+        const modalKey = document.getElementById('providerKeyNVIDIA')?.value?.trim() || document.getElementById('setting-nvidia-key')?.value?.trim() || document.getElementById('modalKeyInput')?.value?.trim();
         const userKey = modalKey || getStoredApiKey();
 
         if (!userKey) {
@@ -7003,6 +7088,14 @@
       updatePersonaUI();
       initSidebarResizer();
       initAttachmentListeners();
+
+      // ── Vinculação de manipuladores via addEventListener (sem inline onclick) ──
+      const btnSettingsSidebar = document.getElementById('btnSettingsSidebar');
+      const btnCloseSettingsModal = document.getElementById('btnCloseSettingsModal');
+      const btnSettingsCancel = document.getElementById('btnSettingsCancel');
+      if (btnSettingsSidebar) btnSettingsSidebar.addEventListener('click', openSettingsModal);
+      if (btnCloseSettingsModal) btnCloseSettingsModal.addEventListener('click', closeSettingsModal);
+      if (btnSettingsCancel) btnSettingsCancel.addEventListener('click', closeSettingsModal);
 
       if (sessions.length === 0) {
         createNewChatSession();
