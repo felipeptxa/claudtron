@@ -23,13 +23,107 @@ const { app, BrowserWindow, shell, globalShortcut } = require('electron');
 const path = require('path');
 
 // 1. Inicializa o servidor proxy local do Cloudtron em segundo plano
+const FALLBACK_BASE_PORT = 3000;
+let serverReadyPromise;
 try {
-  require('./server.js');
+  const cloudtronServer = require('./server.js');
+  if (cloudtronServer && cloudtronServer.ready) {
+    serverReadyPromise = cloudtronServer.ready.catch((err) => {
+      console.warn('[ELECTRON] Falha ao iniciar servidor local:', err.message);
+      return FALLBACK_BASE_PORT;
+    });
+  } else {
+    serverReadyPromise = Promise.resolve(FALLBACK_BASE_PORT);
+  }
 } catch (err) {
   console.warn('[ELECTRON] Servidor proxy já ativo ou iniciado externamente:', err.message);
+  serverReadyPromise = Promise.resolve(FALLBACK_BASE_PORT);
 }
 
 let mainWindow;
+let appPort = FALLBACK_BASE_PORT;
+
+const MAX_INITIAL_RETRIES = 10;
+let initialRetries = 0;
+let retryTimer = null;
+
+function getAppUrl() {
+  return `http://127.0.0.1:${appPort}`;
+}
+
+// Tela local de fallback exibida quando o serviço interno não responde
+function buildFallbackPage(errorDetail) {
+  const retryUrl = getAppUrl();
+  const safeDetail = String(errorDetail || '')
+    .replace(/[<>&"']/g, '')
+    .slice(0, 200);
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Cloudtron OneClick</title>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: #060913;
+    color: #f8fafc;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .box {
+    max-width: 520px;
+    margin: 24px;
+    padding: 40px 32px;
+    text-align: center;
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  }
+  h1 { font-size: 20px; margin: 0 0 12px; color: #38bdf8; }
+  p { font-size: 14px; line-height: 1.6; color: #94a3b8; margin: 0 0 22px; }
+  button {
+    background: #2dd4bf;
+    border: none;
+    color: #04070f;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  button:hover { background: #14b8a6; }
+  .detail {
+    font-family: Consolas, monospace;
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 18px;
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>Não foi possível conectar ao serviço local</h1>
+    <p>O servidor interno do Cloudtron não respondeu. Verifique se há outro aplicativo ocupando a porta <strong>${appPort}</strong> e tente novamente.</p>
+    <button onclick="window.location.href='${retryUrl}'">Tentar novamente</button>
+    ${safeDetail ? `<div class="detail">${safeDetail}</div>` : ''}
+  </div>
+</body>
+</html>`;
+
+  return 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+}
+
+function showConnectionFallback(errorDetail) {
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+  mainWindow.loadURL(buildFallbackPage(errorDetail)).catch(() => {});
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -47,17 +141,42 @@ function createWindow() {
   });
 
   // Carrega a interface servida pelo proxy local com retry resiliente
+  const scheduleRetry = (reason) => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    if (retryTimer) return;
+    if (initialRetries >= MAX_INITIAL_RETRIES) {
+      console.error('[ELECTRON] Serviço local indisponível após várias tentativas:', reason);
+      showConnectionFallback('Serviço local indisponível após várias tentativas.');
+      return;
+    }
+    initialRetries++;
+    console.warn(`[ELECTRON] Servidor local ainda inicializando (tentativa ${initialRetries}/${MAX_INITIAL_RETRIES})...`, reason || '');
+    retryTimer = setTimeout(() => {
+      retryTimer = null;
+      loadApp();
+    }, 350);
+  };
+
   const loadApp = () => {
-    mainWindow.loadURL('http://localhost:3000').catch((err) => {
-      console.warn('[ELECTRON] Servidor local ainda inicializando, tentando em 350ms...', err.message);
-      setTimeout(() => {
-        if (mainWindow && !mainWindow.isDestroyed()) {
-          mainWindow.loadURL('http://localhost:3000').catch(() => {});
-        }
-      }, 350);
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    mainWindow.loadURL(getAppUrl()).then(() => {
+      initialRetries = 0;
+    }).catch((err) => {
+      scheduleRetry(err.message);
     });
   };
-  loadApp();
+
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+    if (!isMainFrame) return;
+    if (errorCode === -3) return; // ERR_ABORTED (redirecionamentos/navegação cancelada)
+    if (typeof validatedURL === 'string' && validatedURL.startsWith('data:')) return;
+    scheduleRetry(`${errorDescription} (${validatedURL})`);
+  });
+
+  serverReadyPromise.then((port) => {
+    appPort = port || FALLBACK_BASE_PORT;
+    loadApp();
+  });
 
   // Força links externos a abrirem no navegador padrão do sistema
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {

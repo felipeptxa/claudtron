@@ -22,7 +22,10 @@ const xlsx = require('xlsx');
 const officeParser = require('officeparser');
 const AdmZip = require('adm-zip');
 
-const PORT = process.env.PORT || 3000;
+const BASE_PORT = parseInt(process.env.PORT, 10) || 3000;
+const MAX_PORT_ATTEMPTS = 10;
+const BIND_HOST = '127.0.0.1';
+const MAX_BODY_BYTES = 50 * 1024 * 1024; // 50 MB
 const NVIDIA_ENDPOINT = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const DEFAULT_MODEL = 'nvidia/nemotron-3.5-super-vl-120b-a12b';
 
@@ -155,6 +158,54 @@ function fetchWithTimeout(url, options, timeoutMs) {
   const tid = setTimeout(() => ctrl.abort(), timeoutMs);
   return fetch(url, { ...options, signal: ctrl.signal })
     .finally(() => clearTimeout(tid));
+}
+
+// ── Utilitário: lê o corpo da requisição com limite rígido de 50 MB ──────────
+function readBodyWithLimit(req, res, onComplete) {
+  const payloadTooLarge = () => {
+    res.writeHead(413, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({
+      ok: false,
+      success: false,
+      error: `Payload excede o limite de ${MAX_BODY_BYTES / (1024 * 1024)} MB.`
+    }));
+  };
+
+  const contentLength = parseInt(req.headers['content-length'] || '0', 10);
+  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+    payloadTooLarge();
+    req.resume(); // descarta o upload sem acumular em memória
+    return;
+  }
+
+  let rawBody = '';
+  let totalBytes = 0;
+  let rejected = false;
+
+  req.on('data', (chunk) => {
+    if (rejected) return;
+    totalBytes += chunk.length;
+    if (totalBytes > MAX_BODY_BYTES) {
+      rejected = true;
+      rawBody = '';
+      payloadTooLarge();
+      return;
+    }
+    rawBody += chunk;
+  });
+
+  req.on('end', () => {
+    if (!rejected) onComplete(rawBody);
+  });
+
+  req.on('error', () => {
+    if (rejected) return;
+    rejected = true;
+    if (!res.headersSent) {
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ ok: false, success: false, error: 'Falha ao ler o corpo da requisição.' }));
+    }
+  });
 }
 
 const server = http.createServer((req, res) => {
@@ -420,9 +471,7 @@ const server = http.createServer((req, res) => {
 
   // ── /api/parse-file — Universal Document Ingestion (v1.2) ───────────────────
   if (req.method === 'POST' && req.url === '/api/parse-file') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    req.on('end', async () => {
+    readBodyWithLimit(req, res, async (body) => {
       try {
         const payload = JSON.parse(body);
         const { filename, base64 } = payload;
@@ -677,9 +726,7 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    let rawBody = '';
-    req.on('data', chunk => { rawBody += chunk; });
-    req.on('end', async () => {
+    readBodyWithLimit(req, res, async (rawBody) => {
       const startTime = Date.now();
       let clientData;
       try {
@@ -979,21 +1026,111 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.warn(`[SERVER] ⚠️ Porta ${PORT} já está em uso por uma instância ativa do Cloudtron.`);
-    console.warn(`[SERVER] ✅ Conectando e reutilizando o serviço existente em http://localhost:${PORT}`);
-  } else {
-    console.error('[SERVER ERRO]:', err);
-  }
-});
+// ── Verificação de instância Cloudtron legítima na porta ─────────────────────
+function pingCloudtron(port, timeoutMs) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      resolve(result);
+    };
 
-server.listen(PORT, () => {
-  console.log(`===============================================`);
-  console.log(` ⚡ Cloudtron OneClick v1.2.1 - Local Server Ativo`);
-  console.log(` 🚀 Interface: http://localhost:${PORT}`);
-  console.log(` 📡 Streaming de Baixa Latência Ativo`);
-  console.log(` 🧠 Modelo: ${DEFAULT_MODEL}`);
-  console.log(` 🛡️ Cloudtron NeMo Core & Eval Engine Ativo`);
-  console.log(`===============================================`);
-});
+    const req = http.get({
+      hostname: BIND_HOST,
+      port: port,
+      path: '/api/ping',
+      timeout: timeoutMs
+    }, (res) => {
+      let data = '';
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => {
+        data += chunk;
+        if (data.length > 8192) {
+          req.destroy();
+          finish(false);
+        }
+      });
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          finish(res.statusCode === 200 && json.ok === true && typeof json.model === 'string');
+        } catch (_) {
+          finish(false);
+        }
+      });
+    });
+
+    req.on('timeout', () => { req.destroy(); finish(false); });
+    req.on('error', () => finish(false));
+  });
+}
+
+let activePort = BASE_PORT;
+let reusedExisting = false;
+
+function listenOnPort(port, remainingAttempts) {
+  return new Promise((resolve, reject) => {
+    // Listeners explícitos por tentativa: o callback do listen() falho
+    // permaneceria ligado ao evento 'listening' e resolveria a porta errada.
+    const onListening = () => {
+      server.removeListener('error', onError);
+      activePort = port;
+      resolve(port);
+    };
+
+    const onError = (err) => {
+      server.removeListener('listening', onListening);
+      if (err.code !== 'EADDRINUSE') {
+        reject(err);
+        return;
+      }
+      if (remainingAttempts <= 0) {
+        reject(new Error(`Nenhuma porta disponível entre ${BASE_PORT} e ${BASE_PORT + MAX_PORT_ATTEMPTS}.`));
+        return;
+      }
+
+      pingCloudtron(port, 1500).then((isCloudtron) => {
+        if (isCloudtron) {
+          reusedExisting = true;
+          activePort = port;
+          console.warn(`[SERVER] ⚠️ Porta ${port} ocupada por uma instância Cloudtron ativa. Reutilizando serviço existente.`);
+          resolve(port);
+        } else {
+          console.warn(`[SERVER] ⚠️ Porta ${port} ocupada por outro processo. Tentando porta ${port + 1}...`);
+          listenOnPort(port + 1, remainingAttempts - 1).then(resolve, reject);
+        }
+      });
+    };
+
+    server.once('error', onError);
+    server.once('listening', onListening);
+    server.listen(port, BIND_HOST);
+  });
+}
+
+const ready = listenOnPort(BASE_PORT, MAX_PORT_ATTEMPTS)
+  .then((port) => {
+    if (!reusedExisting) {
+      server.on('error', (err) => console.error('[SERVER ERRO]:', err));
+      console.log(`===============================================`);
+      console.log(` ⚡ Cloudtron OneClick v1.2.1 - Local Server Ativo`);
+      console.log(` 🚀 Interface: http://${BIND_HOST}:${port}`);
+      console.log(` 📡 Streaming de Baixa Latência Ativo`);
+      console.log(` 🧠 Modelo: ${DEFAULT_MODEL}`);
+      console.log(` 🛡️ Cloudtron NeMo Core & Eval Engine Ativo`);
+      console.log(`===============================================`);
+    } else {
+      console.log(`[SERVER] ✅ Serviço existente reutilizado em http://${BIND_HOST}:${port}`);
+    }
+    return port;
+  })
+  .catch((err) => {
+    console.error('[SERVER ERRO]:', err.message);
+    throw err;
+  });
+
+module.exports = {
+  ready: ready,
+  get port() { return activePort; }
+};
