@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Primary SEO Meta Tags -->
-  <title>Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.1)</title>
-  <meta name="title" content="Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.1)">
+  <title>Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.2)</title>
+  <meta name="title" content="Cloudtron OneClick — IA Desktop Nativa &amp; NVIDIA Nemotron 120B (v1.2.2)">
   <meta name="description" content="CLOUDTRON OneClick é a estação desktop ultra leve em Electron e Node.js para inferência direta do NVIDIA Nemotron 3.5 Super VL 120B no Windows x64. Deep Thinking (CoT), visão multimodal nativa, zero CUDA/Python local.">
   <meta name="keywords" content="CLOUDTRON, CLOUDTRON OneClick, CLAUTRON, NVIDIA Nemotron 120B, Nemotron 3.5 Super VL, deep thinking, chain of thought, electron windows ai, felipe monroe, cloudtron github, felipeptxa, ia desktop windows">
   <meta name="author" content="Felipe Monroe">
@@ -180,7 +180,7 @@
     "name": "CLOUDTRON OneClick",
     "operatingSystem": "Windows 10, Windows 11 (x64)",
     "applicationCategory": "DeveloperApplication",
-    "softwareVersion": "1.2.1",
+    "softwareVersion": "1.2.2",
     "description": "Estação desktop ultra leve em Electron e Node.js para inferência direta do Nemotron 120B com Chain-of-Thought e visão multimodal nativa.",
     "author": {
       "@type": "Person",
@@ -220,7 +220,7 @@
         <div class="flex items-center gap-2">
           <span class="font-display font-extrabold text-lg tracking-tight text-white group-hover:text-neonCyan transition-colors">CLOUDTRON</span>
           <span class="font-display font-extrabold text-lg tracking-tight text-neonCyan">OneClick</span>
-          <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded-full bg-cyberBorder/80 border border-cyberBorder text-mutedText ml-1">v1.2.1</span>
+          <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded-full bg-cyberBorder/80 border border-cyberBorder text-mutedText ml-1">v1.2.2</span>
         </div>
       </a>
 
@@ -298,13 +298,13 @@
       <!-- Botões de Ação Principais -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-5">
         <!-- CTA Primário (Windows Download) -->
-        <a href="https://github.com/felipeptxa/cloudtron/releases/download/v1.2.1/Cloudtron-OneClick-Setup-1.2.1.exe" class="btn-download-pulse w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 rounded-xl text-black font-sans font-bold text-base transition-all group" id="heroDownloadBtn">
+        <a href="https://github.com/felipeptxa/cloudtron/releases/download/v1.2.2/Cloudtron-OneClick-Setup-1.2.2.exe" class="btn-download-pulse w-full sm:w-auto inline-flex items-center justify-center gap-3.5 px-8 py-4 rounded-xl text-black font-sans font-bold text-base transition-all group" id="heroDownloadBtn">
           <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
             <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.751"/>
           </svg>
           <div class="text-left">
             <div class="text-sm font-extrabold tracking-tight">Baixar para Windows (x64)</div>
-            <div class="text-[11px] font-mono opacity-80 font-normal">Cloudtron-OneClick-Setup-1.2.1.exe (NSIS)</div>
+            <div class="text-[11px] font-mono opacity-80 font-normal">Cloudtron-OneClick-Setup-1.2.2.exe (NSIS)</div>
           </div>
         </a>
 
@@ -356,22 +356,6 @@
               <span class="text-[11px] font-mono text-mutedText hidden sm:inline">• nemotron-3.5-vl-120b</span>
             </div>
 
-            <!-- Center: Heuristic Presets Switcher -->
-            <div class="hidden lg:flex items-center gap-1.5 bg-cyberSurface/80 p-0.5 rounded-lg border border-cyberBorder/80">
-              <button onclick="setMockupPreset('Profundo', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all bg-neonCyan/15 text-neonCyan border border-neonCyan/40 font-semibold shadow-[0_0_10px_rgba(0,240,255,0.2)]">
-                Profundo (CoT)
-              </button>
-              <button onclick="setMockupPreset('Código', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white">
-                Código
-              </button>
-              <button onclick="setMockupPreset('Criativo', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white">
-                Criativo
-              </button>
-              <button onclick="setMockupPreset('Rápido', this)" type="button" class="mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white">
-                Rápido
-              </button>
-            </div>
-
             <!-- Right: Status Badge & Windows Control Buttons -->
             <div class="flex items-center gap-3">
               <!-- Status Verde NVIDIA OK -->
@@ -395,7 +379,7 @@
                   </svg>
                 </button>
                 <!-- Close Button (Windows Red on Hover) -->
-                <button type="button" onclick="showToast('Cloudtron OneClick v1.2.1 • Desktop Nativo Windows')" class="w-9 h-8 flex items-center justify-center text-mutedText hover:text-white hover:bg-[#E81123] transition-colors rounded-tr-[12px]" title="Fechar">
+                <button type="button" onclick="showToast('Cloudtron OneClick v1.2.2 • Desktop Nativo Windows')" class="w-9 h-8 flex items-center justify-center text-mutedText hover:text-white hover:bg-[#E81123] transition-colors rounded-tr-[12px]" title="Fechar">
                   <svg class="w-3 h-3" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2">
                     <line x1="1" y1="1" x2="9" y2="9"/>
                     <line x1="9" y1="1" x2="1" y2="9"/>
@@ -404,17 +388,6 @@
               </div>
             </div>
 
-          </div>
-
-          <!-- Heuristic Preset Sub-Bar -->
-          <div class="px-4 py-2 bg-cyberSurface/50 border-b border-cyberBorder flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
-            <div class="flex items-center gap-2 text-mutedText">
-              <span class="text-neonCyan">⚙️</span>
-              <span id="presetDesc"><strong>Profundo (CoT):</strong> Raciocínio estendido (Chain-of-Thought) habilitado com alta densidade lógica para arquitetura e refatoração complexa.</span>
-            </div>
-            <div class="text-[11px] text-mutedText font-mono shrink-0">
-              Latência NIM: <span class="text-neonGreen font-semibold">114ms</span>
-            </div>
           </div>
 
           <!-- Window Body: Left Sidebar + Right Main Area -->
@@ -432,16 +405,6 @@
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                   </svg>
                   <span>Nova Sessão</span>
-                </button>
-
-                <!-- Botão Importar Contexto (Context Bridge) -->
-                <button type="button" onclick="showToast('Context Bridge: Pronto para importar do Claude / ChatGPT / Cursor')" class="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-neonPurple/10 border border-neonPurple/30 text-neonPurple font-semibold hover:bg-neonPurple/20 hover:border-neonPurple hover:shadow-[0_0_12px_rgba(121,40,202,0.2)] transition-all">
-                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                  <span>📥 Importar Contexto</span>
                 </button>
 
                 <!-- Lista de Sessões Recentes -->
@@ -480,8 +443,8 @@
               <!-- Sidebar Bottom (Diagnóstico & Telemetria) -->
               <div class="pt-3 border-t border-cyberBorder/80 space-y-2 font-mono text-[11px]">
                 <div class="p-2 rounded-lg bg-cyberSurface/60 border border-cyberBorder">
-                  <div class="text-[10px] text-mutedText uppercase">Preset Ativo</div>
-                  <div class="text-neonCyan font-semibold" id="sidebarPresetLabel">Profundo (CoT)</div>
+                  <div class="text-[10px] text-mutedText uppercase">Effort Ativo</div>
+                  <div class="text-neonCyan font-semibold" id="sidebarPresetLabel">Auto</div>
                 </div>
                 <div class="p-2 rounded-lg bg-cyberSurface/60 border border-cyberBorder">
                   <div class="text-[10px] text-mutedText uppercase">Conexão NVIDIA</div>
@@ -546,7 +509,10 @@
                   <div class="space-y-3.5 w-full">
                     <div class="flex items-center justify-between text-xs font-mono text-mutedText">
                       <span class="text-neonCyan font-semibold">CLOUDTRON • Nemotron 3.5 VL 120B</span>
-                      <span class="text-[11px] text-mutedText">Latência: 114ms • Streaming Ativo</span>
+                      <span class="text-[11px] text-mutedText flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-neonGreen animate-pulse"></span>
+                        Streaming Ativo
+                      </span>
                     </div>
 
                     <!-- Bloco Retrátil de Chain-of-Thought -->
@@ -583,11 +549,21 @@
   <span class="text-neonPurple font-bold">return</span> (
     &lt;<span class="text-neonCyan">div</span> className=<span class="text-neonGreen">"p-4 rounded-xl bg-cyberCard border border-neonCyan/30 shadow-lg"</span>&gt;
       &lt;<span class="text-neonCyan">span</span> className=<span class="text-neonGreen">"text-xs font-mono text-neonCyan"</span>&gt;{title}&lt;/<span class="text-neonCyan">span</span>&gt;
-      &lt;<span class="text-neonCyan">h3</span> className=<span class="text-white font-bold text-xl mt-1"</span>&gt;{value}&lt;/<span class="text-neonCyan">h3</span>&gt;
-      &lt;<span class="text-neonCyan">p</span> className=<span class="text-neonGreen text-xs mt-1"</span>&gt;↑ {change}% vs mês anterior&lt;/<span class="text-neonCyan">p</span>&gt;
+      &lt;<span class="text-neonCyan">h3</span> className=<span class="text-neonGreen">"text-white font-bold text-xl mt-1"</span>&gt;{value}&lt;/<span class="text-neonCyan">h3</span>&gt;
+      &lt;<span class="text-neonCyan">p</span> className=<span class="text-neonGreen">"text-neonGreen text-xs mt-1"</span>&gt;↑ {change}% vs mês anterior&lt;/<span class="text-neonCyan">p</span>&gt;
     &lt;/<span class="text-neonCyan">div</span>&gt;
   );
 };</code></pre>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-1.5 text-[10.5px] font-mono text-slate-400">
+                      <span>Cloudtron Omni · 14:32</span>
+                      <span class="text-slate-600">•</span>
+                      <span class="text-neonCyan" id="mockupMetaEffort">Effort: Auto</span>
+                      <span class="text-slate-600">•</span>
+                      <span>⚡ TTFT: 0.4s | Total: 2.1s</span>
+                      <span class="text-slate-600">•</span>
+                      <span class="text-neonGreen">🛡️ NeMo: Verificado</span>
                     </div>
 
                   </div>
@@ -644,7 +620,55 @@
                     <polyline points="7 10 12 15 17 10"></polyline>
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                   </svg>
-                  <span class="truncate">Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)...</span>
+                  <span class="flex-1 truncate">Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)...</span>
+
+                  <!-- Effort Dock integrado ao prompt -->
+                  <div class="relative shrink-0" id="mockupEffortDock">
+                    <button type="button" onclick="toggleMockupEffortMenu(event)" class="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full bg-neonCyan/10 border border-neonCyan/25 text-neonCyan text-[11px] font-mono font-semibold hover:bg-neonCyan/20 transition-all" title="Nível de esforço">
+                      <span id="mockupEffortIcon">⚡</span>
+                      <span id="mockupEffortLabel">Auto</span>
+                      <svg class="w-3 h-3 text-mutedText" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                    <div id="mockupEffortMenu" class="hidden absolute bottom-full mb-2 right-0 w-64 p-2 rounded-xl bg-[#0b1222] border border-cyberBorder shadow-[0_14px_34px_rgba(0,0,0,0.65)] z-40">
+                      <button type="button" onclick="setMockupEffort('auto', this)" class="mockup-effort-option bg-slate-800 ring-1 ring-inset ring-neonCyan/40 w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left hover:bg-slate-800 transition-colors">
+                        <span class="text-sm leading-none mt-0.5">⚡</span>
+                        <span class="flex flex-col gap-0.5">
+                          <span class="text-[11px] font-mono font-semibold text-white">Auto</span>
+                          <span class="text-[10px] text-mutedText">Detecção automática da complexidade</span>
+                        </span>
+                      </button>
+                      <button type="button" onclick="setMockupEffort('low', this)" class="mockup-effort-option w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left hover:bg-slate-800 transition-colors">
+                        <span class="text-sm leading-none mt-0.5">💨</span>
+                        <span class="flex flex-col gap-0.5">
+                          <span class="text-[11px] font-mono font-semibold text-white">Rápido</span>
+                          <span class="text-[10px] text-mutedText">Baixa latência e respostas diretas</span>
+                        </span>
+                      </button>
+                      <button type="button" onclick="setMockupEffort('code', this)" class="mockup-effort-option w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left hover:bg-slate-800 transition-colors">
+                        <span class="text-sm leading-none mt-0.5">💻</span>
+                        <span class="flex flex-col gap-0.5">
+                          <span class="text-[11px] font-mono font-semibold text-white">Código</span>
+                          <span class="text-[10px] text-mutedText">Precisão sintática e consistência técnica</span>
+                        </span>
+                      </button>
+                      <button type="button" onclick="setMockupEffort('creative', this)" class="mockup-effort-option w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left hover:bg-slate-800 transition-colors">
+                        <span class="text-sm leading-none mt-0.5">🎨</span>
+                        <span class="flex flex-col gap-0.5">
+                          <span class="text-[11px] font-mono font-semibold text-white">Criativo</span>
+                          <span class="text-[10px] text-mutedText">Exploração ampla e conexões originais</span>
+                        </span>
+                      </button>
+                      <button type="button" onclick="setMockupEffort('high', this)" class="mockup-effort-option w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left hover:bg-slate-800 transition-colors">
+                        <span class="text-sm leading-none mt-0.5">🧠</span>
+                        <span class="flex flex-col gap-0.5">
+                          <span class="text-[11px] font-mono font-semibold text-white">Profundo</span>
+                          <span class="text-[10px] text-mutedText">CoT estendido para problemas complexos</span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <button onclick="showToast('CLOUDTRON: Simulador ativo. Baixe o app para inferência real!')" type="button" class="w-9 h-9 rounded-xl bg-neonCyan text-black flex items-center justify-center font-bold hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all shrink-0" title="Enviar comando">
                   <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -888,15 +912,15 @@
           </p>
         </div>
 
-        <!-- v1.2.1 (Current) -->
+        <!-- v1.2.2 (Current) -->
         <div class="glass-card p-6 rounded-2xl border-neonCyan/40 shadow-[0_0_20px_rgba(0,240,255,0.15)]">
           <div class="flex items-center justify-between mb-3">
             <span class="text-xs font-mono font-bold text-neonCyan px-2.5 py-1 rounded bg-neonCyan/10 border border-neonCyan/40">Versão Atual</span>
-            <span class="font-mono text-xs text-neonCyan font-bold">v1.2.1</span>
+            <span class="font-mono text-xs text-neonCyan font-bold">v1.2.2</span>
           </div>
-          <h3 class="font-display font-bold text-lg text-white mb-2">Context Bridge &amp; Ingestão</h3>
+          <h3 class="font-display font-bold text-lg text-white mb-2">Effort Dock &amp; UI Linear</h3>
           <p class="text-mutedText text-xs leading-relaxed">
-            Importação nativa de contextos de outras IAs (Context Bridge), leitura local em JS de PDF/DOCX/XLSX/ZIP e modo de doação direta.
+            Seletor de Effort integrado ao prompt, telemetria minimalista, contexto persistente em Configurações e dropdown de modelos redesenhado.
           </p>
         </div>
 
@@ -1077,7 +1101,7 @@
       <div class="space-y-1 text-center md:text-left">
         <div class="flex items-center justify-center md:justify-start gap-2">
           <span class="font-display font-extrabold text-white">⚡ CLOUDTRON OneClick</span>
-          <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyberCard border border-cyberBorder text-neonCyan">v1.2.1</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyberCard border border-cyberBorder text-neonCyan">v1.2.2</span>
         </div>
         <p class="text-xs">
           Desenvolvido por <a href="https://github.com/felipeptxa" target="_blank" rel="noopener noreferrer" class="text-white hover:text-neonCyan font-semibold underline">Felipe Monroe</a> sob licença open-source MIT.
@@ -1211,7 +1235,7 @@
     const heroDownloadBtn = document.getElementById('heroDownloadBtn');
     if (heroDownloadBtn) {
       heroDownloadBtn.addEventListener('click', () => {
-        showToast('Iniciando download do instalador Cloudtron OneClick v1.2.1...');
+        showToast('Iniciando download do instalador Cloudtron OneClick v1.2.2...');
       });
     }
 
@@ -1237,30 +1261,53 @@
       }
     }
 
-    // 7. Heuristic Presets Switcher
-    function setMockupPreset(preset, btn) {
-      document.querySelectorAll('.mockup-preset-chip').forEach(b => {
-        b.className = 'mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all text-mutedText hover:text-white';
-      });
-      if (btn) {
-        btn.className = 'mockup-preset-chip px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-all bg-neonCyan/15 text-neonCyan border border-neonCyan/40 font-semibold shadow-[0_0_10px_rgba(0,240,255,0.2)]';
-      }
-      const descEl = document.getElementById('presetDesc');
-      const sidebarLabel = document.getElementById('sidebarPresetLabel');
-      if (sidebarLabel) sidebarLabel.textContent = preset + (preset === 'Profundo' ? ' (CoT)' : '');
-      
-      if (!descEl) return;
-      if (preset === 'Profundo') {
-        descEl.innerHTML = '<strong>Profundo (CoT):</strong> Raciocínio estendido (Chain-of-Thought) habilitado com alta densidade lógica para arquitetura e refatoração complexa.';
-      } else if (preset === 'Código') {
-        descEl.innerHTML = '<strong>Código:</strong> Amostragem determinística (Top-P 0.95, Temp 0.20) com foco estrito em sintaxe limpa e zero alucinação.';
-      } else if (preset === 'Criativo') {
-        descEl.innerHTML = '<strong>Criativo:</strong> Amostragem ampla (Temp 0.85, Top-P 0.98) para ideação, brainstorming arquitetural e copywriting técnico.';
-      } else if (preset === 'Rápido') {
-        descEl.innerHTML = '<strong>Rápido:</strong> Inferência direta sem CoT profundo, com latência ultrabaixa para consultas pontuais e auto-complete.';
-      }
-      showToast(`Modo heurístico alterado: ${preset}`);
+    // 7. Seletor de Effort do Mockup
+    const MOCKUP_EFFORTS = {
+      auto: { label: 'Auto', icon: '⚡' },
+      low: { label: 'Rápido', icon: '💨' },
+      code: { label: 'Código', icon: '💻' },
+      creative: { label: 'Criativo', icon: '🎨' },
+      high: { label: 'Profundo', icon: '🧠' }
+    };
+
+    function toggleMockupEffortMenu(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('mockupEffortMenu');
+      if (menu) menu.classList.toggle('hidden');
     }
+
+    function setMockupEffort(mode, btn) {
+      const effort = MOCKUP_EFFORTS[mode];
+      if (!effort) return;
+
+      document.querySelectorAll('#mockupEffortMenu .mockup-effort-option').forEach(option => {
+        const isActive = option === btn;
+        option.classList.toggle('bg-slate-800', isActive);
+        option.classList.toggle('ring-1', isActive);
+        option.classList.toggle('ring-inset', isActive);
+        option.classList.toggle('ring-neonCyan/40', isActive);
+      });
+
+      const label = document.getElementById('mockupEffortLabel');
+      const icon = document.getElementById('mockupEffortIcon');
+      const sidebarLabel = document.getElementById('sidebarPresetLabel');
+      const metaEffort = document.getElementById('mockupMetaEffort');
+      if (label) label.textContent = effort.label;
+      if (icon) icon.textContent = effort.icon;
+      if (sidebarLabel) sidebarLabel.textContent = effort.label;
+      if (metaEffort) metaEffort.textContent = `Effort: ${effort.label}`;
+
+      const menu = document.getElementById('mockupEffortMenu');
+      if (menu) menu.classList.add('hidden');
+      showToast(`Effort alterado: ${effort.label}`);
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest || !event.target.closest('#mockupEffortDock')) {
+        const menu = document.getElementById('mockupEffortMenu');
+        if (menu) menu.classList.add('hidden');
+      }
+    });
 
     // 8. Copiar Snippet de Código do Mockup
     function copySnippetCode(btn) {

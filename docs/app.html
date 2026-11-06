@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudtron OneClick v1.2.1</title>
+  <title>Cloudtron OneClick v1.2.2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -702,22 +702,35 @@
 
     .meta-tag {
       font-size: 11px;
-      color: #8e918f;
-      margin-top: 5px;
+      color: #94a3b8;
+      margin-top: 6px;
       padding: 0 4px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      letter-spacing: 0.1px;
     }
 
     .badge-effort {
-      font-size: 10px;
-      padding: 1px 6px;
-      border-radius: 6px;
-      background: #212225;
-      border: 1px solid #3c4043;
+      font-size: 11px;
+      font-weight: 500;
       color: #60a5fa;
-      font-family: monospace;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      background: transparent;
+      border: none;
+      padding: 0;
+      border-radius: 0;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .meta-sep {
+      color: #334155;
+      font-size: 10px;
+      line-height: 1;
+      user-select: none;
     }
 
     .btn-action-msg {
@@ -1274,6 +1287,139 @@
       background: rgba(56, 189, 248, 0.1);
     }
 
+    /* Seletor compacto de Effort acoplado à caixa de prompt */
+    .effort-dock {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .effort-dock-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 30px;
+      padding: 0 9px;
+      background: rgba(56, 189, 248, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      border-radius: 999px;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .effort-dock-toggle:hover,
+    .effort-dock.open .effort-dock-toggle {
+      background: rgba(56, 189, 248, 0.13);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #e0f2fe;
+    }
+
+    .effort-dock-icon {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .effort-dock-label {
+      letter-spacing: 0.1px;
+    }
+
+    .effort-dock-chevron {
+      color: #64748b;
+      transition: transform 0.2s ease;
+    }
+
+    .effort-dock.open .effort-dock-chevron {
+      transform: rotate(180deg);
+    }
+
+    .effort-dock-menu {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 0;
+      width: 232px;
+      padding: 10px;
+      background: #0b1222;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 12px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 18px rgba(56, 189, 248, 0.08);
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 1200;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .effort-dock-menu.open {
+      display: flex;
+      animation: fadeInDropdown 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .effort-dock-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 10px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .effort-dock-option:hover {
+      background: #1e293b;
+    }
+
+    .effort-dock-option.active {
+      background: rgba(59, 130, 246, 0.10);
+      box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.35);
+      color: #eff6ff;
+    }
+
+    .effort-option-icon {
+      width: 16px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .effort-option-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+    }
+
+    .effort-option-text strong {
+      font-size: 12px;
+      font-weight: 600;
+      color: inherit;
+    }
+
+    .effort-option-text small {
+      font-size: 10px;
+      color: #64748b;
+    }
+
+    .effort-option-check {
+      color: #38bdf8;
+      font-size: 11px;
+      opacity: 0;
+    }
+
+    .effort-dock-option.active .effort-option-check {
+      opacity: 1;
+    }
+
     textarea {
       flex: 1;
       background: transparent;
@@ -1414,16 +1560,17 @@
       position: absolute;
       top: calc(100% + 8px);
       left: 0;
-      width: 340px;
+      width: 360px;
       background: #0b1222;
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(148, 163, 184, 0.14);
       border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.1);
-      padding: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.08);
+      padding: 10px;
       display: none;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
       z-index: 1000;
+      overflow: hidden;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -1445,17 +1592,18 @@
       padding: 8px 10px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.15s;
-      border: 1px solid transparent;
+      transition: background 0.15s ease, box-shadow 0.15s ease;
+      border: none;
+      box-shadow: inset 0 0 0 1px transparent;
     }
 
     .persona-option:hover {
-      background: #282a2c;
+      background: #1e293b;
     }
 
     .persona-option.active {
-      background: rgba(59, 130, 246, 0.12);
-      border-color: rgba(59, 130, 246, 0.35);
+      background: rgba(59, 130, 246, 0.10);
+      box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.35);
     }
 
     .persona-option-header {
@@ -1733,6 +1881,49 @@
       border-color: #60a5fa;
     }
 
+    .settings-context-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .settings-context-tools .btn-preview-ctrl {
+      flex: 1 1 180px;
+      justify-content: center;
+      padding: 8px 12px;
+      font-size: 11.5px;
+    }
+
+    .settings-context-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: #64748b;
+      background: #0d1424;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 7px 10px;
+      line-height: 1.4;
+    }
+
+    .settings-context-clear {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    .settings-context-clear:hover {
+      color: #fca5a5;
+      text-decoration: underline;
+    }
+
     .param-desc {
       font-size: 11px;
       line-height: 1.45;
@@ -1887,51 +2078,51 @@
       line-height: 1.5;
     }
 
-    /* Badge de Telemetria TTFT / Tempo Total */
+    /* Telemetria minimalista em linha única (TTFT / Tempo Total) */
     .badge-telemetry {
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      background: rgba(14, 165, 233, 0.12);
-      border: 1px solid rgba(14, 165, 233, 0.28);
+      background: transparent;
+      border: none;
       color: #38bdf8;
       font-size: 11px;
       font-weight: 500;
-      padding: 2px 7px;
-      border-radius: 10px;
-      letter-spacing: 0.2px;
+      padding: 0;
+      border-radius: 0;
+      letter-spacing: 0.1px;
       user-select: none;
+      font-family: 'JetBrains Mono', Consolas, monospace;
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
-  
-    
-    /* Badge de Avaliação Clautron NeMo Core */
+    /* Telemetria NeMo minimalista */
     .badge-nemo {
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.28);
+      background: transparent;
+      border: none;
       color: #34d399;
       font-size: 11px;
       font-weight: 500;
-      padding: 2px 7px;
-      border-radius: 10px;
-      letter-spacing: 0.2px;
+      padding: 0;
+      border-radius: 0;
+      letter-spacing: 0.1px;
       user-select: none;
       cursor: help;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      white-space: nowrap;
     }
 
     .badge-nemo.nemo-pass {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.28);
+      background: transparent;
       color: #34d399;
     }
 
     .badge-nemo.nemo-fail {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.4);
+      background: transparent;
       color: #f87171;
     }
 
@@ -2073,42 +2264,6 @@
       transition: transform 0.2s;
     }
 
-    /* Chips de Preset na Titlebar */
-    .titlebar-presets {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 3px 8px;
-      border-radius: 8px;
-      border: 1px solid rgba(56, 189, 248, 0.14);
-    }
-
-    .preset-chip {
-      font-size: 11px;
-      color: var(--text-muted);
-      padding: 4px 9px;
-      border-radius: 5px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      background: transparent;
-      font-weight: 500;
-      transition: all 0.15s ease;
-    }
-
-    .preset-chip.active {
-      color: var(--accent-cyan);
-      background: rgba(56, 189, 248, 0.14);
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
-      font-weight: 600;
-    }
-
-    .preset-chip:hover:not(.active) {
-      color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
     /* Status Badge Live (Direita do Topo) */
     .status-badge-live {
       display: inline-flex;
@@ -2221,33 +2376,6 @@
       letter-spacing: 0.3px;
     }
 
-    /* ─── Sidebar Import Bridge Button ─── */
-    .btn-sidebar-import {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 8px 14px;
-      margin-top: 6px;
-      border-radius: 8px;
-      background: rgba(168, 85, 247, 0.08);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      color: #c084fc;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .btn-sidebar-import:hover {
-      background: rgba(168, 85, 247, 0.18);
-      border-color: #c084fc;
-      color: #ffffff;
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
-      transform: translateY(-1px);
-    }
-
     /* ─── Sidebar Diagnostic Boxes (Telemetria no Rodapé) ─── */
     .sidebar-diagnostic-panel {
       display: flex;
@@ -2287,26 +2415,6 @@
       font-family: 'JetBrains Mono', monospace;
       color: #2dd4bf;
       font-weight: 600;
-    }
-
-    /* ─── Linha de Contexto Heurístico (Abaixo da Topbar) ─── */
-    .heuristic-context-bar {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      height: 24px;
-      min-height: 24px;
-      padding: 0 16px;
-      background: #050811;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 11px;
-      color: #64748b;
-      font-family: 'Inter', -apple-system, sans-serif;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      user-select: none;
-      flex-shrink: 0;
     }
 
     /* ─── Cabeçalho Elegante da Mensagem do Assistente ─── */
@@ -2666,7 +2774,7 @@
             <span class="brand-clautron">Cloudtron</span>
             <span class="brand-oneclick">OneClick</span>
           </div>
-          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.1</span>
+          <span class="sidebar-brand-tag" id="sidebarBrandVersionTag">v1.2.2</span>
         </div>
       </div>
 
@@ -2676,16 +2784,6 @@
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
         Nova conversa
-      </button>
-
-      <!-- Botão Secundário de Importação de Contexto (Context Bridge) -->
-      <button class="btn-sidebar-import" onclick="openContextBridgeModal()" title="Importar contexto e histórico do Claude, ChatGPT, Cursor...">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-        <span>📥 Importar Contexto</span>
       </button>
 
       <!-- Campo de Busca Instantânea no Histórico -->
@@ -2707,7 +2805,7 @@
     <!-- Cards de Telemetria e Diagnóstico no Rodapé da Sidebar -->
     <div class="sidebar-diagnostic-panel">
       <div class="sidebar-diagnostic-box">
-        <span class="diag-label">Motor Heurístico</span>
+        <span class="diag-label">Effort Ativo</span>
         <span class="diag-val" id="activePresetIndicator">Profundo (CoT)</span>
       </div>
       <div class="sidebar-diagnostic-box">
@@ -2727,7 +2825,7 @@
       </button>
       <div class="sidebar-footer-info">
         <span class="sidebar-app-name">Cloudtron OneClick</span>
-        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.1</span>
+        <span class="sidebar-app-ver" id="sidebarVersionLabel">v1.2.2</span>
         </div>
       </div>
       <button class="sidebar-update-pill" id="sidebarUpdatePill" onclick="openUpdateModal()" style="display: none;" title="Clique para ver a nova versão">
@@ -2777,15 +2875,6 @@
         </div>
       </div>
 
-      <!-- Presets em Pílula Centralizados (Fiel ao Mockup) -->
-      <div class="titlebar-presets" id="topbarPresets">
-        <button type="button" class="preset-chip active" id="chipDeep" onclick="setContextPreset('high')">Profundo (CoT)</button>
-        <button type="button" class="preset-chip" id="chipCode" onclick="setContextPreset('code')">Código</button>
-        <button type="button" class="preset-chip" id="chipCreative" onclick="setContextPreset('creative')">Criativo</button>
-        <button type="button" class="preset-chip" id="chipFast" onclick="setContextPreset('low')">Rápido</button>
-        <button type="button" class="preset-chip" id="chipAuto" onclick="setContextPreset('auto')">Auto</button>
-      </div>
-
       <div class="titlebar-right" style="display: flex; align-items: center; gap: 10px;">
         <span class="pulse-dot" id="headerStatusLed" onclick="runPingTest()" title="NVIDIA NIM: Conectado (Clique para testar conexão)" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; box-shadow: 0 0 6px #10b981; cursor: pointer; display: inline-block;"></span>
         <button class="btn-update-badge" id="btnUpdateBadge" onclick="openUpdateModal()" style="display: none;" title="Nova versão disponível">
@@ -2795,12 +2884,6 @@
         </button>
       </div>
     </header>
-
-    <!-- Linha de Contexto Heurístico (Abaixo da Topbar) -->
-    <div class="heuristic-context-bar" id="heuristicContextBar">
-      <span style="font-size: 11px;">⚙️</span>
-      <span id="heuristicStatusText">Motor Heurístico: Profundo (Chain-of-Thought ativado para raciocínio lógico avançado)</span>
-    </div>
 
     <!-- Sub-header de Navegação com Abas Chat vs Live Sandbox -->
     <div class="sub-navbar">
@@ -2857,6 +2940,42 @@
               <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
             </svg>
           </button>
+
+          <!-- Seletor compacto de Effort (docked no prompt) -->
+          <div class="effort-dock" id="effortDock">
+            <button type="button" class="effort-dock-toggle" id="effortDockToggle" onclick="toggleEffortDropdown(event)" title="Selecionar nível de esforço">
+              <span class="effort-dock-icon" id="effortDockIcon">✨</span>
+              <span class="effort-dock-label" id="effortDockLabel">Auto</span>
+              <svg class="effort-dock-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="effort-dock-menu" id="effortDockMenu" role="listbox" aria-label="Nível de esforço">
+              <button type="button" class="effort-dock-option" data-mode="auto" onclick="setContextPreset('auto')" role="option">
+                <span class="effort-option-icon">✨</span>
+                <span class="effort-option-text"><strong>Auto</strong><small>Detecção automática</small></span>
+                <span class="effort-option-check">✓</span>
+              </button>
+              <button type="button" class="effort-dock-option" data-mode="low" onclick="setContextPreset('low')" role="option">
+                <span class="effort-option-icon">⚡</span>
+                <span class="effort-option-text"><strong>Rápido</strong><small>Resposta direta</small></span>
+                <span class="effort-option-check">✓</span>
+              </button>
+              <button type="button" class="effort-dock-option" data-mode="code" onclick="setContextPreset('code')" role="option">
+                <span class="effort-option-icon">💻</span>
+                <span class="effort-option-text"><strong>Código</strong><small>Precisão técnica</small></span>
+                <span class="effort-option-check">✓</span>
+              </button>
+              <button type="button" class="effort-dock-option" data-mode="creative" onclick="setContextPreset('creative')" role="option">
+                <span class="effort-option-icon">🎨</span>
+                <span class="effort-option-text"><strong>Criativo</strong><small>Exploração e ideação</small></span>
+                <span class="effort-option-check">✓</span>
+              </button>
+              <button type="button" class="effort-dock-option" data-mode="high" onclick="setContextPreset('high')" role="option">
+                <span class="effort-option-icon">🧠</span>
+                <span class="effort-option-text"><strong>Profundo</strong><small>Raciocínio estendido</small></span>
+                <span class="effort-option-check">✓</span>
+              </button>
+            </div>
+          </div>
 
           <textarea id="promptInput" placeholder="Pergunte ao Nemotron 120B ou cole uma captura de tela (Ctrl+V)..." onkeydown="handleKey(event)"></textarea>
           
@@ -2964,18 +3083,42 @@
           <div id="modalTestResult" style="display: none; margin-top: 8px; font-size: 11.5px; padding: 7px 12px; border-radius: 6px; line-height: 1.4;"></div>
         </div>
 
-        <!-- Seção 2: Custom System Prompt -->
+        <!-- Seção 2: Personalização & Contexto -->
         <div class="settings-section">
           <div class="settings-section-title">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
             </svg>
-            <span>Custom System Prompt (Permanente)</span>
+            <span>Personalização &amp; Contexto</span>
           </div>
           <p style="font-size: 12px; color: #8e918f; line-height: 1.4;">
-            Instruções permanentes que serão combinadas com o seletor de esforço (Effort) em todas as conversas.
+            Defina regras permanentes, carregue documentos de referência e gerencie o contexto persistente do assistente em todas as conversas.
           </p>
-          <textarea id="modalCustomSystemPrompt" class="settings-textarea" placeholder="Ex: Atue como um engenheiro de software sênior. Responda com código limpo, testes unitários e arquitetura escalável..."></textarea>
+
+          <div>
+            <label style="display: block; font-size: 11px; color: #c4c7c5; font-weight: 600; margin-bottom: 6px;">Regras de Sistema Persistentes</label>
+            <textarea id="modalCustomSystemPrompt" class="settings-textarea" placeholder="Ex: Atue como um engenheiro de software sênior. Responda com código limpo, testes unitários e arquitetura escalável..." oninput="updatePersistentContextStatus()"></textarea>
+          </div>
+
+          <div class="settings-context-tools">
+            <input type="file" id="settingsRulesFileInput" accept=".md,.txt,.json,.yaml,.yml,.csv,.py,.js,.ts,.html,.sql,.pdf,.docx" style="display: none;" onchange="handleSettingsRulesFile(event)">
+            <button type="button" class="btn-preview-ctrl" onclick="document.getElementById('settingsRulesFileInput').click()">
+              📎 Carregar documento/regras
+            </button>
+            <button type="button" class="btn-preview-ctrl" onclick="openContextBridgeFromSettings()">
+              📥 Importar Contexto de Outra IA
+            </button>
+          </div>
+
+          <div class="settings-context-status" id="settingsContextStatus">
+            <span id="settingsContextSize">Nenhum contexto persistente salvo.</span>
+            <button type="button" class="settings-context-clear" onclick="clearPersistentContext()">Limpar</button>
+          </div>
+
+          <p style="font-size: 11px; color: #64748b; line-height: 1.4; margin: 0;">
+            As regras e documentos carregados aqui são combinados automaticamente com o nível de Effort selecionado no prompt.
+          </p>
         </div>
 
         <!-- Seção 3: Hiperparâmetros de Inferência -->
@@ -3432,34 +3575,112 @@
       }
     }
 
-    // ── Sincronização de Telemetria e Chips de Preset do Topo ─────────────────
-    function syncTopbarPresetChips(presetMode) {
-      const chips = document.querySelectorAll('#topbarPresets .preset-chip');
-      chips.forEach(c => c.classList.remove('active'));
-
-      const heuristicText = document.getElementById('heuristicStatusText');
-
-      if (presetMode === 'high') {
-        document.getElementById('chipDeep')?.classList.add('active');
-        updateTelemetryIndicators(null, 'Profundo (CoT)');
-        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Profundo (Chain-of-Thought ativado para raciocínio lógico avançado)';
-      } else if (presetMode === 'code') {
-        document.getElementById('chipCode')?.classList.add('active');
-        updateTelemetryIndicators(null, 'Código');
-        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Código (Inferência técnica de alta precisão com formatação de blocos)';
-      } else if (presetMode === 'creative') {
-        document.getElementById('chipCreative')?.classList.add('active');
-        updateTelemetryIndicators(null, 'Criativo');
-        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Criativo (Temperatura elevada 0.85 para exploração e ideação)';
-      } else if (presetMode === 'low') {
-        document.getElementById('chipFast')?.classList.add('active');
-        updateTelemetryIndicators(null, 'Rápido');
-        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Rápido (Inferência concisa e direta sem etapas estendidas de reflexão)';
-      } else {
-        document.getElementById('chipAuto')?.classList.add('active');
-        updateTelemetryIndicators(null, 'Auto');
-        if (heuristicText) heuristicText.textContent = 'Motor Heurístico: Auto (Modulação dinâmica adaptativa de acordo com a complexidade do prompt)';
+    // ── Catálogo de Effort e Sincronização do Seletor Docked ─────────────────
+    const EFFORT_MODES = {
+      auto: {
+        label: 'Auto',
+        icon: '✨',
+        effortMode: 'auto',
+        isAuto: true,
+        max_tokens: null,
+        temperature: null,
+        top_p: null,
+        thinking: null,
+        systemPrompt: ''
+      },
+      low: {
+        label: 'Rápido',
+        icon: '⚡',
+        effortMode: 'low',
+        isAuto: false,
+        max_tokens: 2048,
+        temperature: 0.30,
+        top_p: 0.85,
+        thinking: false,
+        systemPrompt: "Você está operando no modo de esforço RÁPIDO. Seja direto, conciso e objetivo. Forneça o código ou a resposta solicitada sem raciocínios longos, divagações ou introduções desnecessárias."
+      },
+      code: {
+        label: 'Código',
+        icon: '💻',
+        effortMode: 'code',
+        isAuto: false,
+        max_tokens: 8192,
+        temperature: 0.20,
+        top_p: 0.90,
+        thinking: true,
+        systemPrompt: "Você está operando no modo de esforço CÓDIGO / TÉCNICO. Forneça soluções precisas, código limpo, arquitetura sólida e refatoração cuidadosa."
+      },
+      creative: {
+        label: 'Criativo',
+        icon: '🎨',
+        effortMode: 'creative',
+        isAuto: false,
+        max_tokens: 4096,
+        temperature: 1.05,
+        top_p: 0.98,
+        thinking: false,
+        systemPrompt: "Você está operando no modo de esforço CRIATIVO / BRAINSTORM. Explore variedade vocabular, imaginação, pensamento lateral e ideias inovadoras."
+      },
+      high: {
+        label: 'Profundo',
+        icon: '🧠',
+        effortMode: 'high',
+        isAuto: false,
+        max_tokens: 8192,
+        temperature: 0.60,
+        top_p: 0.95,
+        thinking: true,
+        systemPrompt: "Você está operando no modo de esforço PROFUNDO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
       }
+    };
+
+    function getEffortModeConfig(mode) {
+      return EFFORT_MODES[mode] || EFFORT_MODES.auto;
+    }
+
+    function normalizeEffortMode(mode) {
+      if (mode === 'medium') return 'creative';
+      return EFFORT_MODES[mode] ? mode : 'auto';
+    }
+
+    function toggleEffortDropdown(e) {
+      if (e) e.stopPropagation();
+      const dock = document.getElementById('effortDock');
+      const menu = document.getElementById('effortDockMenu');
+      if (!dock || !menu) return;
+      const willOpen = !menu.classList.contains('open');
+      menu.classList.toggle('open', willOpen);
+      dock.classList.toggle('open', willOpen);
+    }
+
+    function closeEffortDropdown() {
+      const dock = document.getElementById('effortDock');
+      const menu = document.getElementById('effortDockMenu');
+      if (menu) menu.classList.remove('open');
+      if (dock) dock.classList.remove('open');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.effort-dock')) {
+        closeEffortDropdown();
+      }
+    });
+
+    function syncEffortSelector(presetMode) {
+      const mode = EFFORT_MODES[presetMode] ? presetMode : 'auto';
+      const config = getEffortModeConfig(mode);
+      const iconEl = document.getElementById('effortDockIcon');
+      const labelEl = document.getElementById('effortDockLabel');
+      if (iconEl) iconEl.textContent = config.icon;
+      if (labelEl) labelEl.textContent = config.label;
+
+      document.querySelectorAll('#effortDockMenu .effort-dock-option').forEach(btn => {
+        const isActive = btn.dataset.mode === mode;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      updateTelemetryIndicators(null, config.label);
     }
 
     function updateTelemetryIndicators(ttft = null, presetMode = null) {
@@ -3483,7 +3704,7 @@
         name: "Cloudtron Omni",
         icon: "🧠",
         modelId: "nvidia/nemotron-3.5-super-vl-120b-a12b",
-        subtitle: "Visão computacional, raciocínio profundo (Thinking) e tarefas complexas.",
+        subtitle: "Visão multimodal, raciocínio avançado e projetos complexos.",
         badges: ["👁️ Imagem + Texto", "🧠 Thinking"],
         supportsVision: true,
         isDefault: true
@@ -3493,7 +3714,7 @@
         name: "Cloudtron Coder",
         icon: "💻",
         modelId: "qwen/qwen2.5-coder-32b-instruct",
-        subtitle: "Especialista puro em programação, refatoração, scripts e debugging.",
+        subtitle: "Engenharia de software, refatoração, scripts e debugging.",
         badges: ["💻 Código"],
         supportsVision: false
       },
@@ -3502,7 +3723,7 @@
         name: "Cloudtron Lógica",
         icon: "🔬",
         modelId: "deepseek-ai/deepseek-r1",
-        subtitle: "Raciocínio lógico estrito, algoritmos densos e dedução passo a passo.",
+        subtitle: "Algoritmos densos, matemática e dedução passo a passo.",
         badges: ["🔬 Lógica"],
         supportsVision: false
       },
@@ -3511,7 +3732,7 @@
         name: "Cloudtron Redator",
         icon: "⚡",
         modelId: "meta/llama-3.3-70b-instruct",
-        subtitle: "Redação fluida, síntese, relatórios e respostas ultrarrápidas.",
+        subtitle: "Redação ágil, síntese, relatórios e tarefas do dia a dia.",
         badges: ["⚡ Rápido"],
         supportsVision: false
       },
@@ -3520,7 +3741,7 @@
         name: "Cloudtron Vision Lite",
         icon: "👁️",
         modelId: "meta/llama-3.2-11b-vision-instruct",
-        subtitle: "OCR veloz, leitura de prints de tela e diagramas leves.",
+        subtitle: "OCR instantâneo, leitura de prints e diagramas rápidos.",
         badges: ["👁️ Imagem Rápida"],
         supportsVision: true
       }
@@ -3863,11 +4084,98 @@
       }
     }
 
+    function openContextBridgeFromSettings() {
+      closeSettingsModal();
+      openContextBridgeModal();
+    }
+
+    function updatePersistentContextStatus() {
+      const textarea = document.getElementById('modalCustomSystemPrompt');
+      const statusEl = document.getElementById('settingsContextSize');
+      if (!textarea || !statusEl) return;
+
+      const chars = textarea.value.trim().length;
+      if (chars === 0) {
+        statusEl.textContent = 'Nenhum contexto persistente salvo.';
+        statusEl.style.color = '#64748b';
+      } else {
+        statusEl.textContent = `${chars.toLocaleString('pt-BR')} caracteres de contexto persistente prontos para uso.`;
+        statusEl.style.color = '#34d399';
+      }
+    }
+
+    function clearPersistentContext() {
+      const textarea = document.getElementById('modalCustomSystemPrompt');
+      if (textarea) textarea.value = '';
+      updatePersistentContextStatus();
+    }
+
+    async function handleSettingsRulesFile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const textarea = document.getElementById('modalCustomSystemPrompt');
+      if (!textarea) return;
+
+      const ext = file.name.split('.').pop().toLowerCase();
+      const textExtensions = ['txt', 'md', 'json', 'yaml', 'yml', 'csv', 'py', 'js', 'ts', 'jsx', 'tsx', 'html', 'css', 'sql', 'xml', 'sh', 'bat'];
+      let extractedText = '';
+
+      try {
+        if (textExtensions.includes(ext)) {
+          extractedText = await file.text();
+        } else {
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const res = reader.result;
+              resolve(res.split(',')[1] || res);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          const res = await fetch('/api/parse-file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: file.name, base64 })
+          });
+
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status} ao extrair o documento.`);
+          }
+
+          const data = await res.json();
+          if (!data.success) {
+            throw new Error(data.error || 'Falha na extração do arquivo.');
+          }
+          extractedText = data.content || data.extractedText || '';
+        }
+
+        const cleanText = (extractedText || '').trim();
+        if (!cleanText) {
+          throw new Error('Nenhum texto útil foi encontrado no arquivo.');
+        }
+
+        const block = `--- [Documento de Contexto: ${file.name}] ---\n${cleanText}`;
+        const current = textarea.value.trim();
+        textarea.value = current ? `${current}\n\n${block}` : block;
+        textarea.scrollTop = textarea.scrollHeight;
+        updatePersistentContextStatus();
+      } catch (err) {
+        console.error('[SETTINGS CONTEXT] Erro ao carregar documento:', err);
+        showError('Erro ao carregar documento de contexto: ' + err.message);
+      } finally {
+        event.target.value = '';
+      }
+    }
+
     function openSettingsModal() {
       closePersonaDropdown();
       const s = getGlobalSettings();
       document.getElementById('modalKeyInput').value = s.apiKey;
       document.getElementById('modalCustomSystemPrompt').value = s.customSystemPrompt;
+      updatePersistentContextStatus();
       document.getElementById('inputTemperature').value = s.temperature.toFixed(2);
       document.getElementById('inputTopP').value = s.top_p.toFixed(2);
       document.getElementById('inputMaxTokens').value = s.max_tokens;
@@ -3958,6 +4266,7 @@
         console.error("Falha ao salvar configurações:", e);
       }
 
+      updatePersistentContextStatus();
       updateNvidiaStatusLed(!!apiKeyVal, apiKeyVal ? 'NVIDIA NIM: Conectado' : 'NVIDIA NIM: Chave de API não configurada');
       closeSettingsModal();
     }
@@ -4000,35 +4309,24 @@
     }
 
     
-    // ── Controle de Presets Rápidos na Barra Contextual (v1.2) ─────────────────
+    // ── Controle do Nível de Effort (fonte única de verdade) ──────────────────
     function setContextPreset(mode) {
+      const normalizedMode = normalizeEffortMode(mode);
       const session = getActiveSession();
-      if (mode === 'auto') {
-        if (session) session.effort = 'auto';
-        selectHyperparameterPreset('auto');
-      } else if (mode === 'low') {
-        if (session) session.effort = 'low';
-        selectHyperparameterPreset('balanced');
-      } else if (mode === 'high' || mode === 'code') {
-        if (session) session.effort = 'high';
-        selectHyperparameterPreset('code');
-      } else if (mode === 'creative') {
-        if (session) session.effort = 'medium';
-        selectHyperparameterPreset('creative');
-      }
+      if (session) session.effort = normalizedMode;
       saveStorage();
-      syncContextPills();
-      syncTopbarPresetChips(mode);
-    }
-
-    function syncContextPills() {
-      const session = getActiveSession();
-      const effort = session?.effort || 'auto';
-      syncTopbarPresetChips(effort);
+      syncEffortUI();
+      closeEffortDropdown();
     }
 
     function syncEffortUI() {
-      syncContextPills();
+      const session = getActiveSession();
+      const effort = normalizeEffortMode(session ? session.effort : 'auto');
+      syncEffortSelector(effort);
+    }
+
+    function syncContextPills() {
+      syncEffortUI();
     }
 
     function handleEffortChange(newVal) {
@@ -4037,43 +4335,19 @@
 
     function getEffortSettings() {
       const session = getActiveSession();
-      const mode = (session && session.effort) ? session.effort : 'auto';
-      
-      switch (mode) {
-        case 'auto':
-          return {
-            modeName: 'Auto',
-            effortMode: 'auto',
-            isAuto: true,
-            max_tokens: 4096,
-            systemPrompt: ""
-          };
-        case 'low':
-          return {
-            modeName: 'Rápido',
-            max_tokens: 2048,
-            effortMode: 'low',
-            isAuto: false,
-            systemPrompt: "Você está operando no modo de esforço RÁPIDO. Seja direto, conciso e objetivo. Forneça o código ou a resposta solicitada sem raciocínios longos, divagações ou introduções desnecessárias."
-          };
-        case 'high':
-          return {
-            modeName: 'Alto',
-            max_tokens: 8192,
-            effortMode: 'high',
-            isAuto: false,
-            systemPrompt: "Você está operando no modo de esforço ALTO (Deep Thinking / CoT). Analise os problemas detalhadamente, avalie casos de borda, concorrência, boas práticas e arquitetura antes de entregar soluções completas e robustas."
-          };
-        case 'medium':
-        default:
-          return {
-            modeName: 'Médio',
-            max_tokens: 4096,
-            effortMode: 'medium',
-            isAuto: false,
-            systemPrompt: "Você está operando no modo de esforço MÉDIO. Mantenha equilíbrio ideal entre explicações concisas e código de alta qualidade técnica."
-          };
-      }
+      const mode = normalizeEffortMode(session ? session.effort : 'auto');
+      const profile = getEffortModeConfig(mode);
+
+      return {
+        modeName: profile.label,
+        effortMode: profile.effortMode,
+        isAuto: profile.isAuto,
+        max_tokens: profile.max_tokens,
+        temperature: profile.temperature,
+        top_p: profile.top_p,
+        thinking: profile.thinking,
+        systemPrompt: profile.systemPrompt
+      };
     }
 
     function initSidebarResizer() {
@@ -4316,7 +4590,7 @@
       if (typeof ttft === 'number' && typeof totalTime === 'number' && ttft > 0 && totalTime > 0) {
         const ttftSec = (ttft / 1000).toFixed(2);
         const totalSec = (totalTime / 1000).toFixed(1);
-        return `<span class="badge-telemetry" title="Time To First Token: ${ttftSec}s | Duração Total: ${totalSec}s">⚡ TTFT: ${ttftSec}s · Total: ${totalSec}s</span>`;
+        return `<span class="badge-telemetry" title="Time To First Token: ${ttftSec}s | Duração Total: ${totalSec}s">⚡ TTFT: ${ttftSec}s | Total: ${totalSec}s</span>`;
       }
       return '';
     }
@@ -4497,7 +4771,7 @@
 
       let md = `# ${session.title || "Conversa Nemotron"}\n`;
       md += `*Data de criação: ${formatDate(session.createdAt)}*\n`;
-      md += `*Nível de Effort: ${session.effort || 'medium'}*\n\n---\n\n`;
+      md += `*Nível de Effort: ${getEffortModeConfig(session.effort).label}*\n\n---\n\n`;
 
       session.messages.forEach(m => {
         const author = m.role === 'user' ? '## 👤 Você' : '## 🤖 Nemotron';
@@ -4753,12 +5027,12 @@
       try {
         const payloadMessages = session.messages.map(m => ({ role: m.role, content: m.content }));
 
-        // Heurística Adaptativa: modula parâmetros se o seletor for Auto OU preset for Auto
-        const isAutoActive = (effortConfig.isAuto || globalSettings.preset === 'auto');
-        let finalTemperature = globalSettings.temperature;
-        let finalTopP = globalSettings.top_p;
-        let finalMaxTokens = globalSettings.max_tokens || 4096;
-        let isThinking = (effortConfig.effortMode !== 'low');
+        // Heurística Adaptativa: apenas o modo Auto delega a modulação ao motor
+        const isAutoActive = effortConfig.isAuto;
+        let finalTemperature = (typeof effortConfig.temperature === 'number') ? effortConfig.temperature : globalSettings.temperature;
+        let finalTopP = (typeof effortConfig.top_p === 'number') ? effortConfig.top_p : globalSettings.top_p;
+        let finalMaxTokens = effortConfig.max_tokens || globalSettings.max_tokens || 4096;
+        let isThinking = (typeof effortConfig.thinking === 'boolean') ? effortConfig.thinking : (effortConfig.effortMode !== 'low');
         let baseSystemPrompt = effortConfig.systemPrompt;
         let effortTagToDisplay = effortConfig.modeName;
 
@@ -4771,12 +5045,6 @@
           baseSystemPrompt = detected.systemPrompt;
           effortTagToDisplay = `Auto (${detected.tag})`;
           console.log('[HEURÍSTICA]', detected.tag, '| Temp:', finalTemperature, '| TopP:', finalTopP, '| Tokens:', finalMaxTokens, '| CoT:', isThinking);
-        } else {
-          if (effortConfig.effortMode === 'high' && finalMaxTokens < 8192) {
-            finalMaxTokens = 8192;
-          } else if (effortConfig.effortMode === 'low') {
-            finalMaxTokens = Math.min(finalMaxTokens, 2048);
-          }
         }
 
         // Concatena o Custom System Prompt permanente com o prompt modulado
@@ -5153,13 +5421,18 @@
           const nemoHtml = formatNeMoBadge(nemoEval, interactionId);
           const feedbackHtml = generateFeedbackHtml(interactionId, null);
 
+          const statusParts = [
+            `<span class="meta-persona">${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'Cloudtron')} · ${time || getTimestamp()}</span>`,
+            `<span class="badge-effort">Effort: ${effortUsed}</span>`
+          ];
+          if (telemetryHtml) statusParts.push(telemetryHtml);
+          if (nemoHtml) statusParts.push(nemoHtml);
+          const statusLine = statusParts.join('<span class="meta-sep">•</span>');
+
           const meta = document.createElement('div');
           meta.className = 'meta-tag';
           meta.innerHTML = `
-            <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'Cloudtron')} · ${time || getTimestamp()}</span>
-            <span class="badge-effort">Effort: ${effortUsed}</span>
-            ${telemetryHtml}
-            ${nemoHtml}
+            ${statusLine}
             <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -5414,13 +5687,18 @@
       const nemoHtml = formatNeMoBadge(nemoEval, interactionId);
       const feedbackHtml = generateFeedbackHtml(interactionId, feedback);
 
+      const statusParts = [
+        `<span class="meta-persona">${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'Cloudtron')} · ${time || getTimestamp()}</span>`,
+        `<span class="badge-effort">Effort: ${effortUsed}</span>`
+      ];
+      if (telemetryHtml) statusParts.push(telemetryHtml);
+      if (nemoHtml) statusParts.push(nemoHtml);
+      const statusLine = statusParts.join('<span class="meta-sep">•</span>');
+
       const meta = document.createElement('div');
       meta.className = 'meta-tag';
       meta.innerHTML = `
-        <span>${personaName || (typeof getActivePersona === 'function' ? getActivePersona().name : 'Cloudtron')} · ${time || getTimestamp()}</span>
-        <span class="badge-effort">Effort: ${effortUsed}</span>
-        ${telemetryHtml}
-        ${nemoHtml}
+        ${statusLine}
         <button class="btn-action-msg btn-copy-msg" title="Copiar resposta inteira" onclick="copyMessage(this)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -5817,7 +6095,7 @@
     }
 
 
-    const FALLBACK_VERSION = "1.2.1";
+    const FALLBACK_VERSION = "1.2.2";
     const GITHUB_REPO = "felipeptxa/cloudtron";
     let latestReleaseInfo = null;
 
@@ -5956,7 +6234,7 @@
         syncEffortUI();
         renderActiveChat();
       }
-      syncTopbarPresetChips('high');
+      syncEffortUI();
 
       if (!getStoredApiKey()) {
         setTimeout(openSettingsModal, 400);
